@@ -1,0 +1,33 @@
+2010-05-28  Marek Habersack  <mhabersack@novell.com>
+
+	* ApplicationServer.cs: OnAccept sends BeginAccept exceptions back
+	to the client and then re-throws the exception. Fixes bug #609787
+
+2010-04-05 Gonzalo Paniagua Javier <gonzalo@novell.com>
+
+	* LingeringNetworkStream.cs: shutdown our side in LingeringClose,
+	otherwise it will take 50ms to close the socket.
+
+2010-03-18  Marek Habersack  <mhabersack@novell.com>
+
+	* Utility.cs: added
+
+	* LingeringNetworkStream.cs: don't shutdown the socket in 
+	LingeringClose - it will be done later.
+
+	* ApplicationServer.cs: fixed a typo in a lock block
+	All the checks for whether socket is connected 
+	are performed in a safe manner.
+
+2010-03-01  Marek Habersack  <mhabersack@novell.com>
+
+	* XSPWorker.cs: close makes sure to unregister socket, so that
+	there's no reference to it held by ApplicationServer.
+
+	* ApplicationServer.cs: added a new public method,
+	ShutdownSockets, to be called in single app mode to properly close
+	all the listening and the accepted sockets.
+	Added a pair of methods, {Register,Unregister}Socket to keep track
+	of all the sockets to clean up in ShutdownSockets above.
+	All sockets have SO_LINGER on.
+

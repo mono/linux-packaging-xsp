@@ -1,0 +1,3226 @@
+2010-03-31  Marek Habersack  <mhabersack@novell.com>
+
+	* man/xsp.1.in: updated documentation of the --nonstop
+	option. Fixes bug #585295
+
+2010-03-18  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer.FastCgi/StandardSocket.cs: check in 
+	a safe manner if a socket is connected.
+
+2010-02-26  Marek Habersack  <mhabersack@novell.com>
+
+	* tools/asp_state/asp-state4.exe.config: modifed to load types
+	from System.Web 4.0.0
+
+	* src/Mono.WebServer/InitialWorkerRequest.cs: do not decode paths
+	before passing them to GetSafePath. Fixes bug #581594
+
+2010-02-16  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer.Apache/ModMonoRequest.cs: FillBuffer makes
+	sure that the MemoryStream is properly reset before filling it
+	from the network. Fixes bug #580086
+
+2010-01-18  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer.XSP/AssemblyInfo.cs.in: updated copyright
+	years
+
+	* src/Mono.WebServer.XSP/main.cs: better looking copyright message
+
+	* configure.in: changed version number to 2.7
+
+	* src/Mono.WebServer/XSPWorkerRequest.cs,
+	src/Mono.WebServer/InitialWorkerRequest.cs: correctly handle \r\n
+	on buffer/packet boundary. Fixes bug #569363. Patch from Tobias
+	Polley <tobias.polley@miaplaza.com>, thanks!
+
+2009-12-17  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer.FastCgi/StandardSocket.cs: Close () makes
+	sure both socket endpoints data is flushed. Patch from Tiaan
+	Geldenhuys <tagdev@gmail.com>, thanks!
+
+2009-12-02  Marek Habersack  <mhabersack@novell.com>
+
+	* configure.in, scripts/Makefile.am,
+	src/Mono.WebServer.Apache/Makefile.am,
+	src/Mono.WebServer.FastCgi/Makefile.am,
+	src/Mono.WebServer.XSP/Makefile.am,
+	src/Mono.WebServer/AssemblyInfo4.cs.in,
+	src/Mono.WebServer/Makefile.am,
+	src/Mono.WebServer/xsp-4.pc.in,
+	tools/asp_state/Makefile.am,
+	tools/asp_state/asp-state4.exe.config,
+	tools/dbsessmgr/Makefile.am,
+	tools/dbsessmgr/dbsessmgr4.exe.config: added support for compiling
+	.NET 4.0 versions of the assemblies and tools.
+
+2009-11-23  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer.FastCgi/Request.cs: better parsing for
+	parameter data.
+	New internal property ApplicationHost
+
+	* src/Mono.WebServer.FastCgi/ApplicationHost.cs: added support for
+	mapping virtual paths, so that ASP.NET MVC sites work correctly
+	when hosted under Mono's FastCGI server. 
+
+	* src/Mono.WebServer.FastCgi/WorkerRequest.cs: GetPathInfo returns
+	an empty string if the PATH_INFO environment variable is
+	missing. 
+
+	All of the above from patches submitted by Tiaan Geldenhuys
+	<tagdev@gmail.com>, thanks!
+
+2009-11-19  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer.FastCgi/Server.cs: prevent connection and
+	resource leaking by catching unhandled exceptions.
+
+	* src/Mono.WebServer.FastCgi/Logger.cs: Close() catches
+	ObjectDisposedException in case writer is already disposed.
+
+	The above patches were contributed by Tiaan <tagdev@gmail.com>,
+	thanks!
+
+2009-11-17  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer.FastCgi/NameValuePair.cs: fix for incorrect
+	encoding of string lengths greater than 127 bytes. Patch from Tiaan
+	<tagdev@gmail.com>, thanks!
+
+2009-09-21  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/MonoWorkerRequest.cs: added support for
+	protecting hidden files/directories (with the Hidden attribute on
+	Windows, starting with a dot on Unix)
+
+	* src/Mono.WebServer.XSP/main.cs,
+	src/Mono.WebServer.Apache/main.cs: added new option, --no-hidden,
+	which turns off hidden file/directory protection.
+
+	* man/xsp.1.in: added documentation for the new --no-hidden
+	option.
+
+2009-09-15  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer.XSP/main.cs: sleep after catching
+	ThreadAbortException in RealMain, before exiting.
+
+2009-08-21  Marek Habersack  <mhabersack@novell.com>
+
+	* test/2.0/treeview/treeview.aspx: use
+	http://go-mono.com/status/images/se.gif instead of
+	http://mono.ximian.com/class-status/mono-HEAD-vs-fx-2/cm/se.gif. Fixes
+	bug #479736
+
+2009-08-20  Marek Habersack  <mhabersack@novell.com>
+
+	* test/1.1/asp.net/browsercaps.aspx: sort the output in MS.NET
+	compatible way. Fixes bug #514155. Patch from Robert Jordan
+	<robertj@gmx.net>, thanks!
+
+2009-08-13  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/XSPWorkerRequest.cs: if the Content-Length
+	request header is present, make sure not more than the number of
+	bytes specified in it is returned to the caller
+	(GetPreloadedEntityBody). Fixes bug #530858
+
+2009-06-08  Kornél Pál  <kornelpal@gmail.com>
+
+	* src/Mono.WebServer.FastCgi/Request.cs (ParseParameterData): Fast test for
+	directory with no trailing slash. Avoid testing last component twice. There
+	is no need to call GetFullPath on the physical path info.
+
+2009-06-06  Kornél Pál  <kornelpal@gmail.com>
+
+	* src/Mono.WebServer.FastCgi/Request.cs (ParseParameterData): More closely
+	resemble Apache and PHP behavior provides better support for non-existent
+	files, takes a fast path when there is no path info and tests earlier for
+	Apache variables.
+
+2009-06-02  Kornél Pál  <kornelpal@gmail.com>
+
+	* autogen.sh, configure.in: Set EOL style to Unix to fix cygwin build. 
+	* src/Mono.WebServer.FastCgi/Responder.cs (Process): Properly set status
+	code when no application is found.
+	* src/Mono.WebServer.FastCgi/Request.cs (ParseParameterData): Use a simple
+	reverse scan of path components until the first existing file and allow
+	non-existent files.
+
+2009-04-10 Gonzalo Paniagua Javier <gonzalo@novell.com>
+
+	* src/Mono.WebServer/XSPWorkerRequest.cs: the libc function signatures
+	were wrong.
+
+	* src/Mono.WebServer/BaseApplicationHost.cs: call ResetAbort if we get
+	an unexpected ThreadAbortException.
+
+	* src/Mono.WebServer.Apache/ModMonoWorkerRequest.cs:
+	* src/Mono.WebServer.Apache/ModMonoRequest.cs:
+	* src/Mono.WebServer.Apache/Makefile.am:
+	* src/Mono.WebServer.Apache/Worker.cs: add new SendResponseFromMemory
+	overloads that will write directly to mod_mono without copying (linux
+	only).
+
+2009-04-09 Gonzalo Paniagua Javier <gonzalo@novell.com>
+
+	* src/Mono.WebServer/XSPWebSource.cs: re-add the 2 parameter ctor.
+	Compatibility with existing apps was broken.
+
+2009-04-02 Gonzalo Paniagua Javier <gonzalo@novell.com>
+
+	* configure.in:
+	* test/2.0/gridview/Makefile.am:
+	* test/2.0/Makefile.am: gridview sample was not being
+	installed.
+
+	* src/Mono.WebServer.XSP/main.cs:
+	* src/Mono.WebServer.Apache/main.cs: when running in single-app mode,
+	corretly handle application restarts.
+
+	* src/Mono.WebServer.Apache/WebSource.cs: remove unused variable.
+
+2009-03-25  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer.Apache/ModMonoWorkerRequest.cs: made
+	GetServerVariable public and a bit safer.
+
+	* src/Mono.WebServer.Apache/ApplicationHost.cs: do not use broker
+	here, ModMonoWorkerRequest can do it for us if need be. Fixes bug
+	#488630
+
+2009-03-25  Rolf Bjarne Kvinge  <RKvinge@novell.com>
+
+	* src/Mono.WebServer/XSPWorkerRequest.cs: if send fails with
+	EINTR, try to send again instead of throwing an exception.
+
+2009-03-21  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/ApplicationServer.cs: added an overload for
+	the Start method which takes an exception as an argument. This
+	exception, if not null, will be sent to the client on the first
+	connection attempt.
+
+	* src/Mono.WebServer.XSP/main.cs: read AppSettings in the
+	constructor of a new ApplicationSettings class, to isolate
+	errors.
+
+2009-03-13 Gonzalo Paniagua Javier <gonzalo@novell.com>
+
+	* src/Mono.WebServer.Apache/main.cs: fix error when --master is passed.
+	Bug #481597 fixed.
+
+2009-03-09  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/XSPWorker.cs, XSPWebSource.cs,
+	XSPApplicationHost.cs: XSP can now bind to IPv6 addresses. Patch
+	from Pascal Fresnay <PascalFresnay@free.fr>, thanks! Fixes bug
+	#479878
+
+2009-03-03  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer.Apache/ModMonoRequest.cs: removed a
+	ShouldClientBlock () check from GetClientBlock (). Fixes bug
+	#481370
+
+2009-02-27 Gonzalo Paniagua Javier <gonzalo@novell.com>
+
+	* src/Mono.WebServer.XSP/main.cs:
+	* src/Mono.WebServer.FastCgi/main.cs: 
+	* src/Mono.WebServer.Apache/main.cs: do not sent the Trace output to
+	the Console by default.
+
+2009-02-25 Gonzalo Paniagua Javier <gonzalo@novell.com>
+
+	* src/Mono.WebServer.XSP/main.cs: changes needed to run the Accept
+	thread in the ASP.NET appdomain when there is a single application
+	configured.
+
+	* src/Mono.WebServer.Apache/ModMonoWorkerRequest.cs: avoid the lock in
+	RequestBroker for single applications. Implemented GetHeadersSent().
+
+	* src/Mono.WebServer.Apache/RequestBroker.cs: implemented
+	GetHeadersSent ().
+
+	* src/Mono.WebServer.Apache/WebSource.cs: propagate the single_app
+	setting.
+
+	* src/Mono.WebServer.Apache/ApplicationHost.cs: for single_app, pass
+	the instance of ModMonoWorker to the worker request.
+
+	* src/Mono.WebServer.Apache/ModMonoRequest.cs: reduced number of
+	writes. Implemented GetHeadersSent ().
+
+	* src/Mono.WebServer.Apache/main.cs: changes needed to run the Accept
+	thread in the ASP.NET appdomain when there is a single application
+	configured.
+
+	* src/Mono.WebServer.Apache/Worker.cs: don't register/unregister the
+	request for single application. Implemented GetHeadersSent ().
+
+	* src/Mono.WebServer/VPathToHost.cs: for multiple application, set the
+	request broker of the application host to one main appdomain.
+
+	* src/Mono.WebServer/XSPWebSource.cs: propagate the single_app
+	setting.
+
+	* src/Mono.WebServer/ApplicationServer.cs: allow setting application
+	host and broker. For single application, set the request broker of the
+	application host to one created in the ASP.NET application domain.
+	GetApplicationForPath just returns the registered application without
+	checking the parameters.
+
+	All these yadaa, yadaa can be summarized in:
+		* Avoid remoting through the cross appdomain channel when
+		there is only one ASP.NET application registered (single_app).
+		* Avoid locking in RequestBroker for single_app.
+		* Implement GetHeadersSent.
+		* Reduced number of writes to mod_mono.
+
+2009-01-30  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/Paths.cs: path info with a dot is
+	valid. Fixes bug #470662
+
+2009-01-29  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/Makefile.am (EXTRA_DIST): added
+	$(monowebserver2_sources)
+
+2009-01-27  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/SearchPattern.cs: made the class reusable and
+	removed the check for invalid characters, it doesn't make sense
+	for virtual paths.
+
+	* src/Mono.WebServer/ReaderWriterLockSlim.cs: made the class
+	internal.
+
+	* src/Mono.WebServer/BaseApplicationHost.cs: gotten rid of matched
+	paths cache (and two locks with them).
+	Regexps are no longer used to match handlers, we now use
+	SearchPattern (copied from System.dll) instead.
+
+2009-01-23  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/ApplicationServer.cs: if fullPath passed to
+	AddApplication doesn't end with a directory separator character,
+	append it to the path. Fixes bug #463483. Patch from Chuck
+	McCrobie <mccrobie2000@yahoo.com>, thanks!
+
+	* src/Mono.WebServer/ReaderWriterLockSlim.cs,
+	src/Mono.WebServer/LockRecursionException.cs,
+	src/Mono.WebServer/LockRecursionPolicy.cs: added to avoid having
+	to link with System.Core
+
+	* src/Mono.WebServer/Makefile.am (monowebserver_sources): added
+	SearchPattern.cs
+
+	* src/Mono.WebServer/SearchPattern.cs: added
+
+	* src/Mono.WebServer/BaseApplicationHost.cs: use
+	ReaderWriterLockSlim for handlersCacheLock.
+
+2009-01-22  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/Paths.cs: VirtualPathProvider.FileExists is
+	called with an absolute uri.
+
+2009-01-16 Gonzalo Paniagua Javier <gonzalo@novell.com>
+
+	* src/Mono.WebServer.Apache/RequestReader.cs:
+	* src/Mono.WebServer.Apache/ModMonoRequest.cs: remove unused ctors.
+
+2009-01-08  Marek Habersack  <mhabersack@novell.com>
+
+	* configure.in: added the --with-runtime option to make it
+	possible to specify a different runtime to be used with xsp than
+	the first one found in the path.
+	If --with-runtime is not specified and ${prefix}/bin/mono exists,
+	then it is used as the runtime for compiled xsp
+
+2008-12-29  Miguel de Icaza  <miguel@novell.com>
+
+	* src/Mono.WebServer/XSPWorker.cs: Exception to assist in debuggin
+	reusable versions of Mono.WebServer.
+
+2008-12-23 Gonzalo Paniagua Javier <gonzalo@novell.com>
+
+	* src/Mono.WebServer.Apache/Worker.cs: don't display the exception if
+	it's caused by a client-side close.
+	Bug #462045 fixed.
+
+2008-12-16  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/BaseApplicationHost.cs: ignore catch-all
+	handler entries in PathMatches. Fixes bug #459270
+
+2008-12-12  Marek Habersack  <mhabersack@novell.com>
+
+	* packaging/opensuse/xsp.spec: rpm now creates the /var/run/xsp2/
+	directory and chowns it to wwwrun.www
+
+	* packaging/opensuse/xsp2.init: modified the script to properly
+	start the xsp process.
+
+	* man/xsp.1.in: added documentation for --pidfile
+
+	* src/Mono.WebServer.XSP/main.cs: added a --pidfile option which
+	tells xsp to write its PID to the specified path.
+
+2008-12-01  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/BaseApplicationHost.cs: check if the key
+	exists in the handlers cache after acquiring the lock and update
+	it instead of adding.
+
+2008-11-28  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/BaseApplicationHost.cs: add locking to avoid
+	races when two requests are being created at the same time.
+
+2008-11-27  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/IApplicationHost.cs: added new method -
+	IsHttpHandler which checks whether the passed URI matches a HTTP
+	handler definition. Fixes bug #448522
+
+	* src/Mono.WebServer/BaseApplicationHost.cs: implemented the new
+	IApplicationHost method - IsHttpHandler (2.0+ only - need to
+	figure out how to portably do the same for 1.1). Fixes bug #448522
+
+	* src/Mono.WebServer/Paths.cs: GetPathsFromUri now checks not only
+	whether a path physically exists, but also whether it's a handler
+	or a virtual file (on 2.0+). Fixes bug #448522
+
+	* src/Mono.WebServer.Apache/ModMonoWorkerRequest.cs,
+	src/Mono.WebServer/XSPWorkerRequest.cs:
+	Paths.GetPathsFromUri now accepts two more arguments.
+
+2008-10-03  Juraj Skripsky  <js@hotfeet.ch>
+
+	* src/Mono.WebServer/BaseRequestBroker.cs: Reverted part of the last
+	commit. Use a pre-allocated buffer only when the size matches as it
+	will be transferred across appdomain boundaries in full length.
+
+2008-10-03  Juraj Skripsky  <js@hotfeet.ch>
+
+	* src/Mono.WebServer/BaseRequestBroker.cs: Actually use the allocated
+	request buffers. Make the size of a request buffer equal INPUT_BUFFER_SIZE
+	in System.Web.HttpRequest, so that it is used for requests >= 32kb as well
+	(e.g. uploads of big files). Fixes bug #431675.
+
+2008-10-01  Miguel de Icaza  <miguel@novell.com>
+
+	* Fix the scripts, my previous commit was untested, and some
+	scripts ended up not pointing to the right place (xsp was trying
+	to call 2.0/xsp.exe instead of 2.0/xsp2.exe and xsp1 was trying to
+	call 1.0/xsp1.exe instead of 1.0/xsp.exe).
+
+	Fixes #431121
+
+2008-09-21  Miguel de Icaza  <miguel@novell.com>
+
+	* scripts/Makefile.am ($(tool_scripts)): Follow the naming pattern
+	used in Mono 2.0.  By default the `script' is a 2.0 script,
+	`script1' is the 1.0 script, and `script2' is the 2.0 script.
+
+2008-07-29  Marek Habersack  <mhabersack@novell.com>
+
+	* test/1.1/webcontrols/dbpage1.aspx: do not rely on the
+	OnTextChanged to fire the Filter_Changed handler method. Doing
+	that makes the sample miss situations when the user clicks Submit
+	several times in a row without changing the filters - the result
+	of this is that no table is show in the output. Filter_Changed is
+	fired as the OnClick handler of the Submit button. Fixes bug
+	#381972.
+	Should the filter fail to return any results, an appropriate
+	information is shown. 
+
+2008-07-14  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer.Apache/ModMonoRequest.cs: fill the buffer
+	when reading the client block. Fixes bug #408723
+
+2008-07-11  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer.Apache/Worker.cs: RequestReader is created
+	with the client socket as parameter now.
+
+	* src/Mono.WebServer.Apache/Mono.WebServer.Apache.sources: reflect
+	changes in file names.
+
+	* src/Mono.WebServer.Apache/ModMonoRequest.cs: renamed from
+	Request.cs.
+	Use Dictionary for caches for 2.0.
+	Instead of using NetworkStream (which would invoke socket
+	receive/send for every call to read/write an item) now using
+	MemoryStreams which are paired with BinaryReaders. Data
+	read/written from/to the client socket is put directly in the
+	MemoryStreams.
+	Protocol changes to sync with mod_mono changes (protocol version
+	9).
+
+	* src/Mono.WebServer.Apache/ModMonoWorkerRequest.cs: renamed from
+	WorkerRequest.cs
+
+	* src/Mono.WebServer.Apache/RequestReader.cs: added - moved the
+	RequestReader public class to here from WorkerRequest.cs
+
+2008-04-25  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer.Apache/WorkerRequest.cs: do not append the
+	default index to the request path if a directory is
+	requested. Fixes bug #324204
+
+2008-03-19  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer.Apache/main.cs: Fix a CWL format typo, which
+	causes the apache backend to fail when --port is used. Fixes bug
+	#372220. Patch contributed by Daniel Cohen
+	<dcohenp@eduinnova.com>, thanks a lot!
+
+2008-02-26  Kornél Pál  <kornelpal@gmail.com>
+
+	* src/Mono.WebServer/XSPWorkerRequest.cs: Add a Date header because that's
+	the responsibility of the web server rather than ASP.NET. Fixes bug #363404.
+
+2008-02-08  Marek Habersack  <mhabersack@novell.com>
+
+	* test/Web.sitemap: /1.1/asp.net/transfer2.aspx removed from the
+	tree - it is not supposed to be accessed directly.
+
+	* test/1.1/asp.net/codebehind1.aspx: do not use automatic even
+	wireup. Fixes bug #359783
+
+2008-02-03  Pedro Martínez Juliá  <pedromj@gmail.com>
+
+	* ChangeLog: Convert to UTF8 and change my old email with the new.
+
+2008-02-03  Pedro Martínez Juliá  <pedromj@gmail.com>
+
+	* man: Add new generated manual page to svn:ignore.
+
+2008-01-30  Robert Jordan  <robertj@gmx.net>
+
+	* src/Mono.WebServer.FastCgi/main.cs (Main):
+	Replace Console.WriteLines with Logger.Write. Always log to
+	console during Main (). Handle UnmagedSocket's exceptions gracefully.
+	Fixes #350779.
+
+2008-01-28  Wade Berrier  <wberrier@novell.com>
+
+	* configure.in: version bump -> 1.9
+
+2008-01-25  Marek Habersack  <mhabersack@novell.com>
+
+	* test/1.1/webcontrols/Makefile.am (EXTRA_DIST): include the
+	.sqlite files in the generated tarball, so that the build system
+	doesn't need to have sqlite installed.
+
+2008-01-19  Joshua Tauberer  <jit@occams.info>
+
+	* src/Mono.WebServer/BaseRequestBroker.cs: Read: Check the request
+	  ID is valid inside the lock.
+
+2007-12-12  Marek Habersack  <mhabersack@novell.com>
+
+	* test/1.1/handlers/monodoc.ashx: fix the rendering of
+	links. Apparently, firefox lowercases the leading X: sequence in
+	links like 'N:System' and that, in turn, causes Monodoc to fail to
+	parse the link properly. Code stolen from the monodoc version of
+	monodoc.ashx.
+
+2007-12-08  Marek Habersack  <mhabersack@novell.com>
+
+	* test/1.1/asp.net/Makefile.am (testfiles): added
+	transfer{1,2}.aspx and serial.aspx
+
+	* test/Web.sitemap: remove the .ascx controls from the menu.
+
+2007-12-04  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/ApplicationServer.cs: added a new property,
+	Port, to report the actual port ApplicationServer is listening on
+
+	* src/Mono.WebServer.XSP/main.cs: accept an extra parameter to
+	attach XSP to a random port. The actual port is printed to the
+	console instead of the configured one, as it was done before.
+
+2007-11-21  Marek Habersack  <mhabersack@novell.com>
+
+	* Added several index.aspx files to avoid 404 errors on accessing
+	directories.
+
+2007-11-20  Marek Habersack  <mhabersack@novell.com>
+
+	* test/1.1/customcontrol/tabcontrol.aspx: explain how adding links
+	works.
+
+	* test/1.1/webcontrols/Makefile.am: generate the .sqlite files
+	when needed. Fixes make dist.
+
+	* test/1.1/webcontrols/web_linkbutton.aspx: make the sample
+	work. Clicking 'Remove this link' actually does something
+	now. Same for the 'Click me!' button.
+
+	* All the samples are using common look now. A common header has
+	been added to provide consistent look and sample navigation. 1.1
+	mode uses a poor man's implementation of the 2.0 SiteMap reader,
+	to be able to read the samples map from the Web.sitemap file.
+	* The test suite for 1.1 MUST now be ran from the directory into
+	which 'make install' put the samples - it requires the
+	SiteMapReader_1.1.dll to be present. If a user runs the test suite
+	from the source directory (or from one missing the required
+	components) a page explaining the steps to get it working is
+	shown. The 2.0 profile isn't subject to this requirement, as it will run
+	most samples from the source direcory.
+	* The 1.1/webcontrols/dbpage*.aspx samples now use Sqlite
+	databases installed along with the test suite. The databases are
+	generated by the dbpage_test_setup.exe utility found in the same
+	directory where the samples are.
+
+2007-11-20  Juraj Skripsky  <js@hotfeet.ch>
+
+	* test/1.1/webcontrols/web_comparevalidator.aspx: add test page
+	for the CompareValidator control.
+
+2007-11-08  Wade Berrier  <wberrier@novell.com>
+
+	* configure.in: version bump -> 1.2.6
+
+2007-11-07  Marek Habersack  <mhabersack@novell.com>
+
+	* packaging/opensuse/xsp2.init, packaging/opensuse/Makefile.am,
+	packaging/opensuse/xsp2.logrotate, tools/mono-asp-apps/Makefile.am,
+	packaging/opensuse/sysconfig.xsp2, packaging/opensuse/xsp.spec,
+	packaging/Makefile.am: added
+
+2007-11-03  Marek Habersack  <mhabersack@novell.com>
+
+	* test/1.1/webcontrols/dbpage1.aspx,
+	  test/1.1/webcontrols/dbpage2.aspx:
+	Account for missing database provider assemblies.
+
+2007-11-02  Thomas Wiest  <twiest@novell.com>
+
+	* test/1.1/customcontrol/tabcontrol2.aspx:
+	* test/1.1/html/htmlimage.aspx:
+	* test/1.1/html/htmlinputimage.aspx:
+	* test/1.1/webcontrols/web_hyperlink.aspx:
+	* test/1.1/webcontrols/web_adrotator.xml:
+	Changed http://www.ximian.com/images/index/button-top.gif to 
+	http://www.mono-project.com/files/8/8d/Mono-gorilla-aqua.100px.png
+
+2007-10-30  Marek Habersack  <mhabersack@novell.com>
+
+	* man/Makefile.am (EXTRA_DIST): added mono-asp-apps.1.in
+	(CLEANFILES): added mono-asp-apps.1
+
+2007-10-30  Marek Habersack  <mhabersack@novell.com>
+
+	* configure.in: added man/mono-asp-apps.1 to the list of generated
+	files.
+
+	* man/mono-asp-apps.1.in: added
+
+2007-10-30  Marek Habersack  <mhabersack@novell.com>
+
+	* tools/mono-asp-apps/README: added
+
+2007-10-30  Marek Habersack  <mhabersack@novell.com>
+
+	* tools/mono-asp-apps/mono-asp-apps: added
+
+2007-10-29  Robert Jordan  <robertj@gmx.net>
+
+	* src/Mono.WebServer.FastCgi/WorkerRequest.cs:
+	Implement IsSecure ().
+
+	* src/Mono.WebServer.FastCgi/Server.cs:
+	Use Type.IsAssignableFrom ().
+
+2007-10-28  Robert Jordan  <robertj@gmx.net>
+
+	* src/Mono.WebServer.FastCgi/ConfigurationManager.*:
+	Implement an additional configuration source: environment.
+
+	* src/Mono.WebServer.FastCgi/Request.cs:
+	Take directory index (default documents) into account.
+
+2007-10-28  Robert Jordan  <robertj@gmx.net>
+
+	* src/Mono.WebServer.FastCgi/Request.cs:
+	Compute PATH_INFO, PATH_TRANSLATED, SCRIPT_NAME,
+	SCRIPT_FILENAME when running under Apache.
+
+2007-10-26  Wade Berrier  <wberrier@novell.com>
+
+	* configure.in:
+	* src/AssemblyInfoModMono.cs.in:
+	* src/AssemblyInfo.cs.in:
+	* tools/asp_state/AssemblyInfo.cs.in:
+	* tools/dbsessmgr/AssemblyInfo.cs.in:
+	Split VERSION to VERSION and XSP_VERSION in order to allow svn revision 
+	in VERSION and still satisfy mcs's numbering scheme (recently changed
+	to match csc)
+	Didn't replace VERSION, because we need the tarball version to not have
+	periods in the revision name.
+
+2007-10-24  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/XSPWorkerRequest.cs: gracefully handle
+	exceptions in the constructor, by closing the connection when
+	Exception happens.
+
+2007-10-22  Robert Jordan  <robertj@gmx.net>
+
+	* man/*: Generate fastcgi-mono-server(1).
+	* doc/*: Temporarily fix for `make distcheck'.
+	* src/Mono.WebServer.FastCgi/Makefile.am: Cleanups.
+
+2007-10-22  Robert Jordan  <robertj@gmx.net>
+
+	* src/*/*.am : Fix `make distcheck'.
+	
+2007-10-22  Robert Jordan  <robertj@gmx.net>
+
+	* src/Mono.WebServer.FastCgi/Request.cs:
+	Reverted temporary hack for mod_fastcgi.
+
+	* src/Mono.WebServer.FastCgi/ConfigurationManager.cs:
+	The XML default settings have less precedence.
+	
+2007-10-22  Robert Jordan  <robertj@gmx.net>
+
+	* src/Mono.WebServer.Apache/Mono.WebServer.Apache.sources: Create.
+	* src/Mono.WebServer.Apache/SecurityConfiguration.cs:
+	Get rid of MODMONO.
+
+2007-10-22  Robert Jordan  <robertj@gmx.net>
+
+	* src/Makefile.am: FastCGI -> FastCgi.
+
+	* src/Mono.WebServer.FastCgi/Makefile.am:
+	* src/Mono.WebServer.FastCgi/*.sources:
+	* src/Mono.WebServer.FastCgi/AssemblyInfo.cs.in:
+	Create.
+	
+	* src/Mono.WebServer.FastCgi/ConfigurationManager.xml:
+	Add some default values to be able to get rid of
+	the exe.config file. Comment out the automapping settings.
+	
+	* src/Mono.WebServer.FastCgi/ConfigurationManager.cs:
+	Implement ImportSettings (). Support for default settings
+	specified in ConfigurationManaged.xml.
+	
+	* src/Mono.WebServer.FastCgi/main.cs:
+	* src/Mono.WebServer.FastCgi/Responder.cs:
+	Take the ApplicationManager
+	out of the build until its automapping issues are fixed.
+	
+	* src/Mono.WebServer.FastCgi/server.cs: Rename to main.cs
+
+2007-10-22  Robert Jordan  <robertj@gmx.net>
+
+	* src/Mono.WebServer.FastCgi: Import Brian's files from his google
+	repository. Flatten hierarchies to adhere to mono's standards.
+	Disintegrate the Mono.FastCgi assembly.
+
+2007-10-22  Robert Jordan  <robertj@gmx.net>
+
+	* configure.in, scripts/Makefile.am: Reflect changes.
+	* src/Makefile.am: Reflect changes.
+	* src/Mono.WebServer.Apache/main.cs: Remove XSP-related code.
+	* src/Mono.WebServer.XSP/main.cs: Remove ModMono-related code.
+	* src/Mono.WebServer.Apache/Makefile.am: Create from .Makefile.am.
+	* src/Mono.WebServer.XSP/Makefile.am: Create from Makefile.am.
+	* src/server.cs: Copy as main.cs to Mono.WebServer.Apache and
+	Mono.WebServer.XSP
+	* src/ecurity.cs: Move to Mono.WebServer.XSP/SecurityConfiguration.cs
+	* src/ModMono*.cs: Move to Mono.WebServer.Apache.
+	* src/Mono.WebServer.Apache: Create.
+	* src/Mono.WebServer.FastCgi: Create.
+	* src/Mono.WebServer.XSP: Create.
+
+2007-10-03  Juraj Skripsky  <js@hotfeet.ch>
+
+	* src/ModMonoRequest.cs: put the ModMonoConfig struct in charge to
+	tracking its property "Changed".
+
+2007-10-03  Marek Habersack  <mhabersack@novell.com>
+
+	* src/ModMonoRequestBroker.cs,src/ModMonoWorker.cs: added a method
+	to support configuration of output buffering in mod_mono
+
+	* src/ModMonoRequest.cs: added support for new mod_mono
+	communication protocol, SET_CONFIGURATION. Configuration of
+	mod_mono is updated before write commands, if necessary. Currently
+	it supports only configuring the output buffering (based on the
+	value of HttpResponse.BufferOutput)
+	Bumped protocol version to 8
+
+	* src/ModMonoWorkerRequest.cs: added a method which updates the
+	mod_mono/apache configuration if necessary.
+
+2007-10-02  Marek Habersack  <mhabersack@novell.com>
+
+	* src/ModMonoRequest.cs: make the protocol mismatch error message
+	more informative.
+
+2007-09-21  Marek Habersack  <mhabersack@novell.com>
+
+	* src/ModMonoRequest.cs: use UTF8 when sending strings to
+	Apache. Fixes bug #325448
+
+2007-09-18  Daniel Nauck <dna@mono-project.de>
+
+	* src/server.cs: add a UnhandledExceptionEventHandler
+	to handle an exception that is not handled by the application domain.
+
+2007-08-18  Josh Tauberer <jit@occams.info>
+
+	* src/Mono.WebServer/BaseRequestBroker.cs: Correct a mistake
+	in my previous patch: checking for wrap-around on requests_served
+	counter, since we bitmask it 0x7FFF, wrap-around occurs at 0x8000.
+
+2007-08-16  Wade Berrier  <wberrier@novell.com>
+
+	* configure.in: version bump -> 1.2.5
+
+2007-08-14  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/XSPWorker.cs: do not rethrow an exception
+	that might occur on write, write an error message to the console
+	and close our end of the connection instead. Fixes bug #81699.
+
+	* src/ModMonoWorkerRequest.cs: ReadEntityBody makes sure the
+	number of bytes to copy is > 0 and that the read buffer is not
+	null.
+
+2007-08-09  Marek Habersack  <mhabersack@novell.com>
+
+	* src/ModMonoWorkerRequest.cs,
+	src/Mono.WebServer/XSPWorkerRequest.cs: do not fail if default
+	index files configuration cannot be retrieved. Based on patch from
+	Juraj Skripsky <juraj@hotfeet.ch>, thanks! Fixes bug #82379.
+
+	* src/ModMonoWorker.cs: move request unregister call from the
+	finally block to the catch block. This is to avoid unregistering
+	the request while it is still being processed by the HttpRuntime
+	(asynchronously). Patch from Joshua Tauberer <jit@occams.info>,
+	thanks!
+
+2007-08-08  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/MonoWorkerRequest.cs: don't use the
+	SendResponseFromFile (IntPtr, long, long) overload from the
+	SendResponseFromFile (string, long, long) one - prevents double
+	close of the file handle.
+
+	* src/Mono.WebServer/ApplicationServer.cs: leave only the
+	implementation of the ApplicationServer class here, the other
+	classes are moved to own files, below.
+
+	* src/Mono.WebServer/Paths.cs: new file, moved Paths class
+	implementation here.
+
+	* src/Mono.WebServer/HttpErrors.cs: new file, moved HttpErrors
+	class implementation here.
+
+	* src/Mono.WebServer/VPathToHost.cs: new file, moved VPathToHost
+	class implementation here.
+
+	* src/Mono.WebServer/XSPApplicationHost.cs: leave only the
+	implementation of the XSPApplicationHost here, the other classes
+	are moved to own files, below.
+
+	* src/Mono.WebServer/XSPWorker.cs: new file, moved XSPWorker class
+	implementation here.
+
+	* src/Mono.WebServer/XSPWebSource.cs: new file, moved XSPWebSource
+	class implementation here.
+
+	* src/Mono.WebServer/XSPRequestBroker.cs: new file, moved
+	XSPRequestBroker class implementation here.
+
+	* src/Mono.WebServer/Makefile.am (monowebserver_sources): added
+	new source files.
+
+	* src/ModMonoApplicationHost.cs: leave only the implementation of
+	the ModMonoApplicationHost class here, the other classes are moved
+	to own files, below.
+
+	* src/ModMonoWorker.cs: new file, moved ModMonoWorker class
+	implementation here.
+
+	* src/ModMonoWebSource.cs: new file, moved ModMonoWebSource class
+	implementation here.
+
+	* src/ModMonoRequestBroker.cs: new file, moved
+	ModMonoRequestBroker class implementation here.
+	
+	* src/Makefile.am (modmono_only): added new source files.
+
+2007-08-07  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/BaseRequestBroker.cs: applied patch by Joshua
+	Tauberer (with minor changes) proposed in bug #82057. The change
+	turns request id into a compound of the unique request id in the
+	upper 16 bits and the index into request array in the lower 16
+	bits.
+
+	* src/Mono.WebServer/BaseApplicationHost.cs: fixed documentation.
+
+2007-08-06  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/BaseApplicationHost.cs: added some more
+	documentation.
+
+	* src/Mono.WebServer/BaseRequestBroker.cs: call the
+	UnregisterRequest handlers before freeing the request data.
+
+2007-07-17  Marek Habersack  <mhabersack@novell.com>
+
+	* src/ModMonoApplicationHost.cs: it's somewhat better to
+	unregister an event handler when it's not needed.
+
+2007-07-16  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/BaseRequestBroker.cs: added an event fired
+	when the request has just been unregistered.
+
+	* src/ModMonoApplicationHost.cs: add an event handler for the
+	UnregisterRequest event in the request broker to make sure that
+	the same request is never unregistered twice.
+
+2007-07-09  Wade Berrier  <wberrier@novell.com>
+
+	* configure.in:
+	* docs/Makefile.am: empty file so that this dir gets included
+	so we can build from a tarball
+
+2007-06-22  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/MonoWorkerRequest.cs: docs from Brian
+	Nickel.
+
+	* src/Mono.WebServer/IWebSource.cs: more docs from Brian Nickel.
+
+	* src/Mono.WebServer/IApplicationHost.cs: more docs from Brian
+	Nickel.
+
+	* src/Mono.WebServer/Makefile.am (MCSFLAGS): extract xml docs.
+
+	* src/Mono.WebServer/BaseRequestBroker.cs: add some
+	documentation and avoid reallocating request buffers. Patch from
+	Brian Nickel <brian.nickel@gmail.com>, thanks!
+
+	* src/Mono.WebServer/BaseApplicationHost.cs: do not assume that
+	requestBroker is not null and that it is
+	BaseRequestBroker. Modified patch from Brian Nickel
+	<brian.nickel@gmail.com>, thanks!
+
+2007-06-20  Marek Habersack  <mhabersack@novell.com>
+
+	* src/ModMonoRequest.cs: added support for virtual hosts
+	(ServerAlias) Patch from Juraj Skripsky
+	<juraj@hotfeet.ch>, thanks! Closes bug #81878.
+	* src/ModMonoApplicationHost.cs: as above
+
+2007-06-15  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/ApplicationServer.cs: do not skip checking
+	the path when vhost is '*'. Patch from Brian Nickel
+	<brian.nickel@gmail.com>, thanks!
+
+2007-05-06  Wade Berrier  <wberrier@novell.com>
+
+	* tools/asp_state/Makefile.am:
+	* tools/dbsessmgr/Makefile.am:
+	Split DATA and SCRIPTS for .exe and .exe.config so that .config doesn't
+	have the execute bit set (otherwise, causes warning in suse's rpmlint)
+
+2007-05-04  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/MonoWorkerRequest.cs: avoid possible NOR.
+
+2007-04-24  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/BaseApplicationHost.cs: put the worker's
+	ProcessRequest in try/catch in order to handle uncaught exceptions
+	more gracefully.
+
+	* src/Mono.WebServer/MonoWorkerRequest.cs: more robust exception
+	handling. We no longer leave the connection open and the browser
+	spinning after an early exception (e.g. configuration exception
+	while reading the top-level web.config file) ocurred.
+
+2007-04-19  Wade Berrier  <wberrier@novell.com>
+
+	* configure.in: version bump -> 1.2.4
+
+2007-04-13  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/BaseRequestBroker.cs: replace old code that
+	used hashtables to store request data with arrays. Array is also
+	used to acquire a unique request id. Previously the code used
+	GetHashCode() to do that, incorrectly assuming that the return
+	value from the method is unique. This caused frequent race
+	conditions and crashes. The new code uses arrays sized at 200
+	slots initially - this means it can handle up to 200 _concurrent_
+	requests before it needs to resize the arrays.
+
+	* src/Mono.WebServer/XSPApplicationHost.cs: make sure worker is
+	not null before attempting to use it.
+
+	* src/ModMonoApplicationHost.cs: make sure worker is not null
+	before attempting to use it.
+
+2007-03-30  Marek Habersack  <mhabersack@novell.com>
+
+	* src/Mono.WebServer/Tracing.cs: added a utility class to help in
+	tracing.
+
+	* src/server.cs: move a line of common code out of ifdefs
+
+	* src/Mono.WebServer/Makefile.am (MCSFLAGS): support tracing if
+	enabled.
+	(monowebserver_sources): added Tracing.cs
+
+	* src/Makefile.am (MCSFLAGS): support tracing if enabled
+
+	* configure.in: add a parameter to enable conditional tracing.
+	Define TRACE together with WEBTRACE.
+
+2007-03-29  Miguel de Icaza  <miguel@novell.com>
+
+	* src/ModMonoApplicationHost.cs: Do not try to call Close on a
+	null stream (Stream can become null inside InnerRun) and this
+	makes debugging with gdb harder. 
+
+2007-03-28  Miguel de Icaza  <miguel@novell.com>
+
+	* src/ModMonoRequest.cs: Only compute the data once.
+
+	(GetClientBlock): if we get a -1, return the -1 to the client, do
+	not try to call Read. 
+
+2007-03-29  Marek Habersack  <mhabersack@novell.com>
+
+	* src/ModMonoApplicationHost.cs: make sure request id is reset to
+	-1 after we have unregistered it.
+
+2007-03-02 Wade Berrier <wberrier@novell.com>
+
+	* configure.in:
+	* src/Mono.WebServer/xsp-2.pc.in:
+	* src/Mono.WebServer/xsp.pc.in:
+	Use VERSION from configure.in in the .pc files (they were always
+	0.1 and 0.2 before, but this isn't useful since the files 
+	are xsp and xsp-2)
+
+2007-01-25 Wade Berrier <wberrier@novell.com>
+
+	* configure.in: version bump -> 1.2.3
+
+2007-01-05  Marek Habersack  <grendello@gmail.com>
+
+	* src/Mono.WebServer/XSPWorkerRequest.cs: use the configured
+	header encoding when outputting the headers.
+
+	* src/Mono.WebServer/MonoWorkerRequest.cs: implement support for
+	response header encoding.
+
+2006-12-23 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Mono.WebServer/ApplicationServer.cs: set the server as stopped
+	early on to prevent a possible nullref. Closes bug #80230.
+
+2006-11-17 Wade Berrier <wberrier@novell.com>
+
+	* configure.in: version bump -> 1.2.1
+
+2006-11-16 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Mono.WebServer/XSPWorkerRequest.cs: close the connection if
+	there's an error reading the headers (including assembly loading
+	exceptions due to a bad installation).
+
+	* src/ModMonoApplicationHost.cs: kill the warning that everyone is
+	worried about.
+
+2006-09-11 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Mono.WebServer/ApplicationServer.cs: don't run BeginAccept when
+	the server has been stopped. Fixes bug #79361.
+
+2006-09-03  Sebastien Pouliot  <sebastien@ximian.com>
+
+	* src/Mono.WebServer/XSPApplicationHost.cs: Read from the stream, not 
+	the socket as the socket data is encrypted when using SSL. Fix from 
+	Jean-Francois Burdet.
+
+2006-08-23 Wade Berrier <wberrier@novell.com>
+
+	* configure.in:
+	* src/Makefile.am:
+	* src/Mono.WebServer/Makefile.am: Add GACUTIL_FLAGS to make gac root dir package
+	friendly (Relative to DESTDIR)
+
+2006-08-16 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in:
+	* src/mono.snk:
+	* src/AssemblyInfo.cs.in:
+	* src/Makefile.am:
+	* src/Mono.WebServer/xsp-2.pc.in:
+	* src/Mono.WebServer/xsp.pc.in:
+	* src/Mono.WebServer/AssemblyInfo2.cs.in:
+	* src/Mono.WebServer/AssemblyInfo.cs.in:
+	* src/Mono.WebServer/Makefile.am:
+	* src/AssemblyInfoModMono.cs.in:
+	* src/mono.pub:
+	* scripts/Makefile.am: xsp, xsp2, Mono.WebServer and Mono.WebServer2 are
+	installed in the GAC now to avoid problems with the upcoming patch in
+	the runtime.
+
+2006-08-16 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Mono.WebServer/MonoWorkerRequest.cs:
+	* src/Mono.WebServer/XSPApplicationHost.cs:
+	* src/ModMonoApplicationHost.cs: display unexpected errors in
+	ProcessRequest from the root domain, as it will help pinpoint deployment
+	errors once the upcoming patch modifies the way assemblies are loaded
+	in newly created domains.
+
+2006-08-03  Sebastien Pouliot  <sebastien@ximian.com>
+
+	* src/Makefile.am: Add a reference to Mono.Security.dll for 
+	mod-mono-server.exe
+	* src/ModMonoWorkerRequest.cs: Add support for client certificate 
+	validation using Apache and/or Mono.
+	* src/ModMonoApplicationHost.cs: Add PEM (Privacy Enhanced Mail) 
+	base64 decoding for certificates and set the proper variables so
+	HttpClientCertificate can be used with mod_mono.
+	* src/Mono.WebServer/MonoWorkerRequest.cs: Add support for special SSL
+	variables (moved from XSPWorkerRequest.cs).
+	* src/Mono.WebServer/XSPWorkerRequest.cs: Removed support for special
+	SSL variables (now shared in MonoWorkerRequest.cs).
+
+2006-07-20 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/ModMonoApplicationHost.cs: don't prepend the file:// scheme, as
+	it's currently breaking mod-mono-server 2.0.
+
+2006-06-14 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Mono.WebServer/ApplicationServer.cs: when stopping the server,
+	reset the 'started' variable. Fixes bug #78621.
+
+2006-06-01 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* tools/asp_state/asp-state.exe.config: 
+	* tools/asp_state/asp-state2.exe.config: use FQDN.
+
+2006-05-10 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/server.cs:
+	* src/Mono.WebServer/XSPWorkerRequest.cs:
+	* src/Mono.WebServer/BaseRequestBroker.cs:
+	* src/Mono.WebServer/ApplicationServer.cs:
+	* src/Mono.WebServer/XSPApplicationHost.cs:
+	* src/Mono.WebServer/InitialWorkerRequest.cs:
+	* src/Mono.WebServer/LingeringNetworkStream.cs:
+	* src/Mono.WebServer/IWebSource.cs:
+	* src/ModMonoApplicationHost.cs: accepting a connection and the initial
+	read are now done asynchronously. SocketPool class and that Select are
+	over now and xsp/mod-mono-server behave much better when getting many
+	simultaneous connections.
+
+2006-04-25 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Mono.WebServer/MonoWorkerRequest.cs: remove all the duplicated
+	slashes and don't do an extra Replace on non-windows.
+
+2006-04-06 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/server.cs: make the hash different when the last argument is an
+	option (like a port number). Fixes bug #78034. Thanks to Hubert
+	Fongarnand.
+
+2006-03-05  Robert Jordan  <robertj@gmx.net>
+
+	* tools/dbsessmgr/dbsessmgr.cs: 
+	* tools/dbsessmgr/dbsessmgr.exe.config:
+	* man/dbsessmgr.1.in: make SQL statements and parameters
+	provider independent/configurable. Fixes bug #77698.
+
+2006-01-25  Chris Toshok  <toshok@ximian.com>
+
+	* src/Mono.WebServer/Makefile.am: define NET_2_0 in the
+	Mono.WebServer2.dll case.
+
+	* src/Mono.WebServer/XSPWorkerRequest.cs: use ConfigurationManager
+	in 2.0.
+
+	* src/Makefile.am: define NET_2_0 in the
+	xsp2.exe/mod-moon-server2.exe cases.
+
+	* src/server.cs (AppSettings): use ConfigurationManager in 2.0,
+	and isolate the ifdef here so everywhere else we can just use
+	"AppSettings".
+	(Main): s/ConfigurationSettings.AppSettings/AppSettings/
+
+	* src/ModMonoWorkerRequest.cs: use ConfigurationManager in 2.0
+
+>>>>>>> .r59119
+2005-12-27 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/ModMonoRequest.cs: use UTF8 instead of the default encoding. Fixes
+	bug #77074.
+
+2005-11-02 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/ModMonoWorkerRequest.cs: don't append the index file name
+	after the path in presence of path_info. Fixes bug #76604.
+
+2005-11-02 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/ModMonoWorkerRequest.cs:
+	* src/ModMonoRequest.cs:
+	* src/server.cs:
+	* src/Mono.WebServer/ApplicationServer.cs:
+	* src/ModMonoApplicationHost.cs: added support for dynamically created
+	ASP.NET applications.
+
+	* man/xsp.1.in: documented the --master option.
+
+2005-10-21 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/ModMonoWorkerRequest.cs:
+	* src/ModMonoRequest.cs: server variables are now read when getting the
+	initial data.
+
+	* src/Makefile.am: don't show warning 618.
+	* src/Mono.WebServer/Makefile.am: Modified file.
+	* src/ModMonoApplicationHost.cs: s/Mono.Posix/Mono.Unix/
+
+2005-10-11 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/ModMonoRequest.cs: all the server variables are now written
+	at once from mod_mono.
+
+2005-09-29  Sebastien Pouliot  <sebastien@ximian.com> 
+
+	* src/server.cs: Added *all* new options in --help.
+	* man/xsp.1.in: Fixed typo.
+
+2005-09-29  Sebastien Pouliot  <sebastien@ximian.com>
+
+	* src/Makefile.am: Added security.cs to the build.
+	* src/server.cs: Removed security configuration from the source. Added
+	new options for client certificates and pkcs#12 support.
+	* src/security.cs: New. Keep all security configuration in a single 
+	place. Added support (and logic) to support certificates and keys 
+	inside PKCS#12 files.
+	* src/Mono.WebServer/XSPApplicationHost.cs: Add support for mandatory
+	client certificates.
+	* man/xsp.1.in: Updated man page with the new options for client side
+	certificates and pkcs#12 files support.
+
+2005-09-26 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Mono.WebServer/XSPWorkerRequest.cs: when the connection is secure,
+	use the regular stream.
+
+2005-09-19 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Mono.WebServer/XSPWorkerRequest.cs: return 0 when trying to read
+	the entity body from a GET/HEAD request.
+
+	* src/Mono.WebServer/XSPApplicationHost.cs:
+	* src/ModMonoApplicationHost.cs: moved Run into InnerRun. MS was
+	throwing a TypeLoadException before running the method and we didn't
+	catch that one, so the connection wasn't being closed.
+	
+
+2005-09-19 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/ModMonoRequest.cs: when reading a string from mod_mono, handle
+	short reads. From a patch by Mathias Herberts.
+
+2005-09-19 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/ModMonoRequest.cs: avoid 500 response when the body was actually
+	sent. Patch by dean@brettle.com that fixes bug #76124.
+
+2005-09-07 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Mono.WebServer/MonoWorkerRequest.cs:
+	* src/Mono.WebServer/XSPWorkerRequest.cs:
+	* src/Mono.WebServer/XSPApplicationHost.cs: added support for client
+	certificates. Patch by Sebastien Pouliot.
+
+2005-09-05 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Mono.WebServer/XSPWorkerRequest.cs: sendfile() might need to be
+	called more than once for big files (tried with a 1GiB one). Fixes bug
+	#75926.
+
+2005-09-01 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/ModMonoRequest.cs: write all the headers at once.
+
+2005-08-28 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/ModMonoWorkerRequest.cs: pretend the client is HTTP/1.0 so that
+	System.Web does not tries to send chunked content. Apache will take care
+	of that. If the Flush is final, call CloseConnection. Implemented
+	sendfile support 
+
+	* src/ModMonoRequest.cs: added SEND_FILE command an increased version
+	number.
+
+	* src/Mono.WebServer/MonoWorkerRequest.cs: use the IntPtr version of
+	SendResponseFromFile if no override is available.
+
+	* src/Mono.WebServer/XSPWorkerRequest.cs: removed TODO.
+	* src/ModMonoApplicationHost.cs: SendFile support.
+
+2005-08-26 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Mono.WebServer/MonoWorkerRequest.cs: default encoding will be
+	latin1.
+
+	* src/Mono.WebServer/XSPWorkerRequest.cs: if we're running on linux, use
+	send, setsockopt and sendfile from libc. No more buffering done but
+	for the headers. Use TCP_CORK. Use sendfile() for SendResponseFromFile
+	when possible.
+
+	* src/Mono.WebServer/ApplicationServer.cs: catch a possible error.
+	* src/Mono.WebServer/XSPApplicationHost.cs: pass the socket handle to
+	the worker request.
+	* src/Mono.WebServer/InitialWorkerRequest.cs: work directly on the
+	input buffer instead of calling ReadByte().
+	* src/Mono.WebServer/Makefile.am: add -unsafe flag.
+
+2005-08-26 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Mono.WebServer/XSPWorkerRequest.cs: if we get a 0, don't pretend
+	we read up to 'size'.
+	* src/Mono.WebServer/XSPApplicationHost.cs: returning 0 in Read is fine.
+
+2005-08-26 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Mono.WebServer/XSPWorkerRequest.cs: if we get a -1 when reading
+	the request, the client closed or there was an error. For a 0 we just
+	return what we have so far.
+
+2005-07-26 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in:
+	* src/Makefile.am:
+	* src/Mono.WebServer/xsp-2.pc.in:
+	* src/Mono.WebServer/xsp.pc.in:
+	* src/Mono.WebServer/key.snk:
+	* src/Mono.WebServer/AssemblyInfo2.cs.in:
+	* src/Mono.WebServer/AssemblyInfo.cs.in:
+	* src/Mono.WebServer/Makefile.am:
+	* scripts/Makefile.am: bye bye gacutil, welcome "Application Deployment
+	Guidelines".
+
+2005-06-22 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Mono.WebServer/XSPApplicationHost.cs: if reading from the socket
+	returns 0 bytes, signal it returning a -1 in Read.
+
+2005-06-17:2  Rafael Teixeira  <rafaelteixeirabr@hotmail.com>
+
+	* test/button-vb.aspx: small typo correction
+	
+2005-06-17  Rafael Teixeira  <rafaelteixeirabr@hotmail.com>
+
+	* tools/asp_state/asp_state.cs: find configuration filename to match
+	the executable name and path plus ".config", that fix not finding the
+	oldnamed "asp_state.exe.config" what make it work for asp-state2.exe,
+	besides it was looking for the configuration file in the current dir,
+	not the dir containing the executable. Also for first timers like me
+	be a bit more verbose and don't start if some command line arguments
+	are passed (I tried a asp-state --help and got baffled).
+
+2005-06-11 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Mono.WebServer/BaseRequestBroker.cs: keep a cache of the buffers
+	passed through remoting instead of creating a new one in all the cases.
+
+2005-06-11 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Mono.WebServer/XSPWorkerRequest.cs: platform check.
+
+2005-06-10 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Mono.WebServer/LingeringNetworkStream.cs: really keep lingering
+	for 30s.
+
+2005-06-05  Ben Maurer  <bmaurer@ximian.com>
+
+	* configure.in: handle gacutil more correctly :-)
+
+2005-06-02  Ben Maurer  <bmaurer@ximian.com>
+
+	* src/Mono.WebServer/Makefile.am: Handle gacutil and destdir
+	correctly.
+
+	* configure.in: GACUTIL flags
+
+2005-06-01 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in:
+	* src/Mono.WebServer/AssemblyInfo.cs: renamed into...
+	* src/Mono.WebServer/AssemblyInfo.cs.in: ...this.
+	* src/Mono.WebServer/Makefile.am: don't use -keyfile, as csc does not
+	support it. Now 'distcheck' passes and the build works on windows.
+
+2005-06-01 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/XSPApplicationHost.cs: Removed file.
+	* src/InitialWorkerRequest.cs: Removed file.
+	* src/XSPWorkerRequest.cs: Removed file.
+	* src/Makefile.am: Modified file.
+	* src/Mono.WebServer/Makefile.am: moved some 'meat' to Mono.WebServer.
+	xsp.exe is now just 'server.cs' + classes in Mono.WebServer.
+
+2005-05-31  Raja R Harinath  <rharinath@novell.com>
+
+	Fix 'make distcheck'.
+	* src/Mono.WebServer/Makefile.am (EXTRA_DIST): Add key.snk.
+	(Mono.WebServer.dll): Pass /keyfile: option.
+	* src/Mono.WebServer/AssemblyInfo.cs (AssemblyKeyFile): Disable.
+
+2005-05-30 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in:
+	* server/MonoWorkerRequest.cs:
+	* server/ModMonoWorkerRequest.cs:
+	* server/XSPWorkerRequest.cs:
+	* server/Tracing.cs:
+	* server/BaseRequestBroker.cs:
+	* server/ApplicationServer.cs:
+	* server/BaseApplicationHost.cs:
+	* server/LingeringNetworkStream.cs:
+	* server/Makefile.am:
+	* server/IWebSource.cs:
+	* server/Mono.WebServer:
+	* server/Mono.WebServer/AssemblyInfo.cs:
+	* server/Mono.WebServer/Makefile.am:
+	* server/IApplicationHost.cs:
+	* server/Mono.WebServer/*: moved Mono.WebServer.dll files into a new
+	directory.
+
+2005-05-16 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: HEAD is now 1.1.x
+	* server/AssemblyInfoModMono.cs.in:
+	* server/XSPApplicationHost.cs:
+	* server/InitialWorkerRequest.cs:
+	* server/AssemblyInfo.cs.in:
+	* server/Makefile.am:
+	* server/server.cs: this is now Mono.WebServer.dll. xsp.exe is there
+	just to pass the options to the new assembly. Most of the patch by
+	Brian Ritchie.
+
+2005-05-08 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/MonoWorkerRequest.cs: call the EndOfSend notification when
+	the request is told to be ended.
+
+2005-05-07  Ben Maurer  <bmaurer@ximian.com>
+
+	* configure.in: put the full path to mono in RUNTIME
+	* */Makefile.am: s.$libdir.$prefix/lib, since that's what mono
+	uses. Also, for scripts, use RUNTIME rather than just `mono'.
+
+2005-05-07 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoWorkerRequest.cs: implemented IsClientConnected.
+	* server/ModMonoRequest.cs: added IsConnected and increased version
+	number.
+
+	* server/BaseRequestBroker.cs:
+	* server/ModMonoApplicationHost.cs: Close the current connection before
+	stopping the server when a shutdown request is received.
+	* server/XSPApplicationHost.cs:
+	* server/IWebSource.cs: IsConnected is now part if IWorker interface.
+
+2005-05-03  Ben Maurer  <bmaurer@ximian.com>
+
+	* configure.in: 1.0.9
+
+2005-04-27 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoWorkerRequest.cs:
+	* server/XSPWorkerRequest.cs:
+	* server/ModMonoRequest.cs: Default -> DefaultInvariant. Also don't
+	send a FLUSH command to mod_mono, as it's ignored.
+
+2005-04-20 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPWorkerRequest.cs:
+	* server/XSPApplicationHost.cs: fix warnings and ensure we call Close
+	if an error happens when writing to the stream.
+
+2005-04-19 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoWorkerRequest.cs:
+	* server/XSPWorkerRequest.cs: we can set a few server variables here.
+
+	* server/ApplicationServer.cs: remove the socket from the active list
+	on timeout so that we don't attempt to use it and delay the error.
+
+2005-04-01 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ApplicationServer.cs: use a foreground thread to stop the
+	server instead of one from the threadpool. Patch from Rob Lyon that
+	fixes bug #73357.
+
+2005-03-18 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoApplicationHost.cs: the lockfile is to be removed even
+	for TCP sockets. Also return immediately if the module wants us to
+	die.
+
+	* server/ApplicationServer.cs: call Dispose on the web source so that
+	removing the lockfile and the unix socket is done asap.
+
+	* server/XSPApplicationHost.cs: added empty Dispose().
+	* server/IWebSource.cs: IWebSource inherits from IDisposable now.
+
+	This fixes bug #73619.
+
+2005-03-18 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/InitialWorkerRequest.cs: prevent empty lines before the
+	actual request from causing an error. Fixes bug #73048.
+
+2005-03-05 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoApplicationHost.cs: don't print the exception to apache
+	logs so that connection probing does not polute them.
+
+2005-03-05 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ApplicationServer.cs: prevent premature stop from mod_mono from
+	not doing the clean up. Patch from Rob Lyon.
+
+2005-03-05 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/server.cs: fix lockfile name generation. Patch by Mike Lasky.
+	Closes bug #73234.
+
+2005-03-02 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoApplicationHost.cs: ensure we close the stream to the
+	mod_mono socket after Decline, NotFound and in Close. Thanks to Mike
+	Lasky for spotting the bug.
+
+2005-02-24 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: mktemp failed on *BSD.
+
+2005-02-20 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoApplicationHost.cs:
+	* server/ModMonoTCPWebSource.cs:
+	* server/server.cs: use a FileStream as a lock to prevent running
+	more than one mod-mono-server with the same arguments.
+
+2005-02-20 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* Released 1.0.6
+
+2005-02-11 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoWorkerRequest.cs: override IsSecure and implement it.
+	Part of the fix for bug #71680.
+
+2005-02-11 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: detect if gmcs actually works. Patch by Robert Jordan.
+
+2005-02-08  Raja R Harinath  <rharinath@novell.com>
+
+	* test/2.0/treeview/Makefile.am (install-data-hook,uninstall-hook): 
+	Support $(DESTDIR).
+
+2005-02-04 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoWorkerRequest.cs:
+	* server/XSPWorkerRequest.cs: now they use a common method to get the
+	pathinfo and pathinfo works with apache too.
+
+	* server/ModMonoRequest.cs: when there's a version mismatch, print it
+	everywhere so that it gets to apache logs.
+
+	* server/ApplicationServer.cs: new Paths class containing a method for
+	getting the path and pathinfo from an uri.
+
+	* server/InitialWorkerRequest.cs: no pathinfo computation here.
+	* server/XSPApplicationHost.cs: removed pathinfo parameter.
+
+	* server/Makefile.am: xsp2.exe was being installed to xsp directory !?
+
+2005-02-01 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ApplicationServer.cs: added BadRequest () to HttpErrors.
+	* server/XSPApplicationHost.cs: if there's a failure reading the
+	request, write back a 400 error to the client. Patch by Russ Young.
+
+2005-01-26  Lluis Sanchez Gual <lluis@ximian.com>
+
+	* configure.in: Added masterpages test directory.
+	* test/2.0/masterpages: New master page tests.
+	* test/2.0/menu/menu1.aspx: Updated.
+
+2005-01-21 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPWorkerRequest.cs: if the headers have not been sent and
+	someone closes the connection, don't try to reuse it. Discovered thanks
+	to buggy user code.
+
+2005-01-20 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ApplicationServer.cs: locks in SocketPool. Fixes bug #70388.
+
+2005-01-20 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in:
+	* server/Makefile.am: don't build mod-mono-server if compiling with csc.
+
+2005-01-20  Lluis Sanchez Gual <lluis@ximian.com>
+
+	* configure.in: Added new test makefiles.
+
+2005-01-20  Lluis Sanchez Gual  <lluis@ximian.com>
+
+	* server/InitialWorkerRequest.cs: Fix parsing of PathInfo.
+
+2005-01-19 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPWorkerRequest.cs: when Content-Length is set only allow
+	sending that amount of bytes in the body. Fixes bug #71092.
+
+2005-01-13  Raja R Harinath  <rharinath@novell.com>
+
+	* server/MonoWorkerRequest.cs: Update to compile with the stricter
+	name-resolution of MCS.
+
+2004-12-21 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPWorkerRequest.cs:
+	* server/XSPApplicationHost.cs: 
+	* server/LingeringNetworkStream.cs: the connection is now closed if we
+	get an error writing to the socket.
+
+2004-12-15  Raja R Harinath  <rharinath@novell.com>
+
+	* server/Makefile.am (CLEANFILES): Clean up *.exe and *.mdb.
+	* tools/dbsessmgr/Makefile.am (EXTRA_DIST): Add dbsessmgr2.exe.config.
+	(CLEANFILES): Clean up *.exe and *.mdb.
+	* tools/asp_state/Makefile.am (EXTRA_DIST): Add asp-state2.exe.config.
+	(CLEANFILES): Clean up *.exe and *.mdb.
+	* scripts/Makefile.am (CLEANFILES): Fix typos.  Clean up all the scripts.
+
+2004-12-13 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in:
+	* server/Makefile.am: if gmcs is available, build xsp2.exe and
+	mod-mono-server2.exe using the 2.0 assemblies.
+
+2004-12-11 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPApplicationHost.cs: first remove the socket, then close it.
+	Seems like the GetHashCode method returns a different value after the
+	socket is closed. Fixes bug #70449.
+
+2004-12-10  Raja R Harinath  <rharinath@novell.com>
+
+	* doc/Makefile.am (mod-mono-server.1): Fix non-srcdir build.
+	* scripts/Makefile.am ($(bin_SCRIPTS)): Likewise.
+	* server/Makefile.am (xsp_only): Remove AssemblyInfo.cs.in.
+	(xsp_build_sources): Add AssemblyInfo.cs.
+	(modmono_only): Remove AssemblyInfoModMono.cs.in.
+	(modmono_build_sources): Add AssemblyInfoModMono.cs.
+	(EXTRA_DIST): Add AssemblyInfo.cs.in and AssemblyInfoModMono.cs.in.
+	(xsp.exe, mod-mono-server.exe): Remove GNU-makeism.
+
+2004-12-10 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPApplicationHost.cs: don't print IOExceptions caused by
+	socket read/write errors and don't send back a 500 error on IOExceptions
+	or error reading request line. Fixes bug #70391.
+
+2004-12-07 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPWorkerRequest.cs: if we don't have a Content-Length, force
+	closing the connection.
+
+2004-12-02 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPWorkerRequest.cs: this typo prevented the underlying
+	sys.web from knowing the real http version used. If you've seen stack
+	traces showing ChunkStream when running *xsp*, that's over now.
+
+2004-11-24 Alp Toker <alp@atoker.com>
+
+	* server/XSPApplicationHost.cs: remove slash.
+
+2004-11-24 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/MonoWorkerRequest.cs:
+	* server/ModMonoWorkerRequest.cs:
+	* server/XSPWorkerRequest.cs:
+	* server/ModMonoRequest.cs:
+	* server/BaseRequestBroker.cs:
+	* server/AssemblyInfoModMono.cs.in:
+	* server/ModMonoApplicationHost.cs:
+	* server/ApplicationServer.cs:
+	* server/InitialWorkerRequest.cs:
+	* server/BaseApplicationHost.cs:
+	* server/XSPApplicationHost.cs:
+	* server/ModMonoTCPWebSource.cs:
+	* server/AssemblyInfo.cs.in:
+	* server/LingeringNetworkStream.cs:
+	* server/server.cs:
+	* server/IWebSource.cs:
+	* server/IApplicationHost.cs:
+	* COPYING: relicensed under MIT style license.
+
+2004-11-24 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPWorkerRequest.cs: max. line length for headers is now 8kB.
+
+	* server/ApplicationServer.cs: don't Exit in Stop(). Call the new 
+	AppHost.Unload instead of just AppDomain.Unload, as that does not seem
+	to trigger the Application_End event under MS runtime. Fixes bug #68709.
+
+	* server/BaseApplicationHost.cs: new method Unload() that calls
+	HttpRuntime.UnloadAppDomain for the current application.
+
+	* server/InitialWorkerRequest.cs: maximum length for the request line
+	is now 8kB.
+
+	* server/IApplicationHost.cs: added Unload() to the interface.
+
+2004-11-21 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/global.asax: added code here.
+	* doc/xsp.1.in: added information on --terminate and <enabled>
+	for .webapp files.
+	
+	* test/sample.webapp: aded <enabled>
+	* server/ApplicationServer.cs: don't bail out if the directory given in
+	--appconfigdir does not exist. If the <enabled> no exists and is
+	'false', don't set up that application.
+
+2004-11-21 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoApplicationHost.cs: support for --terminate. Ensure that
+	no one else is listening on the same unix socket.
+	* server/ModMonoTCPWebSource.cs: support for --terminate.
+	* server/server.cs: added --terminate option to mod-mono-server. You
+	can use it to gracefully terminate a running mod-mono-server.
+
+2004-11-12 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: remove MKDIR_P
+	* server/InitialWorkerRequest.cs: don't print the exception if the
+	stream is not reused.
+	* autogen.sh: aclocal goes first.
+
+2004-11-11 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPWorkerRequest.cs: if the client is HTTP/1.1 or sends a
+	keep-alive connection header, we keep the connection opened for 15
+	seconds waiting for more requests.
+	* server/ApplicationServer.cs: Modified file.
+	* server/InitialWorkerRequest.cs: throw a different exception if
+	something fails reading the request line.
+	* server/XSPApplicationHost.cs: Don't print errors due to socket read
+	timeout. Handle keep-alive connections.
+
+2004-11-02 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ApplicationServer.cs: workaround a bug in MS socket Select
+	implementation.
+	* server/server.cs: undo workaround for bug #65533.
+
+2004-10-29 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* Released 1.0.4.
+
+2004-10-29 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPApplicationHost.cs: redirect on directories that are not
+	the root virtual directory when the path does not end in '/'. Fixes bug
+	#68082.
+
+2004-10-17  Ben Maurer  <bmaurer@ximian.com>
+
+	* server/MonoWorkerRequest.cs (MapPath): avoid the
+	concat here.
+
+2004-10-14 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ApplicationServer.cs: set the accepted socket to Blocking.
+
+2004-10-03 Ben Maurer  <bmaurer@ximian.com>
+
+	* server/ApplicationServer.cs: use UtcNow
+
+2004-09-30 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web_regularexpressionvalidator.aspx: improved example. Patch by
+	Tomasz Rybak.
+
+2004-09-29 Ben Maurer  <bmaurer@ximian.com>
+
+	* server/LingeringNetworkStream.cs: make the byte [] buffer
+	static here. It is not of consequence what we write to the buffer
+	so we may as well cache it.
+	* server/XSPWorkerRequest.cs: Avoid String.Format related stuff,
+	just append to the stringbuilder.
+
+2004-09-28 Ben Maurer  <bmaurer@ximian.com>
+
+	* server/XSPApplicationHost.cs: rather than pass an ip addr
+	across appdomains as a string, pass it as a long. this avoids
+	the cost of making it into a string, and related allocations.
+
+2004-09-28 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ApplicationServer.cs: application server never dies.
+	* test/web_table2.aspx: added missing runat attributes.
+
+2004-09-24 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: 1.0.2.99
+
+	* server/ApplicationServer.cs: allow unloading applications. Fixed
+	warnings.
+
+	* server/BaseApplicationHost.cs: when the domain is unloaded, tell
+	the application server we don't exist any more.
+
+	* server/BaseRequestBroker.cs: added some sanity checks.
+
+	* server/IApplicationHost.cs: added Server to the interface.
+
+	* server/ModMonoRequest.cs:
+	* server/ModMonoWorkerRequest.cs:
+	* server/ModMonoApplicationHost.cs: if apache is stopping, tell the
+	application server to finish everything off.
+
+	* server/XSPWorkerRequest.cs:
+	* server/XSPApplicationHost.cs: fixed warnings.
+
+	* server/server.cs: if running interactive, unload all applications
+	before exiting.
+
+2004-09-12 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ApplicationServer.cs: make the server socket non-blocking and
+	ignore any exception on Accept.
+
+2004-09-12 Ben Maurer  <bmaurer@ximian.com>
+
+	* server/server.cs: allow for clean exit (workaround)
+	* server/XSPWorkerRequest.cs: avoid a remoting call.
+	cache MemoryStreams
+	* InitialWorkerRequest.cs: cache byte [] buffers.
+
+2004-09-04 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: added AM_MKDIR_P to make automake 1.8 happier.
+
+2004-08-31 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ApplicationServer.cs: don't set the socket timeout for
+	mod-mono-server. Apache should take care of that.
+
+	* server/BaseApplicationHost.cs:
+	* server/BaseRequestBroker.cs:
+	* server/ModMonoApplicationHost.cs: unregister the request in
+	EndOfRequest event because under heavy load HttpRuntime.ProcessRequest
+	might return immediately and queue the request for later processing.
+
+	* server/XSPApplicationHost.cs: unregister the request when redirecting
+
+	* server/MonoWorkerRequest.cs:
+	* server/ModMonoWorkerRequest.cs:
+	* server/XSPWorkerRequest.cs: RequestId is now part of
+	MonoWorkerRequest interface.
+
+2004-08-17 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ApplicationServer.cs: ignore exceptions when setting socket
+	options as there are systems that don't support them. Fixes bug #63031.
+
+2004-08-04 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* nunit-tests/standalone/Makefile.am:
+	* tools/nunitasp/source/NUnitAspTest/Makefile.am: fix distcheck on a
+	clean system and remove warnings.
+
+2004-08-04 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoWorkerRequest.cs: GetRequestHeader is case insensitive
+	now. Thanks to Jan Jaros.
+
+2004-08-02 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* Makefile.am:
+	* configure.in:
+	* nunit-tests/standalone/Makefile.am:
+	* scripts/.cvsignore:
+	* scripts/Makefile.am:
+	* scripts/script.in:
+	* server/Makefile.am:
+	* tools/asp_state/Makefile.am:
+	* tools/dbsessmgr/Makefile.am:
+	* tools/nunitasp/source/NUnitAsp/Makefile.am:
+	* tools/nunitasp/source/NUnitAspTest/Makefile.am: added xsp and
+	mod-mono-server scripts, remove .mdb files when cleaning.
+
+2004-07-30 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ApplicationServer.cs: fix host matching in presence of *.
+	Closes bug #61275.
+
+	* server/ModMonoWorkerRequest.cs: don't duplicate the slash when setting
+	a default file name that we know is not present.
+
+2004-07-29 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: 1.0.1.
+	* server/ApplicationServer.cs: don't timeout in Select when we only have
+	the listener socket. Use real times for timeout.
+
+2004-07-28 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ApplicationServer.cs: increased the backlog for listen, set
+	accepted sockets read/write timeout to 15s and handle timeouts when
+	reading request data before submitting the work item to the threadpool.
+	* server/XSPApplicationHost.cs: don't write a 500 error response if
+	we got an IOException when reading from the network stream.
+	* server/XSPWorkerRequest.cs: if there's an IOException when reading
+	the headers, just rethrow it.
+
+2004-07-19 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoApplicationHost.cs: don't write the 50x error response
+	to the stream. Just closing works and doesn't drive mod_mono crazy.
+
+2004-07-14 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/Makefile.am:
+	* test/chunked.ashx: the output of this handler should be chunked for
+	1.1 clients and 1.0 clients that send the Accept-Encoding to 'chunked'.
+
+2004-07-13 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoApplicationHost.cs:
+	* server/ModMonoRequest.cs:
+	* server/ModMonoWorkerRequest.cs: when we can't find a suitable
+	application, return NOT_FOUND to mod_mono.
+
+2004-07-10 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/Makefile.am: added ModMonoTCPWebSource.
+
+	* server/ModMonoApplicationHost.cs: in ModMonoWebSource, CreateSocket
+	is now virtual and the .ctor receives the file name as parameter.
+
+	* server/ModMonoRequest.cs: prevent absurd string sizes if the socket
+	is not in a expected state.
+
+	* server/ModMonoTCPWebSource.cs: supports mod_mono communication over
+	a TCP socket.
+
+	* server/XSPApplicationHost.cs: XSPWebSource .ctor receives address
+	and port as parameters.
+
+	* server/server.cs: updated help, handle address and port in
+	mod-mono-server. Choose TCP or unix socket IWebSource depending on the
+	arguments.
+
+2004-07-09 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPWorkerRequest.cs: made the headers Hashtable case
+	insensitive.
+
+2004-07-08 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/BaseRequestBroker.cs: Modified file.
+	* server/ModMonoRequest.cs: more data cached on first read.
+	* server/ModMonoWorkerRequest.cs: use Buffer.BlockCopy instead of
+	Array.Copy.
+
+2004-07-07 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoApplicationHost.cs: remove the unix socket file when
+	finishing.
+
+	* test/Makefile.am: added missing files.
+
+	* test/mono-xsp.css:
+	* test/index.aspx: reduced size of the generated page.
+
+2004-07-07 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoApplicationHost.cs:
+	* server/ModMonoWorkerRequest.cs:
+	* server/ModMonoRequest.cs: removed unused method/options and the
+	ack sent back after writing something. Unified setting status code
+	and message into 1 single command.
+ 
+2004-06-30 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* Released 1.0.
+
+2004-06-24 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: 0.15.99.
+	* server/ApplicationServer.cs: added method in VPathToHost that tells
+	if we're trying /xxx where xxx is a directory (ie, we need to redirec).
+
+	* server/InitialWorkerRequest.cs: don't remove trailing '/' in
+	GetSafePath ().
+
+	* server/XSPApplicationHost.cs: handle redirects and fixed nullref.
+	Closes bug #60478.
+
+	* ChangeLog: style.
+	* server/ModMonoApplicationHost.cs: splitted long lines.
+	* server/MonoWorkerRequest.cs: style.
+
+2004-06-20  Lluis Sanchez Gual  <lluis@ximian.com>
+
+	* IApplicationHost.cs: Added RequestBroker property to IApplicationHost.
+	  The application host will query for information through this object,
+	  which lives in the main domain.
+	  
+	* Makefile.am: Added new files.
+	
+	* ModMonoRequest.cs: Added position parameter in SendResponseFromMemory,
+	so we can send partially filled buffers.  GetClientBlock(): Some checks
+	that where done in ModMonoWorkerRequest have been moved here. We can
+	avoid two cross-app domain calls in this way.  Merged SetStatusCode and
+	SetStatusLine into SetStatusCodeLine. We avoid another cross-app domain
+	call.
+	  
+	* ModMonoWorkerRequest.cs: Renamed to ModMonoWorkerRequest, to make
+	things more understandable.  Removed all references to ModMonoRequest.
+	All request information is now available as input parameters or through
+	the IRequestBroker.  Some old calls to ModMonoRequest have been merged
+	into a single IRequestBroker call, to avoid the overhead of a cross-app
+	domain call.
+	  
+	* XSPApplicationHost.cs: Most of the code has been moved to other
+	classes:
+	  ApplicationServer, WebSource, XSPWebSource, ModMonoWebSource...
+	  
+	* XSPWorkerRequest.cs: Removed dependency to RequestData, since passing
+	it through the cross-app domain channel requires serialization support.
+	The same information is passed as primitive parameters.  In general,
+	calls to the network stream are now done through the IRequestBroker.
+	  
+	* server.cs: Create the ApplicationServer by providing a
+	ModMonoWebSource or a XSPWebSource instance.
+	  
+	* ApplicationServer.cs: New file. Moved here the old
+	XSPApplicationServer.  Almost all code is now shared between XSP and
+	mod_mono. Specific behavior is now encapsulated in an IWebSource object.
+	  
+	* LingeringNetworkStream.cs: New file. Moved here the old
+	MyNetworkStream.
+	
+	* BaseApplicationHost.cs: New file. Moved here the old
+	XSPApplicationHost.
+	
+	* WebSource.cs: New file. Defines the IWebSource and IWorker interfaces.
+	
+	* XSPApplicationHost.cs: New file. Provides an implementation for XSP
+	of a IWebSource, an IRequestBroker, an IApplicationHost and an IWorker.
+	  
+	* ModMonoApplicationHost.cs: New file. Provides an implementation for 
+	mod_mono of a IWebSource, an IRequestBroker, an IApplicationHost and an 
+	IWorker.
+
+2004-06-19  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/Makefile.am: install extensions.dll into test directory so that
+	ServiceClient.exe runs fine.
+
+2004-06-15 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/favicon.ico:
+	* test/index.aspx:
+	* test/mono-powered-big.png:
+	* test/mono-xsp.css:
+	* test/monobutton.png:
+	* test/small-icon.png: better appearance. Patch from Antonio Ognio.
+
+2004-06-14 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPApplicationHost.cs: allow wilcard for vhosts, fixed matching
+	of /xxx when we have a vhost for /xxx/, matching moved to VPathToHost
+	class and improved. When creating a new host, lock on the VPathToHost
+	object, not the entire array of vhosts.
+
+	* server/server.cs: don't allow duplicated options passed in the command
+	line. No need to wait on a handle when --nonstop. Just make the runner
+	thread have IsBackGround to false and finish the main one.
+
+2004-06-12 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/dbpage1.aspx:
+	* test/dbpage2.aspx: fixed connection leaks by adding a Page_Unload
+	method that closes the connection.
+
+2004-06-11 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/Makefile.am: added typedesc.*
+	* test/typedesc.(aspx|cs): sample test control showing how a Type that
+	has a TypeDescriptor can be saved/restored to/from ViewState.
+
+2004-06-10  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoWorkerRequest.cs: only send the Close to the module
+	once.
+
+	* server/XSPApplicationHost.cs: added new class MyNetworkStream that
+	handles lingering close for xsp standalone like apache does. Fixes
+	bug #59688. BIG THANKS to David Taylor.
+
+	* server/XSPWorkerRequest.cs: ensure we read all the data requested for
+	the request body. Only call stream.Close once.
+
+2004-06-05  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web.config: commented out gzip and mono.aspnet. It's
+	causing troubles some times.
+2004-06-03  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* doc/xsp.1.in:
+	* server/server.cs: don't flag --applications as deprecated.
+
+2004-06-03  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/serial.aspx: test that I used when gathering information
+	to fix bug #59495.
+
+2004-06-02  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* INSTALL: added note for windows users.
+	* configure.in: 0.14.99
+	* server/InitialWorkerRequest.cs: UrlDecode the path and check
+	safety.  Fixes bug #59429.
+
+2004-06-02  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* Released 0.14
+
+2004-05-30  Jackson Harper  <jackson@ximian.com>
+
+	* configure.in: 
+	* doc/.cvsignore:
+	* doc/Makefile.am:
+	* doc/asp_state.1.in: Add asp_state man page.
+	
+2004-05-28  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in:
+	* doc/.cvsignore:
+	* doc/Makefile.am:
+	* doc/dbsessmgr.1.in:
+	* doc/xsp.1.in: added dbsessmgr manual page.
+
+	* nunit-tests/standalone/Makefile.am:
+	* tools/dbsessmgr/AssemblyInfo.cs.in:
+	* tools/nunitasp/source/NUnitAsp/Makefile.am:
+	* tools/nunitasp/source/NUnitAspTest/Makefile.am: build fixes.
+
+	* tools/asp_state/asp_state.exe.config: added ?xml stuff.
+	* tools/dbsessmgr/dbsessmgr.cs: use LoadWithPartialName.
+
+2004-05-28  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* INSTALL:
+	* README: updated.
+
+2004-05-28  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* doc/xsp.1.in: added .webapp file format details and updated.
+	* server/server.cs: UnixSocketFileName -> MonoUnixSocket. Mark
+	--applications as deprecated.
+
+2004-05-26  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPWorkerRequest.cs: only support HTTP 1.0 in xsp.exe.
+
+2004-05-20  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/AssemblyInfo.cs.in:
+	* server/AssemblyInfoModMono.cs.in: upadted year.
+	* server/InitialWorkerRequest.cs: don't UrlDecode the path at this
+	stage.
+
+2004-05-19  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* NEWS:
+	* README: updated.
+
+	* configure.in:
+	* doc/Makefile.am:
+	* doc/xsp.1.in: updated manual page and install the same one for
+	mod-mono-server.
+
+	* doc/xsp.1: Removed.
+
+2004-05-19  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/Makefile.am: InitialWorkerRequest.cs is only needed for xsp.
+
+	* server/XSPApplicationHost.cs:
+	* server/server.cs: support for virtual hosts in mod-mono-server by
+	Jaroslaw Kowalsky.
+
+	* test/Makefile.am:
+	* test/datalist.aspx:
+	* test/sample.webapp: added new files.
+
+2004-05-14  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* ChangeLog: forgot an entry.
+
+	* configure.in: 0.13.99
+	* test/tabcontrol.cs: don't try to serialize a StateBag.
+
+2004-05-06  Sebastien Pouliot  <sebastien@ximian.com>
+
+	* INSTALL: Removed notes about RNG on Windows as this had been fixed
+	for some times.
+
+2004-05-04  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/dbpage1.aspx:
+	* test/dbpage2.aspx:
+	* test/mod-mono-server.exe.config:
+	* test/web.config: don't use the deprecated Mono.Data.PostgresqlClient,
+	but Npgsql.
+
+2004-05-03  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/Makefile.am: install the sample dlls to the right place. Thanks
+	to Pablo Baena.
+
+2004-05-03  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* tools/nunitasp/source/NUnitAspTest/Makefile.am: fixed distcheck and
+	don't install NUnitAspTest.dll.
+
+2004-05-03  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* INSTALL: added note on building using CSC.
+
+	* test/mod-mono-server.exe.config:
+	* test/web.config: use Version and PublicKeyToken where applicable.
+
+2004-04-22  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* NEWS:
+	* ChangeLog: updated.
+
+	* server/ModMonoWorkerRequest.cs: fixed buglet that made unknown headers
+	not pass from mod_mono to System.Web. Shame on me.
+
+2004-04-21  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoWorkerRequest.cs: fixed PathInfo for mod_mono. Smells
+	like a new release.
+
+	Released 0.11.
+
+2004-04-21  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* NEWS: updated.
+	* server/ModMonoRequest.cs:
+	* server/ModMonoWorkerRequest.cs: marshal 2 string arrays instead of
+	a Hashtable for request headers.
+
+	Released 0.10.
+
+2004-04-08  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoWorkerRequest.cs: try the default index pages as the
+	standalone xsp does.
+
+2004-04-06  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* AUTHORS:
+	* configure.in:
+	* nunit-tests/Makefile.am:
+	* nunit-tests/standalone/Makefile.am:
+	* server/Makefile.am:
+	* test/.cvsignore:
+	* test/Makefile.am:
+	* test/TestService.asmx:
+	* test/authtest/.cvsignore:
+	* test/authtest/Makefile.am:
+	* tools/asp_state/.cvsignore:
+	* tools/asp_state/Makefile.am:
+	* tools/dbsessmgr/.cvsignore:
+	* tools/dbsessmgr/Makefile.am:
+	* tools/nunitasp/source/Makefile.am:
+	* tools/nunitasp/source/NUnitAsp/.cvsignore:
+	* tools/nunitasp/source/NUnitAsp/Makefile.am:
+	* tools/nunitasp/source/NUnitAsp/AspTester/.cvsignore:
+	* tools/nunitasp/source/NUnitAsp/AspTester/Makefile.am:
+	* tools/nunitasp/source/NUnitAsp/HtmlTester/.cvsignore:
+	* tools/nunitasp/source/NUnitAspTest/.cvsignore:
+	* tools/nunitasp/source/NUnitAspTest/Makefile.am:
+	* tools/nunitasp/source/NUnitAspTest/AspTester/.cvsignore:
+	* tools/nunitasp/source/NUnitAspTest/AspTester/Makefile.am:
+	* tools/nunitasp/source/NUnitAspTest/HtmlTester/.cvsignore: makefile
+	love. distcheck works now. Fixes bug #53652.
+
+	* nunit-tests/standalone/Makefile.in:
+	* server/Makefile.in:
+	* test/Makefile.in:
+	* tools/asp_state/Makefile.in:
+	* tools/dbsessmgr/Makefile.in:
+	* tools/nunitasp/source/NUnitAsp/Makefile.in:
+	* tools/nunitasp/source/NUnitAspTest/Makefile.in: removed
+
+2004-04-04  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/MonoWorkerRequest.cs: HostVPath treated as HostVPath + "/".
+
+	* server/XSPApplicationHost.cs: replaced CR by CRLF in error messages
+	sent to the client. Close the connection if we're writing an error.
+
+	* server/XSPWorkerRequest.cs: replaced CR by CRLF and added the server
+	header to the error.
+
+	* server/server.cs: removed useless line.
+
+2004-03-22  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoWorkerRequest.cs: really close the opened connection.
+	Patch from Jan Jaros.
+
+2004-01-16  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoWorkerRequest.cs: apply the same changes as in
+	XSPWorkerRequest.cs related to PathInfo. Patch by Chris Turchin.
+	This makes blogx work with mod_mono.
+
+2004-01-08  Martin Willemoes Hansen  <mwh@sysrq.dk>
+
+	* test/web_adrotator.xml: Added a ad for Mono, now the
+	  control realy shows its rotation capability.
+
+2004-01-03  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* Makefile.am: added nunit-tests to SUBDIRS.
+	* server/Makefile.in:
+	* test/Makefile.in:
+	* tools/asp_state/Makefile.in:
+	* tools/dbsessmgr/Makefile.in:
+	* tools/nunitasp/source/NUnitAsp/Makefile.in:
+	* tools/nunitasp/source/NUnitAspTest/Makefile.in: added distclean
+	target.
+
+2003-12-16  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/server.cs: beutified error on --address argument. Fixes bug
+	#52208.
+
+2003-12-11  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in:
+	* nunit-tests/Makefile.am:
+	* nunit-tests/standalone/Makefile.in:
+	* nunit-tests/standalone/bug51682-1.aspx:
+	* nunit-tests/standalone/bug51682-1.cs: added first standalone test.
+
+2003-12-11  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in:
+	* tools/Makefile.am: added nunitasp to the build.
+
+2003-12-02  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* Released 0.8.
+
+2003-11-26  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/MonoWorkerRequest.cs: added EndOfRequestEvent and invoke it
+	in the override of EndOfRequest.
+
+	* server/XSPApplicationHost.cs: use the new event and close the socket
+	when notified of request end. This makes xsp work under heavy load too,
+	when HttpRuntime.ProcessRequest returns inmediately.
+
+2003-11-24  Jackson Harper <jackson@ximian.com>
+
+	* tools/asp_state/asp_state.exe.config: Use same port as MS, load
+	the RemoteStateServer from System.Web.
+	
+2003-11-24  Jackson Harper <jackson@ximian.com)
+
+	* tools:
+	* tools/Makefile.am: Add tools directory, this will contain, umm tools.
+	* tools/asp_state:
+	* tools/asp_state/asp_state.cs:
+	* tools/asp_state/Makefile.in:
+	* tools/asp_state/AssemblyInfo.cs.in:
+	* tools/asp_state/asp_state.exe.config:An ASP.NET State server.
+	* Makefile.am:
+	* configure.in: Add tools to the build.
+	
+2003-11-18  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoRequest.cs: cache the result of the first (and unique)
+	SetupClientBlock. Return false when should not block.
+
+	* server/ModMonoWorkerRequest.cs: removed staled stuff. First do a
+	'should' and then setup the client block.
+
+
+2003-11-17  Duncan Mak  <duncan@ximian.com>
+
+	* server/Makefile.in (LOCAL_BIN_DIR):
+	* test/Makefile.in (SAMPLES_DIR, SAMPLES_BIN_DIR): Use
+	$(DESTDIR)$(prefix) instead of @prefix@. This is needed for the
+	build system.
+
+2003-11-16  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* doc/xsp.1: updated.
+
+	* server/AssemblyInfo.cs.in:
+	* server/AssemblyInfoModMono.cs.in: Novell.
+
+	* server/server.cs: handle wrong --root directories.
+
+2003-11-05  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoWorkerRequest.cs: no need to create a full WorkerRequest
+	when we just want to get the uri information.
+
+	* server/XSPApplicationHost.cs: removed workaround for the bug.
+
+2003-10-28  Pedro Martínez Juliá  <pedromj@gmail.com>
+
+	* server/XSPApplicationHost.cs: add a few lines to set the domain
+	data requested by XSPWorkerReqest (SimpleWorkerRequest). These are
+	garbage lines because they are used only for the main application
+	and there must be other way to get mod-mono-server working without
+	this little hack.
+
+	* test/Makefile.in: add "*.inc" and "*.xsl" to the install wildcard
+	list. These files are needed by other "*.aspx" files.
+
+2003-10-23  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/IApplicationHost.cs: reduced to the minimum.
+
+	* server/ModMonoRequest.cs: removed unused Hashtable and make the
+	headers hashtable case insensitive.
+
+	* server/XSPApplicationHost.cs: new class HttpErrors. Splitted
+	XSPApplicationHost. Now there's a XSPApplicationServer which does the
+	server work and creates the XSPApplicationHosts. Lock when adding new
+	applications to dirToHost (thanks Lluis!)
+	
+	* server/server.cs: use XSPApplicationServer.
+
+2003-10-09  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/InitialWorkerRequest.cs: reduced up to the minimum needed
+	before it's serialized, as suggested by Lluis.
+	* server/XSPApplicationHost.cs: make worker serializable again. Fixes
+	bug #49354.
+	* server/XSPWorkerRequest.cs: read the headers here.
+
+2003-10-06  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: output the assemblyinfos too.
+	* doc/Makefile.am: extradist.
+	* server/AssemblyInfoModMono.cs.in: for mod-mono-server.
+	* server/InitialWorkerRequest.cs: PathInfo should work now.
+	* server/Makefile.in: use the assemblyinfo*.in files.
+	* server/server.cs: added --version.
+	* test/Makefile.in: simplified.
+
+2003-10-05  Pedro Martínez Juliá  <pedromj@gmail.com>
+
+	* test/index.aspx: change directory where files are searched because
+	if test directory is not the root directory of the server, the index
+	page will have other files.
+
+2003-10-04  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in:
+	* doc/Makefile.am:
+	* server/Makefile.in:
+	* test/Makefile.in: use automake.
+
+	* Makefile.in:
+	* doc/Makefile.in: Removed files.
+
+2003-10-04  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* Makefile.in: fix dist target.
+	* server/XSPApplicationHost.cs: re-added line removed by mistake.
+	* server/server.cs: added --nonstop argument to allow xsp be run with
+	no controlling tty.
+
+2003-10-03  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* INSTALL: updated.
+	* NEWS: updated.
+
+	* Makefile.in:
+	* doc/Makefile.in:
+	* server/Makefile.in:
+	* test/Makefile.in:
+	* autogen.sh:
+	* configure.in: do a real dist target. Make it work on windows.
+	
+	* server/ModMonoRequest.cs: read basic request data upon connection.
+	* server/ModMonoWorkerRequest.cs: implemented GetUnknownHeaders.
+	* server/MonoWorkerRequest.cs: minimize cross-appdomain calls.
+	* server/XSPApplicationHost.cs: Worker is now MarshalByRef, not
+	[Serializable]. Set the server thread as background.
+	* server/server.cs: the server is now stopped by pressing enter. You
+	can disable this behavior with --nonstop argument.
+	* test/DefaultWsdlHelpGenerator.aspx: this has been moved to mono/data.
+
+2003-10-01  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* Makefile.in:
+	* autogen.sh:
+	* configure.in:
+	* doc/Makefile.in:
+	* server/Makefile.in:
+	* test/Makefile.in: added 'dist' target to make a tarball.
+
+2003-09-27  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPApplicationHost.cs: really add the sponsors now.
+
+2003-09-22  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* ChangeLog: unified all ChangeLog.
+
+	* NEWS:
+	* INSTALL: updated.
+
+	* Makefile:
+	* doc/Makefile.in:
+	* doc/directives-syntax.txt:
+	* doc/generated-code.txt:
+	* doc/helping.txt:
+	* server/ChangeLog:
+	* server/Makefile:
+	* server/Makefile.in:
+	* server/global.asax:
+	* server/mod-mono-server.exe.config:
+	* server/xsp.exe.config:
+	* test/ChangeLog:
+	* test/Makefile:
+	* test/Makefile.in:
+	* test/global.asax:
+	* test/mod-mono-server.exe.config:
+	* test/xsp.exe.config:
+	* test/authtest/ChangeLog: use auto* stuff forthe build and
+	unified ChangeLog.
+
+	* server/XSPApplicationHost.cs: added a couple of catches.
+
+2003-09-22  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPApplicationHost.cs: added a ISponsor for NetworkStream and
+	don't crash xsp.exe if RemoteEndPoint throws an exception.
+
+2003-09-19  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ModMonoWorkerRequest.cs: don't cache the values from
+	mod_mono_unix here...
+	* server/ModMonoRequest.cs: ...and do it here.
+	(GetClientBlock): mark the array as an Out parameter so that the
+	modified array is passed back to the caller by remoting. This fixes
+	POST when using mod_mono_unix.
+
+2003-09-18  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPWorkerRequest.cs: don't crash when no Host header is received or
+	if it has an invalid port.
+
+2003-09-14  Lluis Sanchez Gual <lluis@ximian.com>
+
+	* test/DefaultWsdlHelpGenerator.aspx. Added support for C# proxy generation.
+
+2003-09-04  Lluis Sanchez Gual <lluis@ximian.com>
+
+	* test/Added DefaultWsdlHelpGenerator.aspx.
+
+2003-09-04  Lluis Sanchez Gual <lluis@ximian.com>
+
+	* server/XSPWorkerRequest.cs: GetServerName(): reverted previous patch. There
+	was a conflict with previous changes.
+	Also modified implementation of GetLocalAddress(). It should get the
+	value from the request header.
+
+2003-09-04  Lluis Sanchez Gual <lluis@ximian.com>
+
+	* server/XSPWorkerRequest.cs: GetServerName(): return the 
+	  address of the local server.
+
+2003-08-29  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/InitialWorkerRequest.cs: removed Console...
+	* server/ModMonoRequest.cs: removed debug output.
+
+	* server/ModMonoWorkerRequest.cs: added pathinfo support.
+	* server/MonoWorkerRequest.cs: removed GetRawUrl from here.
+	* server/XSPApplicationHost.cs: read the request data needed to get the Uri.
+
+
+2003-08-29  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/InitialWorkerRequest.cs: added PathInfo support.
+	
+	* server/MonoWorkerRequest.cs: removed unused GetPathInfo. Don't cache the
+	mapped path as it may change (ie., / -> /index.aspx).
+
+	* server/XSPWorkerRequest.cs: support pathinfo. Works with MS. Always send
+	the 'Connection: close' header. Added support for GetLocal*.
+
+2003-08-27  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/InitialWorkerRequest.cs: fixed bugs 47937 and 47938.
+
+	* server/XSPApplicationHost.cs: close the socket when finished.
+
+	* server/XSPWorkerRequest.cs: small fixes in ReadEntityBody. Removed the 302
+	redirection, handle it faking the path.
+
+2003-08-26  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPApplicationHost.cs: infinite lifetime for XSPApplicationHost.
+
+2003-08-25  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/InitialWorkerRequest.cs:
+	* server/XSPWorkerRequest.cs: keep the read buffer, its length and the position
+	around (used in POST). Somehow this bug didnn't show up under MS
+	runtime.
+
+	* server/XSPApplicationHost.cs: fixed warning and commented out WriteLines.
+
+2003-08-25  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/IApplicationHost.cs: added 2 methods and 1 property to the
+	interface.
+	
+	* server/InitialWorkerRequest.cs: used to read the request data before
+	determining which application (if at all) is gonna process it.
+	
+	* server/Makefile: added new source file.
+
+	* server/ModMonoRequest.cs: removed AliasMatches and added Decline.
+
+	* server/ModMonoWorkerRequest.cs: new .ctor and Decline method that
+	tells apache that we won't handle the request.
+	
+	* server/MonoWorkerRequest.cs: variable renamed.
+
+	* server/XSPApplicationHost.cs: it can now handle multiple applications.
+	* server/XSPWorkerRequest.cs: simplified as reading the request data
+	is done in InitialWorkerRequest.
+
+	* server/xsp.exe.config:
+	* server/mod-mono-server.exe.config: added MonoApplications default
+	setting.
+
+	* server/server.cs: updated help and set the applications registered.
+	
+
+2003-08-21  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPApplicationHost.cs: handle possible exceptions in ProcessRequest.
+	* server/XSPWorkerRequest.cs: don't do any check on the verb. If an error
+	happens reading the request or the headers, send a 500 back and
+	terminate.
+
+2003-08-17  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/AssemblyInfo.cs: updated version number.
+
+2003-08-07  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPWorkerRequest.cs: write the correct number of bytes when flushing
+	the response.
+
+2003-08-01  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/monodoc.ashx: added this file that contains a couple of directives
+	plus monodoc/browser/website-handler.cs. Yeah! BenM rules.
+
+2003-08-01  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/index.aspx: also list .ashx files.
+	* test/webhandler.ashx: added new sample.
+
+2003-08-01  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/mod-mono-server.exe.config: New file.
+
+	* server/Makefile:
+	* server/ModMonoRequest.cs: new class that communicate with the new
+	mod_mono_unix apache2 module.
+
+	* server/ModMonoWorkerRequest.cs: HttpWorkerRequest for unix socket.
+
+	* server/server.cs:
+	* server/XSPApplicationHost.cs: updated for new apache2 module.
+
+2003-07-30  Sebastien Pouliot  <spouliot@videotron.ca>
+
+	* test/Makefile: Corrected extensions.dll for csc, error: Options '/out' and '/target' 
+	must appear before source file names
+
+2003-07-24  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web.config: update to new type/assembly name and make it use gzip by
+	default.
+
+2003-07-24  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/AcceptEncodingConfig.cs:
+	* server/AcceptEncodingModule.cs:
+	* server/AcceptEncodingSectionHandler.cs:
+	* server/GZipFilter.cs:
+	* server/Makefile: these .cs files have been moved to Mono.Http.dll.
+
+	* server/AssemblyInfo.cs: upgrade version.
+
+2003-07-23  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web.config: the new mono.aspnet configuration section has been added
+	and other contents from ../server/web.config file.
+
+2003-07-23  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/AcceptEncodingConfig.cs: class to hold the configuration for the
+	filters enabled in web.config.
+
+	* server/AcceptEncodingModule.cs: IHttpModule to plug the filters.
+
+	* server/AcceptEncodingSectionHandler.cs: configuration file section handler
+	for accept-encoding filters.
+
+	* server/GZipFilter.cs: sample filter for gzip encoding.
+
+	* server/Makefile: reference ICSharpCode.SharpZipLib, added new files and
+	renamed executable to xsp.exe
+
+	* server/server.exe.config: removed and renamed to...
+	* server/xsp.exe.config: ...this one.
+	* server/web.config: Removed file. It's been merged with ../test/
+
+2003-07-09  Lluis Sanchez Gual <lluis@ximian.com>
+
+	* test/README: added descrption of web service samples.
+	* test/Makefile: added compilation of extensions and service client.
+	* test/web.config: Copied from the server directory. It includes soap extension configuration.
+	* test/TestService.asmx: New file. A simple test service.
+	* test/ConverterService.asmx: New file. Currency conversion test service.
+	* test/TraceExtension.cs: New file. Trace soap extension.
+	* test/EncryptExtension.cs: New file. A Soap extension that encrypts the info.
+	* test/DumpExtension.cs: New file. Dump soap extension.
+	* test/ServiceClient.cs: New file. Web service test app.
+	* test/ServiceClient.exe.config: New file. Config file for the ServiceClient test app.
+	* test/Reference.cs: New file. Web service client proxy implementation.
+
+2003-07-09  Lluis Sanchez Gual <lluis@ximian.com>
+
+	* server/Makefile: install target: copy web service files.
+
+2003-06-20  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPWorkerRequest.cs: reverted latest Ben's patch as it causes an
+	annoying bug when testing under windows.
+
+2003-05-31  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPApplicationHost.cs:
+	* server/XSPWorkerRequest.cs: support GetRemoteName, GetRemoteAddress and
+	GetRemotePort. Fixes bug #43985.
+
+2003-05-24  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPWorkerRequest.cs: when redirecting to an index page, also use the
+	query string. Fixes bug #43598.
+
+2003-05-24  Ben Maurer <bmaurer@users.sourceforge.net>
+	* server/XSPWorkerRequest.cs: Now /foo/ does not redirect to
+	/foo/index.aspx, it just does a Response.Transfer () sort of
+	thing.
+
+2003-05-06  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/body.inc: New file.
+	* test/header.inc: New file.
+	* test/includetest.aspx: New file.
+
+2003-05-05  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPWorkerRequest.cs:
+	* server/server.cs:
+	* server/server.exe.config:
+	* server/web.config: the index files must be set in the proper AppDomain.
+	Fixes #42309.
+
+2003-05-04  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/web.config: removed server.exe keys.
+	* server/Makefile: readded server.exe.config.
+
+	* server/XSPWorkerRequest.cs:
+	* server/server.cs:
+	* server/server.exe.config: made the default index files list configurable.
+
+2003-05-03  Pedro Martínez Juliá  <pedromj@gmail.com>
+
+	* server/server.cs: new options to set listen address.
+
+2003-03-27  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/MonoWorkerRequest.cs: added a MapPathEvent that is fired before doing
+	the normal MapPath stuff and can provide alternate mappings.
+
+2003-02-17  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/Makefile: .dbg files are gone.
+
+	* server/MonoWorkerRequest.cs: fixed MapPath to deal with virtual directories.
+	* server/XSPWorkerRequest.cs: some cosmetic changes along with a fix when
+	redirecting to location page.
+
+	* server/server.cs: new options to set the root and virtual directory for the
+	application.
+
+	* server/XSPApplicationHost.cs: keep path and virtual path in instance fields.
+
+2003-02-15  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web_datagrid_command.aspx: added sample that allows deleting rows from
+	a data source.
+
+2003-02-12  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/authtest/index.aspx:
+	* test/authtest/login.aspx:
+	* test/authtest/web.config: authorization test from http://www.asp.net.
+
+2003-02-12  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPWorkerRequest.cs: when running under MS runtime, closing 'stream'
+	is required too.
+
+2003-02-06  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/MonoWorkerRequest.cs: fixed buglet in GetAppPath.
+
+2003-02-04  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/Makefile: removed installation of server.exe.config.
+	* server/XSPWorkerRequest.cs: buffered input from the socket.
+	* server/server.exe.config: Removed file. Yahoo!
+	* server/web.config: authentication mode set to Forms.
+
+2003-02-02  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/XSPWorkerRequest.cs: fixed ReadEntityBody. Thanks to Brian Ritchie.
+	Don't use a StreamReader to read from the stream cause it may buffer
+	some data. TODO -> now we're using ReadByte to read from the stream.
+	We should use Read and do some buffering.
+
+2003-01-15  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/dbpage1.aspx:
+	* test/dbpage2.aspx: make the database accessing samples take some
+	parameters from the configuration file to choose the IDbConnection
+	and documented it.
+
+2003-01-15  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/Makefile:
+	* server/server.exe.config:
+	* server/web.config: make the database accessing samples take some
+	parameters from the configuration file to choose the IDbConnection
+	and documented it.
+
+2003-01-14  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/MonoWorkerRequest.cs:
+	* server/XSPWorkerRequest.cs: moved GetUnknownHeader(s) here.
+
+2003-01-14  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/IApplicationHost.cs: 
+	* server/MonoWorkerRequest.cs: the same files as in mod_mono. They must be kept
+	in synch.
+
+	* server/XSPApplicationHost.cs: same as previous MonoApplicationHost, but
+	implements IApplicationHost.
+
+	* server/XSPWorkerRequest.cs: it derives now from MonoWorkerRequest. Removed
+	some overrides that are already present in the base class.
+
+	* server/server.cs: use XSPApplicationHost.
+
+	* server/Makefile: added/removed files to SOURCES. Install the .dbg file.
+
+	* server/MonoApplicationHost.cs: Removed file.
+
+	Now mod_mono and xsp share IApplicationHost and MonoWorkerRequest.
+
+2003-01-12  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/MonoWorkerRequest.cs: fixed GetRawUrl.
+
+2003-01-08  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web_datagrid.aspx: simple datagrid test.
+
+2003-01-07  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/registertest.aspx:
+	* test/registertest1.ascx:
+	* test/registertest2.ascx: new test for @ Register directive.
+
+2003-01-07  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/Makefile: also copy .ascx files.
+
+2003-01-06  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/Makefile: added codebehind1 test.
+	* test/codebehind1.[aspx|cs]: codebehind test by David B. Bitton
+	<david@codenoevil.com>.
+
+2002-12-20  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/MonoWorkerRequest.cs: it know handles directory requests either
+	redirecting to a / terminated url for directories or searching for one
+	of the default index files for / terminated urls.
+
+2002-12-19  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/MonoWorkerRequest.cs: changes to match recent MapPath fixing in
+	System.Web.
+
+2002-12-13  Juli Mallett  <jmallett@FreeBSD.org>
+
+	* server/Makefile, server/Makefile, src/Makefile: Spell `make' as `$(MAKE)'.
+	* server/README: Fix typo.
+
+2002-12-12  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/AssemblyInfo.cs: New file.
+	* server/Makefile: added AssemblyInfo.cs.
+	* server/MonoWorkerRequest.cs: create Server header from assembly attributes.
+	Thanks to alp and danmorg. Some path handling fixes and kludges.
+
+2002-12-10  Alp Toker <alp@atoker.com>
+
+	* server/server/MonoWorkerRequest.cs: send a 'Server' HTTP header
+
+2002-12-05  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/server/Makefile: updated.
+	* server/server/MonoWorkerRequest.cs: give credits to Opless (Simon White).
+	* server/server/server.cs: get the port from a config file.
+	* server/server/server.exe.config: configuration file.
+	* server/server/web.config: added appSettings.
+
+2002-11-24  Daniel Morgan <danmorg@sc.rr.com>
+
+	* test/dbpage1.aspx: modify to dynamically load
+	the Mono.Data.PostgreSqlClient assembly
+	and Connection class
+	Mono.Data.PostgreSqlClient.PgSqlConnection.  This is
+	a temporary solution until global.asax has support for this.
+
+2002-10-31  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/MonoWorkerRequest.cs: use a default encoding without markers.
+	* server/server.cs: Trace output goes to Console.Out.
+
+2002-10-27  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/Makefile: added Tracing.cs
+
+	* server/MonoApplicationHost.cs: use WebTrace.
+	
+	* server/MonoWorkerRequest.cs: use WebTrace. Also changed FlushResponse. Now
+	it outputs correctly the status and the headers.
+	
+	* server/Tracing.cs: new file. Almost the same as System.Web.Util.WebTrace.
+	It's used to get some output under MS runtime, which disables normal
+	tracing for System.Web.
+
+	* server/server.cs: removed Trace stuff.
+
+2002-10-23  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/Makefile: used to build the .cs files for user controls.
+
+2002-10-23  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/Makefile: added 'trace' target.
+	* server/index.aspx: removed file added by mistake.
+
+2002-10-22  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* server/ChangeLog:
+	* server/Makefile:
+	* server/MonoApplicationHost.cs:
+	* server/MonoWorkerRequest.cs:
+	* server/global.asax:
+	* server/index.aspx:
+	* server/server.cs:
+	* server/web.config: new web server that uses ASP.NET hosting capabilities.
+	It works with MS runtime and will be used to debug our classes from
+	now on. xsp/src/* is now obsoleted and will stop working some time soon.
+
+2002-09-27  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/databind-arraylist.aspx: fixed variable name.
+
+	* test/htmlimage.aspx:
+	* test/htmlinputimage.aspx:
+	* test/tabcontrol2.aspx:
+	* test/web_adrotator.xml:
+	* test/web_hyperlink.aspx:
+	* test/web_image.aspx:
+	* test/web_imagebutton.aspx: modify the img url. Ximian site changed.
+
+2002-09-04  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/index.aspx: now we have a working Path...
+
+2002-08-12  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/dbpage2.aspx: fixes to make mcs happy.
+
+2002-08-01  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/temperature.aspx: Duncan asked for this temperature converter.
+
+2002-07-31  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web_dropdownlist.aspx: New file.
+
+2002-07-28  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/mono.png: image for the index page.
+	* test/index.aspx: index.aspx page which shows the list of available .aspx
+	files in the current directory. Contributed by Alp Toker.
+
+	* test/validator1.aspx: first validator test working!
+
+2002-07-23  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/dbpage2.aspx: new sample. It uses tabcontrol2 and sets up a page
+	with 4 tabs (Browse, Insert, Update, Delete) for maintenance of a simple
+	PostgreSQL database using ADO.NET.
+
+2002-07-22  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/tabcontrol.aspx: removed .dll extension from assembly file name.
+
+	* test/tabcontrol2.aspx: now it does not set up the contents of each tab
+	programatically. It uses <Mono:TabContent...>.
+
+	* test/tabcontrol2.cs: added TabContent control. TabContent can contain any
+	control (excluding HtmlForm, of course). Modified Tabs2 to use
+	TabContent and maintaining state of all tabs.
+
+2002-07-21  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/tabcontrol2.aspx: page to test tabcontrol2.cs
+
+	* test/tabcontrol2.cs: almost the same as tabcontrol1, but this one handles
+	postback events an stores a ControlCollection associatted to each tab.
+
+2002-07-21  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/tabcontrol.aspx: sample using a user control that allows modifying
+	its properties and display the resulting control.
+
+	* test/tabcontrol.cs: the user control for the above page. It must be
+	compiled and the dll copied to output directory if testing with our
+	test server.
+
+2002-07-06  Gonzalo Paniagua Javier <gonzalo@gnome-db.org>
+
+	* test/dbpage1.aspx: displays data from a database in a Table.
+
+2002-07-03  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/server-side-object.aspx: New file.
+
+2002-06-29  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/session1.aspx: used to play with session tracking.
+
+2002-06-20  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web_repeater.aspx: rendered ok. Includes data binding!
+
+2002-06-19  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web_radiobuttonlist.aspx: another one.
+
+2002-06-18  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web_checkboxlist.aspx: New file. Still have to fix the Name property
+	to assign name attribute depending on parent name.
+
+2002-06-18  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web_listbox.aspx: new file rendered ok.
+
+2002-06-17  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web_table.aspx: New file. Renders Table, TableRow and TableCell.
+
+2002-06-16  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web_panel.aspx: New file.
+
+2002-06-12  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web_radiobutton.aspx:
+	* test/web_textbox.aspx: 2 more.
+
+2002-06-12  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web_imagebutton.aspx: rendered ok.
+
+2002-06-12  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web_linkbutton.aspx: 17 more to go!
+
+2002-06-12  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web_label.aspx: fixed cut&paste error in title.
+
+	* test/web_literal.aspx:
+	* test/web_placeholder.aspx: New files.
+
+2002-06-12  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web_label.aspx: one more.
+
+2002-06-12  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web_button.aspx:
+	* test/web_checkbox.aspx: another couple rendered ok.
+
+2002-06-11  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/web_adrotator.aspx:
+	* test/web_hyperlink.aspx:
+	* test/web_image.aspx: new tests that render fine with our System.Web.
+
+	* test/web_adrotator.xml: needed by web_adrotator.aspx.
+
+2002-06-09  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/htmltable.aspx:
+	* test/htmltextarea.aspx: New files. Rendered ok.
+
+2002-06-09  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/htmlselect.aspx: another one that is rendered by our System.Web.
+
+2002-06-06  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/htmlinputbutton.aspx: New file. Renders fine with our System.Web.
+	* test/htmlinputcheckbox.aspx: another one.
+	* test/htmlinputfile.aspx: another one.
+
+2002-06-05  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/htmlimage.aspx: New file. Renders fine with our System.Web.
+
+2002-06-05  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/htmlanchor.aspx: New file.
+	* test/htmlbutton.aspx: New file.
+	* test/htmlgeneric.aspx: New file.
+
+	These render fine using xsp + server + mono System.Web.
+
+2002-05-25  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/code-render.aspx: new file.
+
+2002-05-24  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/databind-attribute.aspx: new file.
+
+2002-05-22  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/databind-template.aspx: added another template (previously, this
+	failed to generate proper code).
+
+2002-05-22  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/databind-template.aspx: new file.
+
+2002-05-22  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/databind-class.aspx: new file.
+
+2002-05-21  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/listitem.aspx: new file.
+
+2002-05-16  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/calendar.aspx: new file. Style properties inside component.
+
+2002-05-15  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* test/README, ChangeLog: changed line ending to unix format.
+
+	* test/databind-arraylist.aspx: added an ArrayList as server object. Also
+	changed to unix format.
+
+2002-05-14  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	Created directory and added a couple of samples.
+

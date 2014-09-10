@@ -1,0 +1,2 @@
+#!/bin/sh
+exec @RUNTIME@ $MONO_OPTIONS "@plat_bindir@/@exe_file@" "$@"

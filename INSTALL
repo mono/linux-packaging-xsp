@@ -1,0 +1,55 @@
+* Compiling and installing XSP
+-------------------------------
+
+    We will assume you want to install XSP in /usr.
+    
+    To compile XSP from a fresh git clone (as opposed to a tarball),
+    run this first:
+
+	./autogen.sh
+
+    To compile XSP and install it to /usr:
+
+	./configure --prefix=/usr
+	make 
+	make install
+
+    If you don't specify --prefix, it will default to /usr/local.
+
+    If ./configure finds a working 'gmcs' it will automatically build a
+    2.0 profile version of xsp, named xsp2.
+
+* Running XSP with the bundled tests
+------------------------------------
+
+    Go to /usr/lib/xsp/test directory and run:
+
+	mono /usr/bin/xsp.exe 
+
+    You can optionally provide a port where the server should listen on:
+
+	mono /usr/bin/xsp.exe --port 80
+
+    The default port is 8080.
+
+    There are other command line options. Run:
+    
+        mono /usr/bin/xsp.exe --help
+
+    to display all of them.
+
+Notes for MS runtime users
+----------------------------
+If you're compiling under windows, you may need to copy xsp.exe,
+ICSharpCode.SharpZipLib.dll and Mono.Http.dll (distributed with mono) to
+xsp/server and xsp/server/test/bin directories if it's not installed for
+the system.
+
+(*) In windows, if you want to build xsp using csc, do:
+
+    MCS=csc make
+
+You will also need IIS with support for ASP.NET for xsp to work with the
+MS runtime.
+
+

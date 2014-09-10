@@ -1,0 +1,10 @@
+./CompatTuple.cs
+./ConfigurationManager.cs
+./main.cs
+./SecurityConfiguration.cs
+./SslInformation.cs
+./XSPApplicationHost.cs
+./XSPRequestBroker.cs
+./XSPWebSource.cs
+./XSPWorker.cs
+./XSPWorkerRequest.cs

@@ -1,0 +1,95 @@
+May 16, 2005
+--------------
+
+Ew, long time, no updates here. As of today, xsp standalone supports SSL.
+
+
+[...]
+
+
+
+
+Jun 1, 2004 - Gonzalo Paniagua
+---------------------------------------
+
+  * Released 0.14
+
+May 19, 2004 - Gonzalo Paniagua
+---------------------------------------
+
+  * Added support for virtual hosts in mod-mono-server.
+
+April 22, 2004 - Gonzalo Paniagua
+---------------------------------------
+
+  * Released 0.12
+
+April 21, 2004 - Gonzalo Paniagua
+---------------------------------------
+
+  * Released 0.10 and 0.11.
+
+December 11, 2003 - Gonzalo Paniagua
+---------------------------------------
+
+  * Added nunit-asp.
+
+December 2, 2003 - Gonzalo Paniagua
+---------------------------------------
+
+  * Released 0.8
+
+November 24, 2003 - Gonzalo Paniagua
+---------------------------------------
+
+  * Jackson added an ASP.NET state server.
+  
+October 23, 2003 - Gonzalo Paniagua
+---------------------------------------
+
+  * More speed improvements in serialization.
+  
+October 3, 2003 - Gonzalo Paniagua
+---------------------------------------
+
+  * Speed improvements.
+  * Ability to stop the server pressing enter.
+
+September 22, 2003 - Gonzalo Paniagua
+---------------------------------------
+
+ * Use autogen.
+ * Fixed some bugs based on our dogfooding.
+
+August 29, 2003 - Gonzalo Paniagua
+----------------------------------
+
+ * Added PATH_INFO support for both servers.
+
+August 25, 2003 - Gonzalo Paniagua
+----------------------------------
+
+ * Added multiple applications support for both xsp.exe and mod-mono-server.exe.
+
+July 31, 2003 - Gonzalo Paniagua
+----------------------------------
+
+* From now on, we also generate a mod-mono-server.exe executable that is used
+along with mod_mono_unix to serve ASP.NET pages under apache2.
+
+
+July 24, 2003 - Gonzalo Paniagua
+----------------------------------
+
+* The gzip compression related classes are now in Mono.Http.dll
+
+
+July 23, 2003 - Gonzalo Paniagua
+----------------------------------
+
+I should have started writing this before...
+
+* Changed executable name to xsp.exe (yeah!)
+* Added gzip encoding support. It's enabled by default. You can disable it in
+test/web.config file.
+
