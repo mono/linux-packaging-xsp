@@ -1,0 +1,102 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          mono-xsp4
+# Required-Start:    $remote_fs
+# Required-Stop:     $remote_fs
+# Should-Start:      
+# Should-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Mono XSP4
+# Description:       Debian init script for Mono XSP4.
+### END INIT INFO
+#
+# Written by Pablo Fischer <pablo@pablo.com.mx>
+#            Dylan R. E. Moonfire <debian@mfgames.com>
+# Modified for Debian GNU/Linux
+#
+# Version:	@(#)mono-xsp4 pablo@pablo.com.mx
+#
+
+# Variables
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/bin/xsp4
+NAME=mono-xsp4
+DESC="XSP 4.0 WebServer"
+DEFAULT=/etc/default/$NAME
+CFGDIR=/etc/xsp4
+VIRTUALFILE=$CFGDIR/debian.webapp
+MONO_SHARED_DIR=/var/run/$NAME
+start_boot=false
+
+# Use LSB
+. /lib/lsb/init-functions
+
+# If we don't have the basics, don't bother
+test -x $DAEMON || exit 0
+test -f $DEFAULT && . $DEFAULT	
+
+if [ "x$start_boot" != "xtrue" ] ; then
+    exit 0
+fi
+
+if [ ! -e $MONO_SHARED_DIR ]; then
+	mkdir $MONO_SHARED_DIR   
+	chown $user:$group $MONO_SHARED_DIR
+fi
+                
+should_start() {
+    if [ ! -e $VIRTUALFILE -o `cat $VIRTUALFILE | wc -l` = "2" ]; then
+	log_action_msg "You have an incomplete $VIRTUALFILE"
+	log_action_msg "To fix it, you need to install at least one package for xsp4 (like asp.net-examples)"	
+	return 1
+    fi 
+    
+    if [ -f /var/run/$NAME.pid ]; then
+	# Are we really running xsp4?
+	xsp4_pid=`cat /var/run/$NAME.pid`
+	xsp4_ps=`ps -p $xsp4_pid | wc -l`
+	if [ "$xsp4_ps" != "1" ]; then
+	    log_action_msg "Sorry, there is already a xsp4 running, stop it first"
+	    return 1		
+	fi
+    fi
+    
+    return 0
+	
+}
+
+case "$1" in
+    start)
+	if should_start ; then
+	    log_daemon_msg "Starting $DESC" "$NAME"
+	    export MONO_SHARED_DIR
+	    start-stop-daemon --start --background --make-pidfile \
+		--quiet --pidfile /var/run/$NAME.pid \
+		--user $user --group $group --chuid $user \
+		--exec $DAEMON -- \
+		--port $port --address $address --appconfigdir \
+		$CFGDIR --nonstop
+	    log_end_msg $?
+	fi
+	;;
+    stop)
+	log_daemon_msg "Stopping $DESC" "$NAME"
+        for i in $(ps aux | grep -v grep | grep 'xsp4.exe' | cut -c 10-15)
+        do
+                kill $i > /dev/null 2>&1
+        done
+	log_end_msg $?
+	;;
+    restart|force-reload)
+	$0 stop
+	$0 start
+	;;
+    *)
+	N=/etc/init.d/$NAME
+	echo "Usage: $N {start|stop|restart|force-reload}" >&2
+	exit 1
+	;;
+esac
+
+exit 0

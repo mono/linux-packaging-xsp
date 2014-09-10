@@ -1,0 +1,45 @@
+xsp2 for Debian
+--------------
+
+The mono-xsp2 package contains a standalone WebServer to run ASP.NET, developed
+by the Mono hackers, it should run in port 8080 or 8081, the scripts detects which port
+to use.
+
+For example, if you have a mail proxy (or http proxy) using 8080 it should run in 8081.
+
+To change the port, you need to kill your http/mail proxy or move them to other port, and then
+reconfigure xsp2 as root:
+
+# dpkg-reconfigure mono-xsp2
+
+The way that xsp2 manage the /alias (virtual hosts) is like exim does. We have a directory in 
+/etc called xsp2, inside it we have a conf.d directory, were we have directories for each 
+'virtualhost'.
+
+For example, we have monodoc-http, so we have:
+
+/etc/xsp2 		<- Mono XSP 2 Config Dir
+/etc/xsp2/conf.d 	<- Mono XSP 2 VirtualHosts Config Directories
+/etc/xsp2/conf.d/monodoc <- MonoDoc Config Files for XSP 2
+
+Every file is marked by a number, an underscore and the alias name, for example:
+
+/etc/xsp2/conf.d/monodoc/10_monodochttp
+
+If you want to install a new virtualhost to XSP 2, you just need to apt-get it, and if 
+XSP 2 is running it should be started normally, if it's the first virtualhost and you configured
+mono-xsp2 to be started automatically it will start xsp2 by default.
+
+If you configured mono-xsp2 to NOT be started automatically, you should start mono-xsp2 manually:
+
+/etc/init.d/mono-xsp2 start
+
+Also, if you are installing YOUR OWN VirtualHost, you should use mono-xsp2-admin (and also the manpage)
+
+NOTE: In some cases you can find that /etc/mono-server|/etc/xsp2 exists with other virtualhosts and you  
+don't have mono-server|mono-xsp2 installed, don't get in panic, some virtualhosts installs host configuration 
+files in both server (xsp2 and mono-server).
+
+Happy Hacking
+
+ -- Pablo Fischer <pablo@pablo.com.mx>, Mon, 15 Mar 2004 18:52:30 -0600

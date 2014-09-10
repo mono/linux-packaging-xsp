@@ -1,0 +1,11 @@
+debian/tmp/usr/bin/asp-state4
+debian/tmp/usr/bin/dbsessmgr4
+debian/tmp/usr/bin/xsp4
+debian/tmp/usr/lib/xsp/4.0/asp-state4.exe
+debian/tmp/usr/lib/xsp/4.0/asp-state4.exe.config
+debian/tmp/usr/lib/xsp/4.0/dbsessmgr4.exe
+debian/tmp/usr/lib/xsp/4.0/dbsessmgr4.exe.config
+debian/tmp/usr/lib/mono/4.5/xsp4.exe
+debian/tmp/usr/lib/mono/gac/xsp4
+debian/mono-xsp4-update	/usr/sbin/
+debian/mono-xsp4-admin	/usr/sbin/

@@ -1,0 +1,13 @@
+asp.net-examples for Debian
+----------------------------
+
+This package contains example ASP.NET applications. The examples are
+installed in /usr/share/asp.net-demos/.
+
+If you are using the standalone XSP4 server, you can access the examples at
+http://localhost:8080/samples
+
+If you are using mod_mono to run ASP.NET applications via Apache, you can
+access the examples at http://localhost/samples
+
+ -- Jo Shields <directhex@apebox.org>, Sun, 27 Mar 2011 19:28:29 +0100

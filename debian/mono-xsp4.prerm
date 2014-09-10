@@ -1,0 +1,21 @@
+#!/bin/sh
+set -e
+
+NAME=mono-xsp4
+DESC="XSP WebServer"
+
+case "$1" in
+   upgrade|install)
+	if [ -f /etc/init.d/mono-xsp4 ]; then
+	    if which invoke-rc.d > /dev/null 2>&1; then
+		invoke-rc.d mono-xsp4 stop
+	    else
+		/etc/init.d/mono-xsp4 stop
+	    fi
+	fi
+	;;
+esac
+
+#DEBHELPER#
+
+exit 0

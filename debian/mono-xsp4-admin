@@ -1,0 +1,173 @@
+#!/usr/bin/perl
+# mono-xsp4 hosts file creator
+#
+# With this script the user can create a host file in one step, 
+# these hosts file are installed in /etc/xsp4/conf.d/package and 
+# then used in a 'big' host file (/etc/xsp4/mono-server4-hosts) 
+# that will be used by XSP4
+#
+# Under GPL, please read: 
+# http://www.gnu.org/copyleft/gpl.html
+#
+# Written by: Pablo Fischer
+
+=head1 NAME
+
+mono-xsp4-admin - mono-xsp4 hosts file creator
+    
+=head1 SYNOPSIS
+    
+mono-xsp4-admin [action] [args]
+
+=head4 OPTIONS
+
+  Actions:
+    
+    add        Use 'add' if you want to create an application and want mono-xsp4 scripts to manage it
+    del        If you want to remove an application
+
+  Args:
+
+    --path     The path where you have your aspx files, MUST EXISTS!, required only with add action
+    --app      The name of your application
+
+=head1 DESCRIPTION
+
+ mono-xsp4-admin is a perl tool to adminstrate your ASP.NET webapps that will be executed with 
+ xsp4.
+
+ When you try to add an application, mono-xsp4-admin will verify that your path exists, if it is, it will 
+ add a directory inside /etc/xsp4/conf.d with the name of your app, and also as a file with the 
+ filename format: 10_appname. This file will have the information (path, app).
+
+ So, when mono-xsp4-update is executed it will read those dirs and create a debian.webapp in
+ /etc/xsp4 that the xsp4 daemon will read.
+
+=head1 AUTHOR
+
+ Pablo Fischer <pablo@pablo.com.mx>
+
+=cut 
+
+use strict;
+
+my (%OPT);
+
+my $confd_directory = "/etc/xsp4/conf.d";
+
+#Read the opts
+foreach my $opt (@ARGV) {
+    if($opt =~ /^add/) {
+	$OPT{'action'} = "add";
+    }
+    
+    elsif($opt =~ /^del/) {
+	$OPT{'action'} = "del";
+    }	
+
+    elsif($opt =~ /--path/) {
+	$OPT{'path'} = $opt;
+    }    
+
+    elsif($opt =~ /--app/) {
+	$OPT{'app'} = $opt;
+    }   
+}
+
+
+#clean strange chars, like ':', commas, etc.. I don't like those chars
+sub clean_opts() {
+    foreach my $key (keys %OPT) {	
+	next unless $key ne "action";
+	my $value = $OPT{$key};
+	$OPT{$key} = (split("=", $OPT{$key}))[1];
+	if($key ne "path") {
+	    $OPT{$key} =~ s|/*||;
+	}
+	$OPT{$key} =~ s{/$}{}; 
+			$OPT{$key} =~ s|:*||;
+		    }
+    }
+
+#We have the path, app, name and the action?
+    sub verify_neededopts() {
+	if($OPT{'action'} ne "add" && $OPT{'action'} ne "del") {
+	    &help;
+	    exit;
+	}
+
+	if(!$OPT{'path'}) {
+	    print "I need the path of your asp.net application\n";
+	    exit;
+	}
+
+	if(!$OPT{'app'}) {
+	    print "You should declare the application name!\n";
+	    exit;
+	}
+    }
+
+#Add the Host file and directory    
+    sub add_host() {
+	if( ! -d $OPT{'path'} ) {
+	    print "$OPT{'path'} does not exists!\n";
+	    exit;
+	}
+	#But what if the conf.d package directory already exists?
+	if ( -d "$confd_directory/$OPT{'app'}") {
+	    print "Sorry but $confd_directory/$OPT{'app'} already exist, you might change your application name\n";
+	    exit;
+	}
+	
+	#Ok, create the conf.d package directory
+	system("mkdir $confd_directory/$OPT{'app'}");
+	#And create the file
+	system("touch $confd_directory/$OPT{'app'}/10_$OPT{'app'}");
+	
+	open(PACKAGEFILE, "> $confd_directory/$OPT{'app'}/10_$OPT{'app'}");
+	print PACKAGEFILE "This is the configuration file \n";
+	print PACKAGEFILE "for the $OPT{'app'} virtualhost\n";
+	print PACKAGEFILE "path = $OPT{'path'}\n";
+	print PACKAGEFILE "alias = /$OPT{'app'}\n";
+	close(PACKAGEFILE);
+	
+	system("/usr/sbin/mono-xsp4-update");
+	print "done!\n";
+    }
+
+#Remove the host directory
+    sub del_host() {
+	
+	system("rm -Rf $confd_directory/$OPT{'app'}");
+	system("/usr/sbin/mono-xsp4-update");
+	
+	print "done!\n";
+    }
+    
+    sub help() {
+	print "This script let the user to create a application host file in one step \n";
+	print "for XSP4 (/etc/xsp4/conf.d/application\n\n";
+	print "Use:\n";
+	print " mono-xsp4-admin [action] --path=/real/path --app=/applicationame\n\n";
+	print "Where:\n";
+	print " action:\n";
+	print " add                   Creates an application\n";
+	print " del                   Delete an application (the directory /etc/mono-server/conf.d/application\n";
+	print " --path=/real/path     A real and true path where you have your ASP.NET applicatio running\n";
+	print " --app=/application    The name of the application\n";
+    }
+
+    &clean_opts;
+    &verify_neededopts;
+
+    if($OPT{'action'} eq"add") {
+	&add_host;
+    }
+    elsif($OPT{'action'} eq "del") {
+	&del_host;
+    }
+
+    
+
+
+

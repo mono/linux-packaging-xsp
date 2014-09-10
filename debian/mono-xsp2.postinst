@@ -1,0 +1,122 @@
+#!/bin/bash
+set -e
+
+. /usr/share/debconf/confmodule
+db_version 2.0
+
+xsp2_default="/etc/default/mono-xsp2"
+NAME=mono-xsp2
+DESC="XSP 2 WebServer"
+CFGDIR=/etc/xsp2
+VIRTUALFILE=$CFGDIR/debian.webapp
+
+# create file if it doesn't exist
+if [ ! -e $xsp2_default ]; then
+	cat > $xsp2_default <<-END
+	# Defaults for mono-xsp2, official version
+	# sourced by /etc/init.d/mono-xsp2
+	
+	# Should we start it?
+	start_boot=true
+	
+	# User and group by default
+	user=www-data
+	group=www-data
+	
+	# Default port
+	port=8081
+	address=0.0.0.0
+	
+	# Directory for config files
+	config_files=/etc/xsp2
+	END
+fi
+
+update_port() {
+    db_get xsp2/xsp2_port || true
+    R=$RET
+    echo "Using Mono XSP 2 port: $R"
+    sed "s/port=.*/port=$R/g" $xsp2_default > $tempfile
+    cp -f $tempfile $xsp2_default
+}
+
+update_bind() {
+    db_get xsp2/xsp2_bind || true
+    R=$RET
+    echo "Binding Mono XSP 2 address: $R"
+    sed "s/address=.*/address=$R/g" $xsp2_default > $tempfile
+    cp -f $tempfile $xsp2_default
+}
+
+should_start() {
+    if [ -e $xsp2_default ]; then
+	. $xsp2_default
+        if [ "$start_boot" != "true" ]; then
+	    return 1
+        fi
+    else
+        echo "mono-xsp2: Not started, you need a valid and complete $xsp2_default"
+        return 1
+    fi
+
+    if [ ! -e $VIRTUALFILE -o `cat $VIRTUALFILE | wc -l` = "2" ]; then
+	echo "mono-xsp2: Not started, you need asp.net-examples/monodoc-http or an ASP.NET application"
+	return 1
+    fi 
+    
+    if [ -f /var/run/$NAME.pid ]; then
+	# Are we really running xsp2?
+	xsp2_pid=`cat /var/run/$NAME.pid`
+	xsp2_ps=`ps -p $xsp2_pid | wc -l`
+	if [ "$xsp2_ps" != "2" ]; then
+	    return 0
+	else
+	    return 1
+	fi
+    else
+	return 1
+    fi
+    
+    return 1
+}
+
+case "$1" in
+    configure)
+	tempfile=$(/bin/tempfile)
+	
+	# Configure autostart, but don't prevent the init script
+	# from starting it manually.
+	autostart="true"
+	db_get xsp2/xsp2_autostart || true
+	if [ "$RET" = "true" ]; then	    
+	    if [ -x "/etc/init.d/mono-xsp2" ]; then
+		update-rc.d mono-xsp2 defaults > /dev/null 2>&1 || true
+	    fi
+	else
+	    update-rc.d -f mono-xsp2 remove > /dev/null 2>&1  || true
+	fi
+
+	# If default file exists, configure the port and address
+	if [ -f $xsp2_default ]; then
+	    update_port
+	    update_bind
+	fi
+
+	mono-xsp2-update
+	if [ "$RET" = "true" ]; then
+	    if should_start -a $autostart = "true" ; then
+		if which invoke-rc.d >/dev/null 2>&1; then
+		    invoke-rc.d mono-xsp2 start
+		else
+		    /etc/init.d/mono-xsp2 start
+		fi
+	    fi
+	fi
+
+	rm $tempfile
+	;;
+esac
+
+#DEBHELPER#
+
+exit 0

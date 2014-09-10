@@ -1,0 +1,11 @@
+debian/tmp/usr/bin/asp-state2
+debian/tmp/usr/bin/dbsessmgr2
+debian/tmp/usr/bin/xsp2
+debian/tmp/usr/lib/xsp/2.0/asp-state2.exe
+debian/tmp/usr/lib/xsp/2.0/asp-state2.exe.config
+debian/tmp/usr/lib/xsp/2.0/dbsessmgr2.exe
+debian/tmp/usr/lib/xsp/2.0/dbsessmgr2.exe.config
+debian/tmp/usr/lib/mono/2.0/xsp2.exe
+debian/tmp/usr/lib/mono/gac/xsp2
+debian/mono-xsp2-update	/usr/sbin/
+debian/mono-xsp2-admin	/usr/sbin/

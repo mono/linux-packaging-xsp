@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+
+if [ "$1" = "purge" ]; then
+	rm -f /etc/xsp4/debian.webapp
+	# purge init.d script
+	update-rc.d -f mono-xsp4 remove > /dev/null 2>&1
+	# remove default file created in postinst
+	rm -f /etc/default/mono-xsp4
+fi
+
+#DEBHELPER#
+
+exit 0

@@ -1,0 +1,178 @@
+Source: xsp
+Section: web
+Priority: optional
+Maintainer: Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>
+Uploaders: Dylan R. E. Moonfire <debian@mfgames.com>, Mirco Bauer <meebey@debian.org>, Jo Shields <directhex@apebox.org>
+Build-Depends: debhelper (>= 7.0.50~), po-debconf, autotools-dev
+Build-Depends-Indep: cli-common-dev (>= 0.8~),
+ mono-devel (>= 3),
+ mono-gmcs,
+ monodoc-base (>= 3),
+ libnunit-cil-dev
+Standards-Version: 3.9.1
+Homepage: http://www.mono-project.com/ASP.NET
+Vcs-Git: git://git.debian.org/git/pkg-mono/packages/xsp.git
+Vcs-Browser: http://git.debian.org/?p=pkg-mono/packages/xsp.git
+
+Package: dh-xsp
+Architecture: all
+Depends: perl, debhelper, ${misc:Depends}
+Conflicts: mono-utils (<= 1.1.9.2-1), mono-xsp-base
+Replaces: mono-xsp-base
+Description: debhelper add-on to handle ASP.NET sites
+ dh-xsp provides a debhelper sequence addon named 'xsp' and the dh_installxsp
+ command, which allows ASP.NET sites to be automatically configured on 
+ installation.
+
+Package: mono-xsp2-base
+Architecture: all
+Depends: ${misc:Depends}, ${cli:Depends}, mono-devel, mono-gmcs, libmono-system-web2.0-cil (>= ${mono-abi-comp-version})
+Description: base libraries for XSP 2.0
+ This is the core libraries needed to install the XSP2 application,
+ either through the standalone XSP version (mono-xsp2) or the Apache module
+ (mono-apache-server2).
+
+Package: mono-xsp4-base
+Architecture: all
+Depends: ${misc:Depends}, ${cli:Depends}, mono-devel, libmono-system-web4.0-cil (>= ${mono-abi-comp-version})
+Description: base libraries for XSP 4.0
+ This is the core libraries needed to install the XSP4 application,
+ either through the standalone XSP version (mono-xsp4) or the Apache module
+ (mono-apache-server4).
+
+Package: mono-xsp4
+Architecture: all
+Depends: ${misc:Depends}, ${cli:Depends}, mono-xsp4-base (= ${source:Version}), procps
+Description: simple web server to run ASP.NET 4.0 applications
+ XSP is a simple web server written in C# that can be used to run your 
+ ASP.NET 4.0 applications. 
+ .
+ This is the standalone ASP.NET web server. If you want to run ASP.NET
+ applications with Apache, look at mono-apache-server.
+
+Package: mono-xsp2
+Architecture: all
+Depends: ${misc:Depends}, ${cli:Depends}, mono-xsp2-base (= ${source:Version}), procps
+Description: simple web server to run ASP.NET 2.0 applications
+ XSP is a simple web server written in C# that can be used to run your 
+ ASP.NET 1.1 and 2.0 applications. 
+ .
+ This is the standalone ASP.NET web server. If you want to run ASP.NET
+ applications with Apache, look at mono-apache-server2.
+
+Package: mono-xsp
+Architecture: all
+Depends: mono-xsp4 (= ${source:Version}), ${misc:Depends}
+Description: simple web server to run ASP.NET applications - default version
+ XSP is a simple web server written in C# that can be used to run your 
+ ASP.NET applications. 
+ .
+ This is a metapackage to pull in the standalone ASP.NET web server. 
+ If you want to run ASP.NET applications with Apache, look at 
+ mono-apache-server.
+
+Package: asp.net-examples
+Architecture: all
+Depends: ${misc:Depends}, ${cli:Depends}, ${cli:XspServer2}
+Replaces: asp.net2-examples
+Conflicts: asp.net2-examples
+Description: demo pages for ASP.NET infrastructure
+ Sample set of .aspx pages to test the XSP server or the mod_mono Apache
+ module.
+
+Package: mono-apache-server4
+Architecture: all
+Depends: ${misc:Depends}, ${cli:Depends}, mono-xsp4-base (= ${source:Version}), perl-modules
+Description: ASP.NET 1.1 backend for mod_mono Apache module
+ mono-apache-server contains the backend for mod_mono. It lets you run ASP.NET
+ web applications via Apache. mod_mono will call mono-apache-server to parse
+ and compile the aspx code.
+ .
+ This package requires you to install libapache2-mod-mono for Apache 2.0.
+
+Package: mono-apache-server2
+Architecture: all
+Conflicts: mono-server
+Replaces: mono-server
+Depends: ${misc:Depends}, ${cli:Depends}, mono-xsp2-base (= ${source:Version}), perl-modules
+Description: ASP.NET 2.0 backend for mod_mono2 Apache module
+ mono-apache-server contains the backend for mod_mono. It lets you run ASP.NET
+ web applications via Apache. mod_mono will call mono-apache-server to parse
+ and compile the aspx code.
+ .
+ This package requires you to install libapache2-mod-mono for Apache 2.0.
+
+Package: mono-apache-server
+Architecture: all
+Conflicts: mono-server, mono-apache-server1
+Replaces: mono-server, mono-apache-server1
+Depends: mono-apache-server4 (= ${source:Version}), ${misc:Depends}
+Description: ASP.NET backend for mod_mono Apache module - default version
+ mono-apache-server contains the backend for mod_mono. It lets you run ASP.NET
+ web applications via Apache. mod_mono will call mono-apache-server to parse
+ and compile the aspx code.
+ .
+ This package pulls in the default version of the Apache backend.
+
+Package: mono-fpm-server
+Architecture: all
+Depends: libfpm-helper0 (= ${source:Version}), ${cli:Depends}, ${misc:Depends}
+Description: ASP.NET backend for FastCGI Process Manager
+ mono-fpm-server contains the backend for FPM. It lets you run ASP.NET
+ web applications via HTTP servers such as Lighttpd or Apache.
+ The FastCGI webserver shouldbe configured to run fastcgi-mono-server to
+ parse and compile the aspx code.
+ .
+ This package requires you to install any FPM webserver, such as
+ Lighttpd or Apache (see libapache2-mod-fastcgi).
+
+Package: libfpm-helper0
+Architecture: any
+Depends: ${shlib:Depends}, ${cli:Depends}, ${misc:Depends}
+Description: ASP.NET backend for FastCGI Process Manager - helper lib
+ mono-fpm-server contains the backend for FPM. It lets you run ASP.NET
+ web applications via HTTP servers such as Lighttpd or Apache.
+ The FastCGI webserver shouldbe configured to run fastcgi-mono-server to
+ parse and compile the aspx code.
+ .
+ This package contains a helper library needed by mono-fpm-server.
+
+Package: mono-fastcgi-server4
+Architecture: all
+Replaces: mono-fastcgi-server1
+Depends: ${misc:Depends}, ${cli:Depends}, mono-xsp4-base (= ${source:Version}), perl-modules
+Description: ASP.NET 4.0 backend for FastCGI webservers
+ mono-fastcgi-server contains the backend for FastCGI. It lets you run 
+ ASP.NET web applications via HTTP servers such as Lighttpd or Apache. 
+ The FastCGI webserver shouldbe configured to run fastcgi-mono-server to
+ parse and compile the aspx code.
+ .
+ This package requires you to install any FastCGI webserver, such as
+ Lighttpd or Apache (see libapache2-mod-fcgid).
+
+Package: mono-fastcgi-server2
+Architecture: all
+Conflicts: mono-server
+Replaces: mono-server
+Depends: ${misc:Depends}, ${cli:Depends}, mono-xsp2-base (= ${source:Version}), perl-modules
+Description: ASP.NET 2.0 backend for FastCGI webservers
+ mono-fastcgi-server contains the backend for FastCGI. It lets you run
+ ASP.NET web applications via HTTP servers such as Lighttpd or Apache.
+ The FastCGI webserver should be configured to run fastcgi-mono-server to
+ parse and compile the aspx code.
+ .
+ This package requires you to install any FastCGI webserver, such as
+ Lighttpd or Apache (see libapache2-mod-fcgid).
+
+Package: mono-fastcgi-server
+Architecture: all
+Conflicts: mono-server
+Replaces: mono-server
+Depends: mono-fastcgi-server4 (= ${source:Version}), ${misc:Depends}
+Description: ASP.NET backend for FastCGI webservers - default version
+ mono-fastcgi-server contains the backend for FastCGI. It lets you run
+ ASP.NET web applications via HTTP servers such as Lighttpd or Apache.
+ The FastCGI webserver should be configured to run fastcgi-mono-server to
+ parse and compile the aspx code.
+ .
+ This package pulls in the default version of the FastCGI backend.

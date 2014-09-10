@@ -1,0 +1,34 @@
+Template: xsp4/xsp4_autostart
+Type: boolean
+Default: true
+_Description: Start on boot?
+ If this is true, then XSP4 will automatically start when the computer
+ is turned on.
+
+Template: xsp4/xsp4_bind
+Type: string
+Default: 0.0.0.0
+_Description: Bind to address:
+ To function properly, XSP4 needs to be bound to an IP address. The
+ default ("0.0.0.0") binds to all addresses of the server, but a
+ specific port can be selected. To use XSP4 only locally, use
+ "127.0.0.1" for the address.
+
+Template: xsp4/xsp4_port
+Type: string
+Default: 8084
+_Description: Bind to port:
+ XSP is bound to a specific port on the server. Common values are 80,
+ 8080, or 8081.
+
+Template: xsp4/xsp1_upgrade_warning
+Type: note
+_Description: ASP.NET 1.0 support removed
+ You appear to have some ASP.NET 1.0 sites configured in /etc/mono-server1.
+ Support for the 1.0 profile has been removed from Mono 2.8 and above, and
+ you are no longer able to serve ASP.NET 1.0 sites. You must reconfigure
+ XSP to serve these sites using either 2.0 or 4.0 profiles, assuming your
+ application is compatible. Please see mono-xsp2-admin(8) or
+ mono-xsp4-admin(8) to see how to regenerate a configuration for use
+ with 2.0 or 4.0 profiles.
+

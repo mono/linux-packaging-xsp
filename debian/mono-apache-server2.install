@@ -1,0 +1,5 @@
+debian/tmp/usr/lib/mono/2.0/mod-mono-server2.exe
+debian/tmp/usr/lib/mono/gac/mod-mono-server2
+debian/tmp/usr/bin/mod-mono-server2
+debian/mono-server2-admin	/usr/sbin/
+debian/mono-server2-update	/usr/sbin/

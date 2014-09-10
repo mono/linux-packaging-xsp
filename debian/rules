@@ -1,0 +1,115 @@
+#!/usr/bin/make -f
+
+#export DH_VERBOSE=1
+export MONO_SHARED_DIR=$(CURDIR)
+
+MONO_ABI_COMP_VERSION = 2.10.1
+
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+
+MAKEFILE = $(firstword $(MAKEFILE_LIST))
+DEBIAN_DIR = $(dir $(MAKEFILE))
+SOURCE_DIR = $(DEBIAN_DIR)/..
+
+# Perl code to figure out the current version and the next "potential" version
+VERSION = $(shell dpkg-parsechangelog -l$(DEBIAN_DIR)/changelog | grep ^Vers | cut -d\  -f2)
+UPVERSION = $(shell echo $(VERSION) | sed 's,-.*,,' | sed 's,+dfsg.*,,')
+NEXT_UPVERSION = $(shell perl -e '$$_=pop; s/(\d+)$$/$$1+1/e; print' $(UPVERSION))
+DEB_SOURCE_NAME = $(shell dpkg-parsechangelog -l$(DEBIAN_DIR)/changelog | grep ^Source | cut -d" " -f2)
+
+override_dh_auto_build:
+	dh_auto_build
+	pod2man --section=8 \
+		$(CURDIR)/debian/mono-server4-admin \
+		> $(CURDIR)/debian/mono-server4-admin.8
+	pod2man --section=8 $(CURDIR)/debian/mono-server4-update \
+		> $(CURDIR)/debian/mono-server4-update.8
+	pod2man --section=8 \
+		$(CURDIR)/debian/mono-server2-admin \
+		> $(CURDIR)/debian/mono-server2-admin.8
+	pod2man --section=8 $(CURDIR)/debian/mono-server2-update \
+		> $(CURDIR)/debian/mono-server2-update.8
+	pod2man --section=8 $(CURDIR)/debian/mono-xsp4-admin \
+		> $(CURDIR)/debian/mono-xsp4-admin.8
+	pod2man --section=8 $(CURDIR)/debian/mono-xsp4-update \
+		> $(CURDIR)/debian/mono-xsp4-update.8
+	pod2man --section=8 $(CURDIR)/debian/mono-xsp2-admin \
+		> $(CURDIR)/debian/mono-xsp2-admin.8
+	pod2man --section=8 $(CURDIR)/debian/mono-xsp2-update \
+		> $(CURDIR)/debian/mono-xsp2-update.8
+
+	pod2man --section=1 $(CURDIR)/debian/dh_installxsp \
+		> $(CURDIR)/debian/dh_installxsp.1
+
+	cp $(CURDIR)/debian/mono-server4-update.8 \
+		$(CURDIR)/debian/update-mono-server4.8
+	cp $(CURDIR)/debian/mono-server2-update.8 \
+		$(CURDIR)/debian/update-mono-server2.8
+	cp $(CURDIR)/debian/mono-xsp4-update.8 \
+		$(CURDIR)/debian/update-mono-xsp4.8
+	cp $(CURDIR)/debian/mono-xsp2-update.8 \
+		$(CURDIR)/debian/update-mono-xsp2.8
+
+	touch build-stamp
+
+override_dh_clean:
+	rm -f $(CURDIR)/debian/*.8 $(CURDIR)/debian/*.1
+	dh_clean 
+
+override_dh_installman:
+	# Make version three variants on the manpages
+	cat debian/tmp/usr/share/man/man1/xsp.1 \
+		| sed 's/xsp/xsp2/g' \
+		> debian/tmp/usr/share/man/man1/xsp2.1
+	cat debian/tmp/usr/share/man/man1/xsp.1 \
+		| sed 's/xsp/xsp4/g' \
+		> debian/tmp/usr/share/man/man1/xsp4.1
+	cat debian/tmp/usr/share/man/man1/dbsessmgr.1 \
+		| sed 's/dbsessmgr/dbsessmgr2/g' \
+		> debian/tmp/usr/share/man/man1/dbsessmgr2.1
+	cat debian/tmp/usr/share/man/man1/dbsessmgr.1 \
+		| sed 's/dbsessmgr/dbsessmgr4/g' \
+		> debian/tmp/usr/share/man/man1/dbsessmgr4.1
+	cat debian/tmp/usr/share/man/man1/asp-state.1 \
+		| sed 's/asp-state/asp-state2/g' \
+		> debian/tmp/usr/share/man/man1/asp-state2.1
+	cat debian/tmp/usr/share/man/man1/asp-state.1 \
+		| sed 's/asp-state/asp-state4/g' \
+		> debian/tmp/usr/share/man/man1/asp-state4.1
+	cat debian/tmp/usr/share/man/man1/mod-mono-server.1 \
+		| sed 's/mono-server/mono-server2/g' \
+		> debian/tmp/usr/share/man/man1/mod-mono-server2.1
+	cat debian/tmp/usr/share/man/man1/mod-mono-server.1 \
+		| sed 's/mono-server/mono-server4/g' \
+		> debian/tmp/usr/share/man/man1/mod-mono-server4.1
+	cat debian/tmp/usr/share/man/man1/fastcgi-mono-server.1 \
+		| sed 's/mono-server/mono-server2/g' \
+		> debian/tmp/usr/share/man/man1/fastcgi-mono-server2.1
+	cat debian/tmp/usr/share/man/man1/fastcgi-mono-server.1 \
+		| sed 's/mono-server/mono-server4/g' \
+		> debian/tmp/usr/share/man/man1/fastcgi-mono-server4.1
+	DH_AUTOSCRIPTDIR=$(CURDIR)/debian/ debian/dh_installxsp -i -V 2
+	dh_installman
+
+override_dh_makeclilibs:
+	dh_makeclilibs -V
+
+override_dh_clideps:
+	dh_clideps -d
+
+override_dh_gencontrol:
+	dh_gencontrol -- -Vmono-abi-comp-version=$(MONO_ABI_COMP_VERSION)
+
+%:
+	dh $@ --with cli
+
+get-orig-source:
+	uscan \
+		--package $(DEB_SOURCE_NAME) \
+		--watchfile $(DEBIAN_DIR)/watch \
+		--upstream-version $(VERSION) \
+		--download-version $(VERSION) \
+		--destdir . \
+		--force-download \
+		--rename

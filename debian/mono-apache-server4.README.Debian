@@ -1,0 +1,53 @@
+mono-apache-server4 for Debian
+--------------------------
+
+mod-mono-server4 is a backend server that allows you to run ASP.NET web
+applications in conjunction with Apache and the mod_mono Apache module. 
+In Debian, mod-mono-server4 is provided in the package mono-apache-server.
+
+mod-mono-server4 creates a socket in /tmp, and mod_mono communicates with
+mod-mono-server4 through that socket. Apache will pass the HTTP request via
+mod_mono to mod-mono-server, and mod-mono-server4 will pass the result back
+to Apache via mod_mono.
+
+So you need this package to run mod_mono, and vice versa.
+
+When mod_mono is installed, it will create a link to
+/etc/mono-server4/mono-server-hosts.conf. This file contains the configuration
+for mod_mono. Among other things, it makes sure that aspx pages are handled
+by mono_mono, and it defines all your ASP.NET web applications and the mappings
+between URIs and the file system.
+
+However, you should NOT EDIT THIS FILE by hand. Instead, you can manage the
+mono-server-hosts.conf file with the administration scripts provided by
+mod-mono-server. The administration scripts work on a directory structure in
+/etc/mono-server4 -- this is what it looks like:
+
+/etc/mono-server4                <- The root of the configuration structure
+/etc/mono-server4/conf.d         <- VirtualHosts Config Directories
+/etc/mono-server4/conf.d/monodoc <- MonoDoc Config Files
+
+To create an ASP.NET virtual host, you create a new directory under conf.d,
+such as the monodoc example above. Then, you place configuration files for
+that virtual host in the directory. Every file is marked by a number, an
+underscore, and the alias name for that ASP.NET application. For example:
+
+/etc/mono-server4/conf.d/monodoc/10_monodochttp
+
+You then need to run mono-server-update, which will read the directory
+structure and rebuild the mono-server-hosts.conf file. mod-mono-server4 will
+automatically detect the changes in the file, and adjust its configuration
+accordingly. The mono-server-update script will also create a
+debian.webapp file, which is needed for the ASP.NET applications.
+
+Packages that wish to install ASP.NET web applications can just follow the
+above procedure. If mod-mono-server4 is running, the application will be
+automatically activated.
+
+You don't need to start mod-mono-server. If it's not running when a request
+comes in, mod_mono will start it (unless you have disabled mod_mono). Note
+that mono-server-update can start Apache.
+
+Happy Hacking!
+
+ -- Pablo Fischer <pablo@pablo.com.mx>, Wed Mar  2 11:08:17 2005

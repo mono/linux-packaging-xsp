@@ -1,0 +1,122 @@
+#!/bin/bash
+set -e
+
+. /usr/share/debconf/confmodule
+db_version 2.0
+
+xsp4_default="/etc/default/mono-xsp4"
+NAME=mono-xsp4
+DESC="XSP 4 WebServer"
+CFGDIR=/etc/xsp4
+VIRTUALFILE=$CFGDIR/debian.webapp
+
+# create file if it doesn't exist
+if [ ! -e $xsp4_default ]; then
+	cat > $xsp4_default <<-END
+	# Defaults for mono-xsp4, official version
+	# sourced by /etc/init.d/mono-xsp4
+	
+	# Should we start it?
+	start_boot=true
+	
+	# User and group by default
+	user=www-data
+	group=www-data
+	
+	# Default port
+	port=8084
+	address=0.0.0.0
+	
+	# Directory for config files
+	config_files=/etc/xsp4
+	END
+fi
+
+update_port() {
+    db_get xsp4/xsp4_port || true
+    R=$RET
+    echo "Using Mono XSP 4 port: $R"
+    sed "s/port=.*/port=$R/g" $xsp4_default > $tempfile
+    cp -f $tempfile $xsp4_default
+}
+
+update_bind() {
+    db_get xsp4/xsp4_bind || true
+    R=$RET
+    echo "Binding Mono XSP 4 address: $R"
+    sed "s/address=.*/address=$R/g" $xsp4_default > $tempfile
+    cp -f $tempfile $xsp4_default
+}
+
+should_start() {
+    if [ -e $xsp4_default ]; then
+	. $xsp4_default
+        if [ "$start_boot" != "true" ]; then
+	    return 1
+        fi
+    else
+        echo "mono-xsp4: Not started, you need a valid and complete $xsp4_default"
+        return 1
+    fi
+
+    if [ ! -e $VIRTUALFILE -o `cat $VIRTUALFILE | wc -l` = "2" ]; then
+	echo "mono-xsp4: Not started, you need asp.net-examples/monodoc-http or an ASP.NET application"
+	return 1
+    fi 
+    
+    if [ -f /var/run/$NAME.pid ]; then
+	# Are we really running xsp4?
+	xsp4_pid=`cat /var/run/$NAME.pid`
+	xsp4_ps=`ps -p $xsp4_pid | wc -l`
+	if [ "$xsp4_ps" != "2" ]; then
+	    return 0
+	else
+	    return 1
+	fi
+    else
+	return 1
+    fi
+    
+    return 1
+}
+
+case "$1" in
+    configure)
+	tempfile=$(/bin/tempfile)
+	
+	# Configure autostart, but don't prevent the init script
+	# from starting it manually.
+	autostart="true"
+	db_get xsp4/xsp4_autostart || true
+	if [ "$RET" = "true" ]; then	    
+	    if [ -x "/etc/init.d/mono-xsp4" ]; then
+		update-rc.d mono-xsp4 defaults > /dev/null 2>&1 || true
+	    fi
+	else
+	    update-rc.d -f mono-xsp4 remove > /dev/null 2>&1  || true
+	fi
+
+	# If default file exists, configure the port and address
+	if [ -f $xsp4_default ]; then
+	    update_port
+	    update_bind
+	fi
+
+	mono-xsp4-update
+	if [ "$RET" = "true" ]; then
+	    if should_start -a $autostart = "true" ; then
+		if which invoke-rc.d >/dev/null 2>&1; then
+		    invoke-rc.d mono-xsp4 start
+		else
+		    /etc/init.d/mono-xsp4 start
+		fi
+	    fi
+	fi
+
+	rm $tempfile
+	;;
+esac
+
+#DEBHELPER#
+
+exit 0

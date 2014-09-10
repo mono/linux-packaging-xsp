@@ -1,0 +1,3 @@
+debian/tmp/usr/lib/mono/4.5/fastcgi-mono-server4.exe
+debian/tmp/usr/lib/mono/gac/fastcgi-mono-server4
+debian/tmp/usr/bin/fastcgi-mono-server4

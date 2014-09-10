@@ -1,0 +1,225 @@
+#!/usr/bin/perl -w
+# Automatic mono-server file generator
+#
+# With this script the user can update the host files 
+# that are installed in /etc/mono-server/conf.d/package and create a 
+# 'big' host file (/etc/mono-server/mono-server4-hosts) that will be used
+# by mono-server to setup the virtual hosts needed by 
+# the user.
+#
+# Under GPL, please read: 
+# http://www.gnu.org/copyleft/gpl.html
+#
+# Written by: Pablo Fischer
+
+=head1 NAME
+
+mono-xsp4-update - creates .webapp needed by xsp4
+
+=head1 SYNOPSIS
+
+mono-xsp4-update
+
+=head1 DESCRIPTION
+
+ mono-xsp4-update is a perl tool to update/create a .webapp in /etc/xsp4
+
+ This file is needed by xsp4 cause it has all each ASP.NET application with a path and alias, needed 
+ by xsp4 to setup these applications.
+
+ The .webapp is created with other host configuration files that are in /etc/xsp4/conf.d
+
+ For more information read the README.Debian of this package (/usr/share/doc/mono-xsp4/README.Debian).
+
+=head1 AUTHOR
+
+ Pablo Fischer <pablo@pablo.com.mx>
+
+=cut
+
+use strict; 
+use Digest::MD5;
+
+#Main vars..
+my ($monoxsp4_dir, $monoxsp4_confd, $monoxsp4_hostfile, $monoxsp4_webapp,
+    $daemon, $daemon_pid, $default_file,
+    $applications, $libs);
+
+#Setup main vars
+$monoxsp4_dir = "/etc/xsp4";
+$monoxsp4_confd = "$monoxsp4_dir/conf.d";
+$monoxsp4_webapp = "$monoxsp4_dir/debian.webapp";
+$daemon = "/etc/init.d/mono-xsp4";
+$daemon_pid = "/var/run/mono-xsp4.pid";
+$applications = "";
+$default_file = "/etc/default/mono-xsp4";
+
+my $restart = "yes";
+my $first_file = "yes";
+my ($orig_md5, $new_md5);
+
+#Check write access to $monoxsp4_hostfile
+if( ( -e "$monoxsp4_webapp" && ! -w "$monoxsp4_webapp" ) || ! -w "$monoxsp4_dir" ) {
+    print "mono-xsp4-update requires write access to $monoxsp4_webapp or 
+be executed by root\n" ; 
+    exit 1 ;
+}
+
+#Read the default file
+&read_default_file;
+#Orig md5
+$orig_md5 = &get_md5;
+#Read directory..
+&read_dir;
+#The tail
+&write_tempdefault_end;
+#Prepare the application string
+$applications =~ s/,$//;
+#Final md5
+$new_md5 = &get_md5;
+#Equal?
+if(("$new_md5" ne "$orig_md5") && ($restart eq "yes")) {
+    if(( -f $daemon ) && ( -f $daemon_pid )) {
+	system("$daemon restart");
+    }
+}
+
+
+sub get_md5 {
+    if( -e $monoxsp4_webapp ) {
+	open(WEBAPP, $monoxsp4_webapp);
+	binmode(WEBAPP);
+	return Digest::MD5->new->addfile(*WEBAPP)->hexdigest;
+	
+    }
+    else {
+	return "";
+    }
+}
+
+sub read_default_file {
+    
+    if(-e $default_file) {
+	open(DEFAULT_FILE, "$default_file");
+	while(my $line = <DEFAULT_FILE>) {
+	    if($line =~ /start_boot/i) {
+		if($line =~ /true/i) {
+		    $restart = "yes";
+		}
+		else {
+		    $restart = "no";
+		}
+	    }
+	}
+	close(DEFAULT_FILE);
+    }
+}
+
+
+sub read_dir {
+    opendir(DIR, $monoxsp4_confd);
+    my @host_dirs = sort (grep { -d "$monoxsp4_confd/$_" } readdir(DIR));
+    closedir(DIR);
+
+    system("rm -Rf $monoxsp4_webapp");
+    system("touch $monoxsp4_webapp");
+
+    #How many dirs?
+    if($#host_dirs ne "0") {
+	#The head
+	&write_tempdefault_start;
+	foreach my $dir (@host_dirs) {
+	    if(($dir ne "..") && ($dir ne ".")) {
+		#Ok, in the dir.. we have more files, so read them
+		opendir(DIR, "$monoxsp4_confd/$dir");
+		my @host_files = sort (readdir(DIR));
+		closedir(DIR);
+		#Is it empty?		
+		if($#host_files ne "0") {
+		    #So, read it..
+		    foreach my $hostfile (@host_files) {
+			#Just remember.. we don't like directories inside directories!
+			if(($hostfile ne "..") && ($hostfile ne ".")) {
+			    $hostfile = "$monoxsp4_confd/$dir/$hostfile";
+			    write_tempxsp4hostfile($hostfile);
+			}
+		    }
+		}
+	    }
+	}
+    }
+}
+
+sub write_tempdefault_start {
+
+    open(TEMPWEBAPP, ">> $monoxsp4_webapp");
+    print TEMPWEBAPP "<apps>\n";
+    close(TEMPWEBAPP);
+    
+}
+
+
+sub write_tempdefault_end {
+
+    open(TEMPWEBAPP, ">> $monoxsp4_webapp");
+    print TEMPWEBAPP "</apps>\n";
+    close(TEMPWEBAPP);
+
+}  
+
+sub write_tempxsp4hostfile {
+    my $hostfile = shift;
+
+    #Write the content to a temp file..
+    open(TEMPWEBAPP, ">> $monoxsp4_webapp");
+    #And open the hostfile..
+    open(HOSTFILE, "$hostfile");
+    #Read it..
+    my @content_hostfile = <HOSTFILE>;
+    #Close it..
+    close(HOSTFILE);
+    #Write the header to the monoxsp4_hostfile
+    
+    my ($path, $alias, $name);
+
+    foreach my $line (@content_hostfile) {	
+	if($line =~ /path/i) {
+	    #Ok, the directory exists?
+	    my $dir = (split /\=/, $line)[1];
+	    #Remove blank spaces
+	    $dir =~ tr/\ //d;
+	    #remove that \n
+	    $dir =~ s/\n//;
+ 	    if ( ! -d "$dir" ) {
+		$dir = "";
+		last;
+ 	    }
+	    else {
+		$path = $dir;
+	    }
+	}
+
+	if($line =~ /alias/i) {
+	    $alias = (split /\=/, $line)[1];
+	    #Blank Spaces
+	    $alias =~ tr/\ //d;
+	    #New lines..
+	    $alias =~ s/\n//;
+	    #The name
+	    $name = $alias;
+	    $name =~ s|/*||;
+	}	
+    }	
+    
+    if($path) {
+	$applications = "$applications$alias:$path,";
+	$libs = "$libs:";
+
+	print TEMPWEBAPP "  <web-application>\n";
+	print TEMPWEBAPP "    <name>$name</name>\n";
+	print TEMPWEBAPP "    <vpath>$alias</vpath>\n";       
+	print TEMPWEBAPP "    <path>$path</path>\n";
+	print TEMPWEBAPP "  </web-application>\n";
+    }
+    close(TEMPWEBAPP);
+}  

@@ -1,0 +1,55 @@
+#!/bin/sh
+set -e
+
+. /usr/share/debconf/confmodule
+db_version 2.0
+
+modmono_default="/etc/default/mono-apache-server4"
+
+# create file if it doesn't exist
+if [ ! -e $modmono_default ]; then
+	cat > $modmono_default <<-END
+	# Defaults for mono-apache-server4
+
+	# Should mono-apache-server4 start apache?
+	start_apache=false
+	END
+fi
+
+restart_apache_on() {
+    sed s/start_apache=false/start_apache=true/g $modmono_default > $tempfile
+    cp $tempfile $modmono_default
+}
+
+restart_apache_off() {
+    sed s/start_apache=true/start_apache=false/g $modmono_default > $tempfile
+    cp $tempfile $modmono_default
+}
+
+daemon_turn_off() {
+    if [ -x /etc/init.d/mono-server4 ]; then
+	update-rc.d -f mono-server4 remove > /dev/null
+    fi
+}
+
+case "$1" in
+    configure)
+	tempfile=$(/bin/tempfile)
+	
+	db_get monoserver4/monoserver4_restartapache || true
+	daemon_turn_off
+	if [ "$RET" = "true" ]; then
+	    restart_apache_on
+	else
+	    restart_apache_off
+	fi
+
+	mono-server4-update
+	
+	rm $tempfile
+	;;
+esac
+
+#DEBHELPER#
+
+exit 0

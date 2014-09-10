@@ -1,0 +1,146 @@
+#!/usr/bin/perl -w
+
+=head1 NAME
+
+dh_installxsp - install host files into /etc/xsp/conf.d and 
+/etc/mono-server/conf.d
+
+=cut
+
+use strict;
+use Debian::Debhelper::Dh_Lib;
+
+=head1 SYNOPSIS
+
+B<dh_installxsp> [S<B<debhelper options>>] [B<--name=>I<name>] [B<-V >I<version(s)>]
+
+=head1 DESCRIPTION
+
+dh_installxsp is a debhelper program that will install host
+configuration files in /etc/xsp2/conf.d and /etc/mono-server2/conf.d
+(for XSP 2) or /etc/xsp4/conf.d and /etc/mono-server4/conf.d (for XSP
+4). So, if xsp 2 (or xsp 4) is install or will be installed, when xsp
+starts it automatically starts the daemon with the host file.
+
+The files debian/package.hostxsp2 are installed for XSP 2 while
+debian/package.hostxsp4 are used for XSP 4.
+
+In the debian/rules file, dh_installxsp needs to be called before
+dh_installdeb to make sure the files are properly marked as conffiles
+to avoid the lintian warnings. Otherwise, the files created in /etc/
+need to be marked as conffiles.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<--name=>I<name>
+
+Look for files named debian/package.hostxsp{2,4} and install them as
+/etc/xsp{2,4}/conf.d/package/hostfile.
+
+=item B<-V >I<version(s)>
+
+Installs the files for XSP 2.0 (B<-V 2>), XSP 4.0 (B<-V 4>), or both (B<-V
+2,4>). If this version is not specified (or just B<-V> is given), this
+only installed files for XSP 4, not XSP 2.
+
+=back
+
+=cut
+
+# Initialize debhelper
+init();
+
+# Figure out what versions we want to install
+my ($install_xsp_2, $install_xsp_4) = (0, 0);
+$install_xsp_2 = 1 if ($dh{V_FLAG_SET} && $dh{V_FLAG} =~ /2/);
+$install_xsp_4 = 1 if ($dh{V_FLAG_SET} && $dh{V_FLAG} =~ /4/);
+$install_xsp_4 = 1 if !$install_xsp_2 && !$install_xsp_4;
+$install_xsp_4 = 1 unless $dh{V_FLAG_SET};
+
+my $depname="cli:XspServer";
+
+# Go through the packages in this module and see if we need to install
+# each one. This also uses the above variables (install_xsp_*) in each
+# pass.
+foreach my $package (@{$dh{DOPACKAGES}})
+{
+    # Configure for both XSP 2 and/or XSP 4
+    process_xsp($package, "2") if $install_xsp_2;
+    process_xsp($package, "4") if $install_xsp_4;
+}
+
+# This handles the installation of the actual files. This assumes that
+# $version has "2" or "4" (or "5" at some point) and that determines
+# the path being installed into.
+sub process_xsp
+{
+    my ($package, $version) = @_;
+    my $tmp = tmpdir($package);
+    my $hostfile = pkgfile($package, "hostxsp$version");
+
+    # Check to see if we have a host file in the debian/ directory for
+    # this package.
+    if ($hostfile)
+    {
+	# Make sure we have the dependancies
+	my $depname = "cli:XspServer$version";
+	
+	# Delete it for idempotency
+	delsubstvar($package, $depname);
+	addsubstvar($package, $depname,
+		    "mono-xsp$version | mono-apache-server$version | mono-fastcgi-server$version");
+
+	# Check for the installation directory
+	for my $d1 (("xsp$version", "mono-server$version"))
+	{
+	    # Create the top-level directory
+	    if(! -d "$tmp/etc/$d1/conf.d")
+	    {
+		doit("install", "-d", "$tmp/etc/$d1/conf.d");
+	    }
+
+	    # Check for the configuration directory for this package
+	    if(! -d "$tmp/etc/$d1/conf.d/" . pkgfilename($package))
+	    {
+		doit("install", "-d",
+		     "$tmp/etc/$d1/conf.d/" . pkgfilename($package));
+	    }
+	    
+	    # Install this into the conf.d/packagename/10_packagename
+	    doit("install",
+		 "-m", 644,
+		 $hostfile,
+		 "$tmp/etc/$d1/conf.d/" . pkgfilename($package)
+		 . "/10_" . pkgfilename($package));
+	}
+
+	# Install the autoscripts for this version
+	if ($hostfile ne '')
+	{
+	    if (!$dh{NOSCRIPTS})
+	    {
+		autoscript($package, "postinst", "postinst-monoxsp$version",
+			   "s/#PACKAGE#/$package/");
+		autoscript($package, "postrm", "postrm-monoxsp$version",
+			   "s/#PACKAGE#/$package/");
+	    }
+	}
+    }	
+}
+
+=head1 SEE ALSO
+
+L<debhelper(7)>
+
+This program is a part of mono-utils.
+
+=head1 AUTHOR
+
+Originally written by Pablo Fischer <pablo@pablo.com.mx>. Modified by
+Dylan R. E. Moonfire <debian@mfgames.com> to handle XSP and XSP 2
+installation. Modified by Jo Shields <directhex@apebox.org> to drop XSP
+and add XSP 4.
+
+=cut

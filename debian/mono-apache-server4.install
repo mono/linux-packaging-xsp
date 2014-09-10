@@ -1,0 +1,5 @@
+debian/tmp/usr/lib/mono/4.5/mod-mono-server4.exe
+debian/tmp/usr/lib/mono/gac/mod-mono-server4
+debian/tmp/usr/bin/mod-mono-server4
+debian/mono-server4-admin	/usr/sbin/
+debian/mono-server4-update	/usr/sbin/

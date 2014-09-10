@@ -1,0 +1,6 @@
+debian/dh_installxsp /usr/bin
+debian/postrm-monoxsp4 /usr/share/debhelper/autoscripts
+debian/postrm-monoxsp2 /usr/share/debhelper/autoscripts
+debian/postinst-monoxsp4 /usr/share/debhelper/autoscripts
+debian/postinst-monoxsp2 /usr/share/debhelper/autoscripts
+debian/xsp.pm /usr/share/perl5/Debian/Debhelper/Sequence

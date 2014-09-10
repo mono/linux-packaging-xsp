@@ -1,0 +1,27 @@
+xsp and mod-mono-server for Debian
+-----------------------------------
+
+This is the Mono XSP Web Application server for Debian. It is divided into
+three packages.
+
+The mono-xsp package contains a standalone web server to run ASP.NET web
+applications. It should run on port 8080 or 8081. The package scripts
+automatically detect which port should be used.
+
+The mono-apache-server package contains the mod-mono-server.exe executable.
+It is used as a back-end by the mod_mono module for Apache (libapache-mod-mono
+for Apache 1.3, or libapache2-mod-mono for Apache 2.0). It is packaged
+separately so that you can run ASP.NET web applications without having to
+install Apache. If that is what you want, use mono-xsp.
+
+The asp.net-examples package includes some demos of ASP.NET applications. They
+can be used with either the standalone mono-xsp package, or the mod_mono Apache
+module.
+
+ -- Fabian Fagerholm <fabbe@paniq.net>, Thu,  5 Aug 2004 13:29:12 +0300
+
+There is now a fourth package, mono-fastcgi-server, which contains the 
+fastcgi-mono-server.exe executable. This is used as a back-end for use by any
+fastcgi server of your choice, such as lighttpd.
+
+ --Jo Shields <directhex@apebox.org>, Thu,  3 Jul 2008 09:25:00 +0100

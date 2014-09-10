@@ -1,0 +1,5 @@
+debian/tmp/usr/share/man/man1/xsp4.1
+debian/tmp/usr/share/man/man1/dbsessmgr4.1
+debian/tmp/usr/share/man/man1/asp-state4.1
+debian/mono-xsp4-update.8
+debian/mono-xsp4-admin.8

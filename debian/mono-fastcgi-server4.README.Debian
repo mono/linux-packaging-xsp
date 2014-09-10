@@ -1,0 +1,25 @@
+mono-fastcgi-server4 for Debian
+--------------------------
+
+mod-fastcgi-server4 is a backend server that allows you to run ASP.NET web
+applications in conjunction with the FastCGI server of your choice, such as
+Lighttpd. In Debian, fastcgi-mono-server4 is provided in the package
+mono-fastcgi-server.
+
+fastcgi-mono-server4 creates a socket in /tmp, and FastCGI communicates with
+fastcgi-mono-server4 through that socket, in CGI format, using FastCGI records.
+
+So you need this package to use ASP.NET via FastCGI.
+
+In most cases, configuration of ASP.NET sites is handled via your HTTP server's
+configuration, rather than via fastcgi-mono-server4 itself. Therefore, no
+configuration files or examples have been included. Please see this link for
+general information on interaction between FastCGI and Mono:
+
+http://www.mono-project.com/FastCGI
+
+Please see this one for examples on configuration for Lighttpd:
+
+http://www.mono-project.com/FastCGI_Lighttpd
+
+ -- Jo Shields <directhex@apebox.org>, Thu Jul  3 10:05:17 2008

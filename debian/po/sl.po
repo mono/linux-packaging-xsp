@@ -1,0 +1,200 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Jan Kraljič <jan.kraljic@patware.si>, 2008, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: xsp 1.2.5-2.2\n"
+"Report-Msgid-Bugs-To: xsp@packages.debian.org\n"
+"POT-Creation-Date: 2011-12-21 07:13+0100\n"
+"PO-Revision-Date: 2011-04-04 08:04+0100\n"
+"Last-Translator: Jan Kraljič <jan.kraljic@patware.si>\n"
+"Language-Team: Slovene <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: boolean
+#. Description
+#: ../mono-apache-server4.templates:1001
+msgid "Let mono-apache-server4 restart Apache?"
+msgstr "Ali naj mono-apache-server4 znova zažene Apache?"
+
+#. Type: boolean
+#. Description
+#: ../mono-apache-server4.templates:1001
+msgid ""
+"The Debian version of mono-apache-server4 includes a mono-server4-update "
+"script that creates a configuration file for Apache to start the ASP.NET "
+"applications, and mono-server4-update can restart Apache if there's a new "
+"configuration file (/etc/mono-server4/mono-server-hosts.conf). If this is "
+"true, then Apache will be restarted when there is a new mono-server4-hosts."
+"conf file."
+msgstr ""
+"Debian-ova verzija mono-apache-server4 vsebuje mono-server4-update skripto, "
+"ki ustvari konfiguracijsko datoteko za apache za zagon ASP.NET aplikacij, in "
+"mono-server-update, ki lahko resetira apache v primeru nove oziroma "
+"spremenjene konfiguracijske datoteke (/etc/mono-server/mono-server-hosts."
+"conf). V tem primeru je nato apache resetiran, ko so novosti v "
+"konfiguracijski datoteki"
+
+#. Type: note
+#. Description
+#: ../mono-apache-server4.templates:2001 ../mono-apache-server2.templates:2001
+#: ../mono-xsp4.templates:4001 ../mono-xsp2.templates:4001
+msgid "ASP.NET 1.0 support removed"
+msgstr "Podpora za ASP.NET 1.0 je bila umaknjena"
+
+#. Type: note
+#. Description
+#: ../mono-apache-server4.templates:2001 ../mono-apache-server2.templates:2001
+msgid ""
+"You appear to have some ASP.NET 1.0 sites configured in /etc/mono-server1. "
+"Support for the 1.0 profile has been removed from Mono 2.8 and above, and "
+"you are no longer able to serve ASP.NET 1.0 sites. You must reconfigure XSP "
+"to serve these sites using either 2.0 or 4.0 profiles, assuming your "
+"application is compatible. Please see mono-server2-admin(8) or mono-server4-"
+"admin(8) to see how to regenerate a configuration for use with 2.0 or 4.0 "
+"profiles."
+msgstr ""
+"Zdi se da so nekatere ASP.NET 1.0 strani nastavljene za /etc/mono-server1. "
+"Podpora za 1.0 profil je bila ukinjena z verzijo Mono 2.8, in s tem uporaba "
+"ASP.NET 1.0 strani ni več možna. Vaš XSP strežnik morate ponovno nastaviti s "
+"profilom 2.0 ali 4.0, v kolikor je spletna aplikacija kompatibilna. Oglejte "
+"si mono-server2-admin(8) ali  mono-server4-admin(8)  za pomoč pri ponovni "
+"vzpostavitvi nastavitev s profilom 2.0 ali 4.0."
+
+#. Type: boolean
+#. Description
+#: ../mono-apache-server2.templates:1001
+msgid "Let mono-apache-server2 restart Apache?"
+msgstr "Dovolim ponovni zagon Apache zaradi mono-apache-server2?"
+
+#. Type: boolean
+#. Description
+#: ../mono-apache-server2.templates:1001
+msgid ""
+"The Debian version of mono-apache-server2 includes a mono-server2-update "
+"script that creates a configuration file for Apache to start the ASP.NET "
+"applications, and mono-server2-update can restart Apache if there's a new "
+"configuration file (/etc/mono-server2/mono-server2-hosts.conf). If this is "
+"true, then Apache will be restarted when there is a new mono-server2-hosts."
+"conf file."
+msgstr ""
+"Debian-ova verzija mono-apache-server2 vsebuje mono-server2-update skripto, "
+"ki ustvari konfiguracijsko datoteko za apache za zagon ASP.NET aplikacij, in "
+"mono-server2-update, ki lahko resetira apache v primeru nove oziroma "
+"spremenjene konfiguracijske datoteke (/etc/mono-server2/mono-server2-hosts."
+"conf). V tem primeru je nato apache resetiran, ko so novosti v "
+"konfiguracijski datoteki"
+
+#. Type: boolean
+#. Description
+#: ../mono-xsp4.templates:1001 ../mono-xsp2.templates:1001
+msgid "Start on boot?"
+msgstr "Zaženem XSP ob zagonu računalnika"
+
+#. Type: boolean
+#. Description
+#: ../mono-xsp4.templates:1001
+msgid ""
+"If this is true, then XSP4 will automatically start when the computer is "
+"turned on."
+msgstr ""
+"V kolikor je odgovor pritrdilen se bo XSP4 avtomatično zagnal ob zagonu "
+"računalnika"
+
+#. Type: string
+#. Description
+#: ../mono-xsp4.templates:2001 ../mono-xsp2.templates:2001
+msgid "Bind to address:"
+msgstr "Povezan na naslov"
+
+#. Type: string
+#. Description
+#: ../mono-xsp4.templates:2001
+msgid ""
+"To function properly, XSP4 needs to be bound to an IP address. The default "
+"(\"0.0.0.0\") binds to all addresses of the server, but a specific port can "
+"be selected. To use XSP4 only locally, use \"127.0.0.1\" for the address."
+msgstr ""
+"Da bi deloval pravilno mora biti XSP4 povezan na IP naslov. Privzeta "
+"vrednost  (\"0.0.0.0\") se povezuje na vse naslove strežnika vendar na "
+"sprecifična vrata, ki so izbrana. Za povezovanje XSP samo lokalno uporabite "
+"\"127.0.0.1\" za naslov."
+
+#. Type: string
+#. Description
+#: ../mono-xsp4.templates:3001 ../mono-xsp2.templates:3001
+msgid "Bind to port:"
+msgstr "Povezan na vrata:"
+
+#. Type: string
+#. Description
+#: ../mono-xsp4.templates:3001 ../mono-xsp2.templates:3001
+msgid ""
+"XSP is bound to a specific port on the server. Common values are 80, 8080, "
+"or 8081."
+msgstr ""
+"XSP je povezan na specifična vrata na strežniku. Najbogostejša vrata so 80, "
+"8080 ali 8081"
+
+#. Type: note
+#. Description
+#: ../mono-xsp4.templates:4001 ../mono-xsp2.templates:4001
+msgid ""
+"You appear to have some ASP.NET 1.0 sites configured in /etc/mono-server1. "
+"Support for the 1.0 profile has been removed from Mono 2.8 and above, and "
+"you are no longer able to serve ASP.NET 1.0 sites. You must reconfigure XSP "
+"to serve these sites using either 2.0 or 4.0 profiles, assuming your "
+"application is compatible. Please see mono-xsp2-admin(8) or mono-xsp4-admin"
+"(8) to see how to regenerate a configuration for use with 2.0 or 4.0 "
+"profiles."
+msgstr ""
+"Zdi se da so nekatere ASP.NET 1.0 strani nastavljene za /etc/mono-server1. "
+"Podpora za 1.0 profil je bila ukinjena z verzijo Mono 2.8, in s tem uporaba "
+"ASP.NET 1.0 strani ni več možna. Vaš XSP strežnik morate ponovno nastaviti s "
+"profilom 2.0 ali 4.0, v kolikor je spletna aplikacija kompatibilna. Oglejte "
+"si mono-xsp2-admin(8) ali  mono-xsp4-admin(8) za pomoč pri ponovni "
+"vzpostavitvi nastavitev s profilom 2.0 ali 4.0."
+
+#. Type: boolean
+#. Description
+#: ../mono-xsp2.templates:1001
+msgid ""
+"If this is true, then XSP2 will automatically start when the computer is "
+"turned on."
+msgstr ""
+"V kolikor je odgovor pritrdilen se bo XSP avtomatično zagnal ob zagonu "
+"računalnika"
+
+#. Type: string
+#. Description
+#: ../mono-xsp2.templates:2001
+msgid ""
+"To function properly, XSP2 needs to be bound to an IP address. The default "
+"(\"0.0.0.0\") binds to all addresses of the server, but a specific port can "
+"be selected. To use XSP2 only locally, use \"127.0.0.1\" for the address."
+msgstr ""
+"Da bi deloval pravilno mora biti XSP povezan na IP naslov. Privzeta "
+"vrednost  (\"0.0.0.0\") se povezuje na vse naslove strežnika vendar na "
+"sprecifična vrata, ki so izbrana. Za povezovanje XSP samo lokalno uporabite "
+"\"127.0.0.1\" za naslov."
+
+#~ msgid ""
+#~ "You appear to have some ASP.NET 1.0 sites configured in /etc/mono-"
+#~ "server1. Support for the 1.0 profile has been removed from Mono 2.8 and "
+#~ "above, and you are no longer able to serve ASP.NET 1.0 sites. You must "
+#~ "reconfigure XSP to serve these sites using either 2.0 or 4.0 profiles, "
+#~ "assuming your application is compatible. Please see mono-server2-admin(8) "
+#~ "or  mono-server4-admin(8) to see how to regenerate a configuration for "
+#~ "use   with 2.0 or 4.0 profiles."
+#~ msgstr ""
+#~ "Zdi se da so nekatere ASP.NET 1.0 strani nastavljene za /etc/mono-"
+#~ "server1. Podpora za 1.0 profil je bila ukinjena z verzijo Mono 2.8, in s "
+#~ "tem uporaba ASP.NET 1.0 strani ni več možna. Vaš XSP strežnik morate "
+#~ "ponovno nastaviti s profilom 2.0 ali 4.0, v kolikor je spletna aplikacija "
+#~ "kompatibilna. Oglejte si mono-server2-admin(8) ali  mono-server4-admin"
+#~ "(8)  za pomoč pri ponovni vzpostavitvi nastavitev s profilom 2.0 ali 4.0."

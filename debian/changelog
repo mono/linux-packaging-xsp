@@ -1,0 +1,1073 @@
+xsp (3.0.11-1) unstable; urgency=low
+
+  * [cba6453] Imported Upstream version 3.0.11
+  * [7709f54] Updated Japanese translation. Thanks to victory 
+    <victory.deb@gmail.com> (Closes: #717204)
+  * [fdfbb9d] Updated Italian translation. Thanks to Fabio 
+    <rola.hack@gmail.com> (Closes: #697188)
+
+ -- Jo Shields <directhex@apebox.org>  Tue, 08 Oct 2013 16:40:34 +0200
+
+xsp (2.11+git20130328.6365230-2) unstable; urgency=low
+
+  * Upload to sid
+
+ -- Jo Shields <directhex@apebox.org>  Tue, 09 Jul 2013 22:48:27 +0100
+
+xsp (2.11+git20130328.6365230-1) experimental; urgency=low
+
+  * [6d6e4fa] Imported Upstream version 2.11+git20130328.6365230
+  * [53f2acf] Launcher scripts assume .NET 4.5, so Mono 3 needed
+  * [39f8bc7] 4.5-ify install locations
+
+ -- Jo Shields <directhex@apebox.org>  Fri, 26 Apr 2013 14:32:24 +0100
+
+xsp (2.10-2.4) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Fix "modifies conffiles (policy 10.7.3): /etc/default/mono-xsp2"
+    use variable instead if string for db_set in
+    debian/mono-apache-server[2,4].config. (Cf. #688565).
+    Thanks to Adam D. Barratt for spotting this mistake (in #688205).
+
+ -- gregor herrmann <gregoa@debian.org>  Sun, 07 Oct 2012 20:08:34 +0200
+
+xsp (2.10-2.3) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Fix "modifies conffiles (policy 10.7.3): /etc/default/mono-xsp2":
+    s/db_get/db_set/ in debian/mono-xsp[24].config.
+    Thanks to Andreas Beckmann for hunting down my silly mistake.
+    (Closes: #688205)
+
+ -- gregor herrmann <gregoa@debian.org>  Sat, 06 Oct 2012 18:08:06 +0200
+
+xsp (2.10-2.2) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Fix "modifies conffiles (policy 10.7.3): /etc/default/mono-xsp2" and
+    "mono-apache-server2, mono-apache-server4: modifies conffiles (policy
+    10.7.3): /etc/default/mono-apache-server[24]" and another not yet reported
+    case of the same problem in mono-xsp4:
+    for all of mono-xsp[24] and mono-apache-server[24]:
+    - don't ship the .default file
+    - create it in .postinst if necessary
+    - source it in .config to feed existing values into debconf
+    - remove it in .postrm/purge
+    (Closes: #688205, Closes: #688565)
+  * Fix "mono-apache-server{2, 4}: unowned files after purge (policy
+    6.8, 10.8): /etc/mono-server?/mono-server?-hosts.conf":
+    - remove files in .postrm/purge
+    (Closes: #668755)
+
+ -- gregor herrmann <gregoa@debian.org>  Fri, 05 Oct 2012 15:50:27 +0200
+
+xsp (2.10-2.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Fix pending l10n issues. Debconf translations:
+  * Japanese (Hideki Yamane).  Closes: #626374
+  * Swedish (Martin Bagge / brother).  Closes: #661963
+  * Polish (Michał Kułach).  Closes: #662919
+
+ -- Christian Perrier <bubulle@debian.org>  Sun, 01 Apr 2012 15:33:36 +0200
+
+xsp (2.10-2) unstable; urgency=low
+
+  [ Jo Shields ]
+  * [91ef16c] Add missing dependencies to dh-xsp
+  * [d9953f7] Updated Swedish translation. Thanks to Martin Bagge. (Closes: #623408)
+  * [d8c3c1c] Switch to DH8-compatible use of "--with cli"
+
+  [ Iain Lane ]
+  * [dc3bc8b] Fix typographical problems in debconf templates.
+    Thanks to Jeroen Schot <schot@A-Eskwadraat.nl>
+  * [8dcab08] Typo fix in French translation from David Prévot
+
+  [ Christian Perrier ]
+  * [e280105] Update & unfuzzy translations (Closes: #653030, #653081, #653224)
+
+ -- Jo Shields <directhex@apebox.org>  Fri, 20 Jan 2012 10:28:40 +0000
+
+xsp (2.10-1) experimental; urgency=low
+
+  * [61d31c1] Remove obsolete gbp.conf
+  * [ccdb6e6] Imported Upstream version 2.10
+  * [92f63cb] Stop converting tarball format on orig tarball
+  * [27a035f] Set Debian source format to 3.0 (quilt)
+  * [faec1a1] Port dh_installxsp to handle XSP 2 and 4, not 1 and 2
+  * [18cc2df] Replace XSP 1 preinst/postrm with XSP4 equivalents
+  * [da67f86] Remove menu entry for ASP.NET examples (it's not useful
+    having it in a GUI menu when it just spawns a daemon)
+  * [c3ebd1a] Remove .dirs files for ASP.NET examples - they serve no
+    purpose
+  * [16c8c53] Unify ASP.NET examples under a single package, hosted by
+    XSP 4
+  * [36ce192] Move debian compat level to 7
+  * [61e0efe] Remove TODO (this kind of thing belongs on a wiki, or bug
+    reports - it's just cluttering up the packaging of the package)
+  * [1ca7b61] Remove useless .dirs files for FastCGI packages
+  * [93e676f] Add mono-fastcgi-server4 packages, replacing mono-fastcgi-
+    server1
+  * [f08e010] Remove useless .dirs files for mono-apache-server packages
+  * [1945d2c] Make mono-apache-server4 the new default version for mono-
+    apache-server
+  * [7149783] Update readme for mono-apache-server2
+  * [68f8b3b] Replace mono-apache-server1 with mono-apache-server4
+  * [6b912dc] Add symlinks to default versions of our apache mangling
+    tools to the default versions package, mono-apache-server. Since the
+    names of some commands are recycled from mono-apache-server1, add a
+    Conflicts/Replaces
+  * [193e167] Remove fragments of earlier packaging efforts, which
+    haven't been actually used for years
+  * [da96272] Update to 4.0, and rename Debian XSP manglement scripts,
+    to remove useless ".conf" filename which is only removed anyway
+  * [9e2a65a] Move XSP4 features into a new mono-xsp4-base package, and
+    rename mono-xsp-base to dh-xsp since it only contains dh_installxsp.
+  * [620f9ee] Add executable permissions to scripts we plan to run
+  * [6f66c23] Switch default mono-xsp version to 4.0
+  * [ef6ca71] Add an xsp.pm, for DebHelper, so we can call "dh --with
+    xsp" in XSP apps to handle dh_installxsp
+  * [93c5179] Ensure we carry NEWS etc with mono-xsp2
+  * [1c1ff1e] Add a readme for XSP2, to help explain our weird
+    Debianisms
+  * [ab2389b] Replace mono-xsp1 with mono-xsp4
+  * [9b3ad89] Bump ABI version of expected Mono to 2.10.1
+  * [4c55e8a] Clean up version-checking rules slightly
+  * [f4484a6] Handle slightly weird version/name situation in upstream's
+    Mono.WebServer2 library
+  * [b4f7731] Port packaging to Debhelper 7, clean up significantly, and
+    update to build 2.10 (in theory)
+  * [a4e1ddc] Fix up build-dependencies
+  * [5bb24aa] Fix up install list for dh-xsp
+  * [e4e497c] it's dh_installman, not manpages
+  * [a80fb89] Fix package description for dh-xsp
+  * [e60ec5b] Explicitly add mono-gmcs to the dependencies of mono-xsp2,
+    since the gmcs compiler is needed for sites to actually work
+  * [cbb8703] Switch asp.net-examples from XSP4 to XSP2, since there's
+    some precompiled 2.0 stuff in there and it's not worth rebuilding
+    against 4.0 when it doesn't contain any 4.0-only examples anyway
+  * [41c086d] Refresh .dirs files for mono-xsp
+  * [2de6042] Add a conflicts, since we want to force removal of
+    asp.net2-examples
+  * [0ae8be3] Add debconf templates to warn users of XSP1 removal
+  * [64db795] Inform users via Debconf if they have XSP1 sites
+    configured, when they install XSP2 or 4 - since we cannot host XSP1
+    sites anymore, it's nice to let users know that they need to
+    reconfigure
+  * [a8618d7] Refresh POTFILES.in
+  * [49772f9] Updated Russian translation. Thanks to Yuri Kozlov.
+    (Closes: #620657)
+  * [f25e3c3] Updated Galician translation. Thanks to Miguel Bouzada.
+  * [c31337b] Updated Slovenian translation. Thanks to Jan Kraljič.
+  * [901c80d] Updated Slovenian translation. Thanks to Jan Kraljič
+  * [9a801ed] Updated German translation. Thanks to Helge Kreutzmann.
+    (Closes: #620987)
+  * [b4dbed6] Updated Finnish translation. Thanks to Esko Arajärvi.
+    (Closes: #621008)
+  * [426a9ef] Updated Basque translation. Thanks to Iñaki Larrañaga
+    Murgoitio. (Closes: #621498)
+  * [e5b1bf5] Updated Portugese translation. Thanks to Miguel
+    Figueiredo. (Closes: #621837)
+  * [69b81d2] Updated Czech translation. Thanks to Miroslav Kure.
+    (Closes: #622098)
+  * [cd01091] Updated Spanish translation. Thanks to Francisco Javier
+    Cuadrado. (Closes: #622612)
+
+ -- Jo Shields <directhex@apebox.org>  Fri, 15 Apr 2011 17:34:23 +0100
+
+xsp (2.6.5-3) unstable; urgency=low
+
+  * Upload to Debian Unstable
+
+ -- Jo Shields <directhex@apebox.org>  Fri, 10 Sep 2010 16:11:45 +0100
+
+xsp (2.6.5-2) experimental; urgency=low
+
+  * debian/mono-xsp1.postinst,
+    debian/mono-xsp2.postinst:
+    + If /var/run/mono-xspX is missing, then don't die in postinst
+
+ -- Jo Shields <directhex@apebox.org>  Sat, 28 Aug 2010 13:37:10 +0100
+
+xsp (2.6.5-1) experimental; urgency=low
+
+  * New upstream release
+  * debian/mono-xsp1.default,
+    debian/mono-xsp1.init,
+    debian/mono-xsp2.init:
+    + Make daemon enabled or disabled on the basis of the start_boot value 
+      of /etc/default/mono-xspX. As a side effect of this, the init script 
+      will no longer die horribly if the default file is missing or junk.
+  * debian/mono-xsp1.postinst,
+    debian/mono-xsp2.postinst:
+    + If /etc/default/mono-xspX is missing, then don't die in postinst
+      (LP: #563383)
+  * debian/control:
+    + Update Vcs-* fields for Git
+    + Bump Standards to version 3.9.1
+  * debian/mono-xsp1.init,
+    debian/mono-xsp2.init:
+    + Add missing Requires on $remote_fs to init script
+  * debian/mono-xsp.links,
+    debian/mono-fastcgi-server.links,
+    debian/mono-apache-server.links:
+    + Fix dangling symlinks to non-gzipped manpages
+  * debian/mono-xsp1.dirs,
+    debian/mono-xsp2.dirs,
+    debian/mono-xsp1.postinst,
+    debian/mono-xsp2.postinst:
+    + Stuff in /var/run definitely shouldn't be in the packages, since 
+      it's entirely possible that this directory is on a tmpfs which may be
+      lost at boot. Since we recreate the dir in the init scripts anyway, 
+      this is not worth being here.
+
+ -- Jo Shields <directhex@apebox.org>  Sat, 07 Aug 2010 20:36:51 +0100
+
+xsp (2.6.4-1) experimental; urgency=low
+
+  * New upstream release
+  * debian/rules:
+    + Don't use ../tarballs for get-orig-source rule
+    + Set ABI version to 2.6
+
+ -- Jo Shields <directhex@apebox.org>  Sun, 06 Jun 2010 21:48:39 +0100
+
+xsp (2.4.3-3.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Explicitly use 1.0 as source format
+  * Fix pending l10n issues. Debconf translations:
+    - Italian (Vincenzo Campanella).  Closes: #577042
+
+ -- Christian Perrier <bubulle@debian.org>  Fri, 16 Apr 2010 20:03:58 +0200
+
+xsp (2.4.3-3) unstable; urgency=low
+
+  * debian/po/ja.po:
+    + Update (thanks to Hideki Yamane) (Closes: #564480, #564479)
+  * debian/control:
+    + Explicitly build-depend on NUnit (Closes: #564392)
+
+ -- Jo Shields <directhex@apebox.org>  Tue, 19 Jan 2010 00:38:43 +0000
+
+xsp (2.4.3-2) unstable; urgency=low
+
+  * Actually properly include those 3 translations this time. Silly SVN.
+
+ -- Jo Shields <directhex@apebox.org>  Tue, 15 Dec 2009 22:53:56 +0000
+
+xsp (2.4.3-1) unstable; urgency=low
+
+  * New upstream release
+  * Include all previous NMU updates
+  * Translation updates
+    + Include Galician translation update (Closes: #554221)
+    + Include Japanese translation update (Closes: #551298)
+    + Include Italian translation update (Closes: #556076)
+  * debian/watch:
+    + Fix watchfile to support not downloading the current 
+      stable release, for cases (like this) where stable isn't wanted
+  * debian/control:
+    + Depend on mono-devel 2.4.3, and remove the smattering of 
+      individual library build-deps
+
+ -- Jo Shields <directhex@apebox.org>  Tue, 15 Dec 2009 22:35:36 +0000
+
+xsp (2.4.2-1.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Properly capitalize "Debian" in debconf templates.
+    Translations unfuzzied.
+  * Fix pending l10n issues. Debconf translations:
+    - Russian (Yuri Kozlov).  Closes: #537920
+    - French (Jean-Luc Coulon (f5ibh)).  Closes: #538126
+    - German (Helge Kreutzmann).  Closes: #538236
+    - Spanish (Francisco Javier Cuadrado).  Closes: #538424
+    - Swedish (Martin Bagge).  Closes: #539071
+    - Czech (Miroslav Kure).  Closes: #546414
+    - Slovenian (Jan Kraljič). 
+    - Vietnamese (Clytie Siddall).  Closes: #550178
+    - Basque (Iñaki Larrañaga Murgoitio).  Closes: #550239
+    - Finnish (Esko Arajärvi).  Closes: #550122
+    - Slovenian (Jan Kraljič).  Closes: #550314
+    - Portuguese (Miguel Figueiredo).  Closes: #550894
+    - Dutch (Paul Gevers).  Closes: #550934
+    - Japanese (Hideki Yamane (Debian-JP)).  Closes: #550969
+
+ -- Christian Perrier <bubulle@debian.org>  Wed, 14 Oct 2009 20:40:29 +0200
+
+xsp (2.4.2-1) unstable; urgency=low
+
+  * New upstream release
+  * debian/copyright:
+    + Refresh copyright years
+  * debian/rules:
+    + Implement reliable get-orig-source rule which repacks from bz2
+    + Bump System.Web ABI version to 2.4
+  * po/es.po:
+    + Updated Spanish translation. (Closes: #525788)
+  * debian/control:
+    + Bump standards version to 3.8.2
+    + Bump minimum Mono version to 2.4
+    + Change build-dep on Nunit to 2.4 (Closes: #531927)
+    + Depend on mono-devel for compilers - mono-mcs et al won't help (but
+      add mono-1.0-devel for XSP1 support as well as mono-devel, as it's
+      needed for /usr/bin/mcs to work)
+    + Remove dependencies on net-tools, they haven't been relevant since
+      1.0.5-1 (Closes: #535847)
+  * debian/control,
+    debian/dh_installxsp,
+    debian/po/*,
+    debian/mono-xsp.*,
+    debian/mono-xsp1.*,
+    debian/mono-fastcgi-server.*,
+    debian/mono-fastcgi-server1.*,
+    debian/mono-apache-server.*,
+    debian/mono-apache-server1.*:
+    + Move all references of "xsp" to "xsp1", in order to free up
+      "xsp" for an unversioned link to the latest version (i.e. xsp2)
+  * debian/mono-apache-server.links,
+    debian/mono-xsp.links,
+    debian/mono-fastcgi-server.links,
+    debian/control
+    + Create new metapackages pointing to the default versions of
+      packages with versioned commands, including man pages
+    + Conflict with older versions of the packages, since "old" xsp
+      packages are renamed to xsp1.
+  * debian/control,
+    debian/rules:
+    + Remove dpatch
+  * debian/rules:
+    + Delete all compiled files in clean rule, to be sure build can happen
+      twice in a row
+  * debian/control,
+    debian/dh_installxsp:
+    + Rename cli:XspServer to cli:XspServer1. The impact is low, and the
+      workarounds to keep the old name are messy    
+  * debian/po/si.po:
+    + Rename to sl.po - Apparently .si domains need a sl.po file. Go
+      figure. (Closes: #516314)
+
+ -- Jo Shields <directhex@apebox.org>  Mon, 13 Jul 2009 01:11:52 +0100
+
+xsp (2.0-2) unstable; urgency=low
+
+  * Upload to unstable.
+
+ -- Mirco Bauer <meebey@debian.org>  Wed, 25 Feb 2009 23:22:08 +0100
+
+xsp (2.0-1) experimental; urgency=low
+
+  * Debconf translations:
+    + Added Italian (Closes: #502473)
+  * New upstream release
+    + debian/rules:
+      - Bump MONO_ABI_COMP_VERSION
+    + debian/patches:
+    + debian/control:
+      - We use mono-nunit.pc now, so disable patch and change Depends
+  * Mono 2.0 Transition
+    + debian/control:
+      - Alter build dependencies to new package structure - use mono-X-devel
+        metapackage instead of mono-foocompiler directly, bin useless
+        build dependency on mono-gac
+
+ -- Jo Shields <directhex@apebox.org>  Thu, 16 Oct 2008 11:06:07 +0100
+
+xsp (1.9.1-3) unstable; urgency=low
+
+  [ Jo Shields ]
+  * Fix pending l10n issues. Thanks to Christan Perrier and Martin 
+    Bagge. Debconf translations:
+    - Swedish. Closes: #491788
+
+ -- Jo Shields <directhex@apebox.org>  Thu, 9 Oct 2008 08:52:07 +0100
+
+xsp (1.9.1-2) unstable; urgency=low
+
+  [ Jo Shields ]
+  * debian/control
+    + Enable building of fastcgi packages
+
+  [ Mirco Bauer ]
+  * debian/control:
+    + Enhanced package descriptions.
+  * debian/rules:
+    + Bumped MONO_ABI_COMP_VERSION to 1.9.
+  * debian/copyright:
+    + Added copyright holders of src/Mono.WebServer/*.cs,
+      src/Mono.WebServer.Apache/* and src/Mono.WebServer.FastCgi/*.
+
+ -- Mirco Bauer <meebey@debian.org>  Fri, 11 Jul 2008 13:33:24 +0200
+
+xsp (1.9.1-1) unstable; urgency=low
+
+  [ Jo Shields ]
+  * New upstream release (Closes: #472581)
+  * debian/rules
+    - Enable patch-stamp building, for great dpatch justice
+    - Remove broken rename in debian/rules, which was causing a 404
+      in asp.net2-examples when index2.aspx was called
+  * debian/*fastcgi*
+    - Required files to generate mono-fastcgi-server(2) packages. These
+      are disabled for now, to bypass delays in the NEW queue
+  * debian/patches/00list
+    - Dropped fix_dbpage1_typo.dpatch (no longer relevant as test uses 
+      SQLite)
+    - New patch: fix_mono_nunit.dpatch. Changes reference in 
+      Makefile.am/in to use "nunit" not "mono-nunit" to invoke 
+      pkg-config
+  * debian/control
+    - Add Jo Shields to Uploaders:
+    - New build dependencies: libmono-sqlite1.0-cil, 
+      libmono-winforms1.0-cil, libmono-oracle1.0-cil, 
+      libmono-microsoft7.0-cil, libmono-system-messaging1.0-cil,
+      libmono-system-ldap1.0-cil, libmono-cscompmgd7.0-cil,
+      libnunit2.4-cil
+  * Include changes from previous NMU (Closes: #466584, #466925 #467478).
+    Thanks to Christian Perrier for those.
+  * Debconf translations:
+    - Updated Portugese (Closes: #488168)
+    - Updated Swedish (Closes: #487554)
+    - Updated Galacian (Closes: #480985)
+    - Updated Vietnamese (Closes: #489394)
+    - Updated Czech (Closes: #489438)
+    - Added Russian (Closes: #479149)
+    - Added Finnish (Closes: #476319)
+    - Added Basque (Closes: #489584)
+    - Added Slovenian
+
+  [ Mirco Bauer ]
+  * debian/rules:
+    + Fixed target dependencies.
+
+ -- Jo Shields <directhex@apebox.org>  Thu, 03 Jul 2008 23:49:11 +0200
+
+xsp (1.2.5-2.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Add missing build dependencies that make the package FTBFS
+  * Debconf translations:
+    - French. Closes: #466584
+    - German. Closes: #466925
+    - Dutch. Closes: #467478
+
+ -- Christian Perrier <bubulle@debian.org>  Thu, 10 Apr 2008 22:14:51 +0200
+
+xsp (1.2.5-2) unstable; urgency=medium
+
+  * The "get sexy and ready for lenny" release
+  * New upstream release
+  * debian/mono-server(2)-update:
+    + Use shell wrapper scripts (/usr/bin/mod-mono-server(2)) instead of
+      assemblies (/usr/lib/mono/{1,2}.0/mod-mono-server(2).exe), as that
+      required BINFMT.
+  * debian/control:
+    + Added libmono-system-web{1,2}.0-cil and libmono-security{1,2}.0-cil to
+      build dependencies, fixing FTBFS. Thus urgency set to medium.
+      (Closes: #458709)
+    + Added Homepage, Vcs-Browser and Vcs-Svn fields.
+    + Added ${misc:Depends} for automatic debconf dependecies.
+    + Updated cli-common-dev build-dependency to 0.5.4 as we use dh_clistrip
+      from it now.
+  * debian/mono-xsp(2).init:
+    + Create /var/run/mono-xsp automatically if it doesn't exist.
+  * debian/mono-apache-server(2).postinst:
+    + Removed, db_purge for debconf is automatically handled.
+  * debian/mono-xsp(2).postrm:
+    + Remove /etc/xsp2/debian.webapp when being purged.
+      (Closes: #454378, Closes: #454709)
+  * debian/mono-apache-server2.templates
+    debian/mono-apache-server2.config:
+    + Added missing debconf integration for mono-apache-server2.
+  * debian/*.preinst
+    debian/*.postinst
+    debian/*.prerm
+    debian/*.postrm:
+    + Fixed various error handling or rather hiding, and overkill usage of
+      "rm -Rf ..."
+  * debian/watch:
+    + Converted to version 3.
+  * debian/rules:
+    + Make use of dh_clifixperms and dh_clistrip.
+  * debian/mono-xsp.install:
+    + Added dbsessmgr.
+  * debian/po/templates.pot:
+    + Minor update, fixed the script name.
+
+ -- Mirco Bauer <meebey@debian.org>  Sun, 17 Feb 2008 23:46:34 +0100
+
+xsp (1.2.5-1) unstable; urgency=low
+
+  * New upstream release
+  * Dylan R. E. Moonfire
+    + Acknowledged and merged in NMU changes by Andreas Barth (Closes:
+      #431585, #431587)
+    + debian/rules: Changed "clean" rule to remove lintian warning.
+
+ -- Dylan R. E. Moonfire <debian@mfgames.com>  Mon, 26 Nov 2007 10:50:17 -0600
+
+xsp (1.2.4-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Add dependency on perl-modules from mono-apache-server. Closes: #431585
+
+ -- Andreas Barth <aba@not.so.argh.org>  Tue, 31 Jul 2007 20:26:58 +0000
+
+xsp (1.2.4-1) unstable; urgency=low
+
+  * New upstream release
+  * Dylan R. E. Moonfire
+    + debian/control
+      - Changed ${Source-Version} to ${source:Version}
+      - Added dpatch to build-deps
+    + test/1.1/webcontrols/dbpage1.aspx
+      - Converted NMU fix in upstream source to a dpatch
+    + debian/rules
+      - Running dh_makecillibs for the Mono.WebServer DLL's
+      - Added dpatch targets
+    + Acknowledged and merged in NMU changes by Luk Claes and Martin
+      Zobel-Helas (Closes: #425025, #416893, #417006,#416292, #421996,
+      #415203, #423067, #416636)
+  * Mirco 'meebey' Bauer
+    + mono-server(2)-update:
+      - Add "default" alias to all Mono* directives.
+        (this makes ASP.NET 1.1 and 2.0 actually work)
+    + debian/watch:
+      - Updated
+
+ -- Dylan R. E. Moonfire <debian@mfgames.com>  Wed, 20 Jun 2007 17:41:14 -0500
+
+xsp (1.2.1-2.2) unstable; urgency=high
+
+  * Non-maintainer upload during BSP.
+  * Fix unconditional use of debconf in postrm (Closes: #416893, #417006).
+  * Fix typo in dbpage1.aspx (Closes: #416292).
+  * Fix typo in mono-xsp2.preinst (Closes: #421996).
+  * Add Spanish debconf translation (Closes: #415203).
+  * Add Dutch debconf translation (Closes: #423067).
+
+ -- Luk Claes <luk@debian.org>  Fri, 18 May 2007 16:45:28 +0200
+
+xsp (1.2.1-2.1) unstable; urgency=low
+
+  * Non-maintainer upload during BSP.
+  * conditional include of /usr/share/debconf/confmodule (Closes: #416636)
+
+ -- Martin Zobel-Helas <zobel@ftbfs.de>  Thu, 17 May 2007 13:25:21 +0200
+
+xsp (1.2.1-2) unstable; urgency=low
+
+  * Dylan R. E. Moonfire
+    + debian/po: Added translations for Portuguese, German, and Galician
+      (Closes: #413227, #413556, #406839).
+    + Remove bashism from mono-xsp and mono-xsp2 init files (Closes:
+      #407249)
+    + Updated Apache syntax for mod-mono (Closes: #409658)
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Tue, 06 Mar 2007 21:35:16 -0600
+
+xsp (1.2.1-1) unstable; urgency=low
+
+  * New upstream release
+  * Mirco 'meebey' Bauer
+    + debian/control:
+      - Removed dependency that makes mono-xsp(2)-base incompatible with newer
+        Mono versions (according to upstream it stays compatible now).
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Thu, 23 Nov 2006 11:47:07 -0600
+
+xsp (1.1.18-1) unstable; urgency=low
+
+  * New upstream release
+  * Dylan R. E. Moonfire
+    + Added French translation (Closes: #393674)
+    + Added Czech translation (Closes: #389175)
+  * Mirco 'meebey' Bauer
+    + debian/control:
+      - Updated mono-classlib-{1,2}.0 dependencies to
+        libmono-system-web{1,2}.0-cil. (Closes: #394662)
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Wed, 18 Oct 2006 08:00:43 -0500
+
+xsp (1.1.17.1-2) unstable; urgency=low
+
+  * Mirco 'meebey' Bauer
+    + Fixed debconf templates.
+      (Closes: #389005, thanks to Jean-Luc Coulon for the patch)
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sat, 23 Sep 2006 11:50:49 +0200
+
+xsp (1.1.17.1-1) unstable; urgency=low
+
+  * New upstream release
+  * Dylan R. E. Moonfire
+    + Updated templates to resolve lintian errors.
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Thu, 21 Sep 2006 16:44:56 -0500
+
+xsp (1.1.17-1) unstable; urgency=low
+
+  * New upstream release
+  * Dylan R. E. Moonfire
+    + Changed the init scripts to include the INIT SCRIPT INFO.
+    + Changed the postinit and prerm scripts to use invoke-rc.d. (Closes:
+      #367752, #367720)
+    + Updated the Czech translation. (Closes: #370313)
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Thu, 13 Jul 2006 19:46:06 -0500
+
+xsp (1.1.15-1) unstable; urgency=low
+
+  * New upstream release
+  * Mirco 'meebey' Bauer
+    + Added MONO_ABI_(INCOMP|COMP)_VERSION variable to debian/rules, because
+      the compatible versions is not always equal to the XSP version.
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Wed, 17 May 2006 20:32:00 +0200
+	
+xsp (1.1.13-1) unstable; urgency=low
+
+  * New upstream release
+  * Dylan R. E. Moonfire <debian@mfgames.com>
+    + debian/control
+      - Added a stricter requirement to mono-classlib-1.0 and
+        2.0. (Closes: #303755, #332726)
+      - Fixed a bug with "mono-mono".
+    + debian/rules
+      - Adding perl to figure out version for requirements.
+  * Added Portuguese translation. (Closes: #336701)
+  * Added Swedish translation. (Closes: #351219)
+  * Added French translation. (Closes: #352090)
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Wed, 25 Jan 2006 13:54:22 -0600
+
+xsp (1.1.10-1) unstable; urgency=low
+
+  * New upstream release
+  * Dylan R. E. Moonfire <debian@mfgames.com>
+    + debian/rules: Changed binary-arch to binary-indep (per meebey)
+    + debian/control: Removed the other uploaders.
+    + debian/control: Removed mono from depends.
+    + Moved dh_installxsp into this package. (Closes #340072)
+    + Corrected the dependencies for asp.net and asp.net2 examples to use
+      dh_installxsp.
+    + Remove debian/MAINTAINERS as per meebey.
+    + Fixed the paths generated by the mono-server*-update and also
+      updated the documentation in the README.Debian to properly identify
+      the script name.
+    + debian/control: Added ${Source-Version} to four packages.
+    + Added "Conflicts:" to support upgrading from older versions.
+    + Package cleanups and fixing problems with the build process.
+    + Corrected the server directive for mono-server2-update.conf (Thanks
+      Matt Petteys). Also fixed the mono-server-update.conf because it broke
+      also.
+    + Added partial translations. These are partial because the new package
+      (as of 1.0.9) added additional questions that have not been translated.
+      - Added a partial French translation from Jean-Luc Coulon (f5ibh)
+        <jean-luc.coulon@wanadoo.fr>. There was a secondary French
+        translation from Steve <dlist@bluewin.ch> but it was slightly
+        older, so the newest one was taken. (Closes: #318882, #300349)
+      - Added a partial Czech translation from Miroslav Kure
+        <kurem@upcase.inf.upol.cz>. (Closes: #314769)
+      - Added a partial Vietnamese translation from Clytie Siddal
+        <clytie@riverland.net.au>. (Closes: #324272)
+      - Added a partial Swedish translation from Daniel Nylander
+        <yeager@lidkoping.net>. (Closes: #330768)
+    + Added "debconf | debconf-2.0" to the control files. (Closes: #332159)
+    + Removed all the lintian warnings.
+    + Added a Build-Depends on mono-gmcs to make sure it compiles
+      properly (thanks to tjfontaine).
+    + Working on getting the interaction between this and mod-mono working
+      properly with dependencies.
+    + Updated all of the paths with the new layout differences from 1.0.5
+      and 1.0.9. Upstream significantly changed the layout of both the
+      source package and the installation locations.
+  * Mirco 'meebey' Bauer
+     + debian/control:
+       - Changed Build-Depends to Build-Depends-Indep
+       - Bumed debhelper build-dep to >= 5.0.0
+       - Added procps to mono-xsp and mono-xsp2 Depends, the init scripts
+         are using "ps".
+     + debian/compat:
+       - Changed to 5
+     + debian/rules:
+       - Cosmetic cleanup
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Wed, 04 Jan 2006 09:54:43 -0600
+
+xsp (1.0.5-2) unstable; urgency=low
+
+  * Dave Beckett
+    + Create patches/math-min.patch to disambiguate call to
+      Math.Min (closes: #327321)
+    + Note that the above patch is pre-applied in the diff until a
+      patch system is added to the build system.
+    + debian/rules: dh_clideps not dh_netdeps
+    + debian/rules: clean all built files - exes, dlls, mdb files
+    + debian/control: use cli:Depends, add versioned depends on cli-common
+    + debain/control: update to standards version 3.6.2.1
+    + debian/patches/xsp-apache2.diff: unused so deleted
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Wed, 21 Sep 2005 20:48:27 +0100
+
+xsp (1.0.5-1) unstable; urgency=low
+
+  * NEW upstream release
+  * Pablo Fischer
+    + Readme.Debian is ok, the package in Debian pool is outdated (closes: #296031)
+    + mono-xsp.init will read the default file to verify that the daemon can be 
+      started (closes: #276994)
+    + XSP was having problems with virtual domains, these last releases have been patched 
+      by upstream (closes: #274594)
+    + index.aspx prints ok. The version located in Debian pool was outdated (closes: #293944)
+    + xsp should create his own chroot (SHARED_DIR) (closes: #259163)
+    + update-mono-server.conf is a symlink of mono-server-update.conf, 
+      but the package name will be the same (closes: #263954)
+    + updated web.config (Thanks Tomasz Rybak!).        
+    + use po-debconf for po template files. Thanks to Martin Quinson (closes: #264922)
+    + netstat port checking should not resolve reverse names (closes: #267859)   
+    + added watch file (closes: #268877)
+    + Fixed multiple virtualhost support for mono-server-{update,admin}.conf. 
+      Now the user can have multiple virtulhosts running with mod_mono, the fault was
+      using the vhosts as * and not as localhost (a realname)
+  * Fabian Fagerholm <fabbe@paniq.net> (closes: #268668)
+    + README.Debian: rewrote this, incorporating all the currently relevant info.
+    + asp.net-examples.README.Debian: improved wording.
+    + mono-apache-server.README.Debian: rewrote this, incorporating relevant
+      info.
+    + asp.net-examples.dirs: cleaned up.
+    + debian/TODO: cleaned up.
+    + debian/control:
+      - Improved wording of package descriptions.
+      - Updated dependencies to reflect existence of libapache2-mod-mono.
+    + debian/copyright: updated location of Mono web site.
+    + Updated index.aspx to reflect new Mono web site, plus cleanup.
+    + Removed some old maintainer scripts that are no longer in use.
+    + Lots of one-line cleanups.        
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Tue, 09 Dec 2004 09:58:12 -0600
+
+xsp (1.0-3) unstable; urgency=low
+
+  * Now mono-xsp daemon 'chuid' the process to www-data system user
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sun, 4 Jul 2004 14:31:40 -0600
+
+xsp (1.0-2) unstable; urgency=low
+
+  * Fixed a dependency problem with the mono-mcs version
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sun, 4 Jul 2004 14:22:45 -0600
+        
+xsp (1.0-1) unstable; urgency=low
+
+  * NEW Release
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sat, 3 Jul 2004 14:12:54 -0600
+
+xsp (0.15-1) unstable; urgency=low
+
+  * installing index.aspx from an older version, the new one has broken
+    references (eb)
+  * patched index.aspx, links.  
+  * Renamed mono-server to mono-apache-server.  
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Wed, 16 Jun 2004 14:02:21 -0600         
+
+xsp (0.14-7) unstable; urgency=low
+
+  * Rewrited README.Debian files        
+  * Added more docs to packages 
+  * dlls of asp.net-examples should be in a bin/ directory, inside asp
+  * Added manpages of {package}-update.conf
+  * Added debconf dependency to mono-xsp and mono-server
+  * Fixed a bug in init scripts and removed obsolote stuff      
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Mon, 14 Jun 2004 21:41:43 -0600
+
+xsp (0.14-6) unstable; urgency=low
+
+  * Compiled with mono-utils to prevent dependency problems
+  * Fixed a bug in scripts of mono-xsp, we are not using reader.conf anymore
+  * Fixed some bugs reading an old .conf file   
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Mon, 14 Jun 2004 19:19:32 -0600
+
+xsp (0.14-5) unstable; urgency=low
+
+  * Fixed dependency problem, should use dependency less strict (all beta2)
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Mon, 14 Jun 2004 17:34:16 -0600
+
+xsp (0.14-4) unstable; urgency=low
+
+  * A BIG bug in the mono-server-update.conf script, I'm using perl not C!
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Mon, 14 Jun 2004 10:03:43 -0600 
+
+xsp (0.14-3) unstable; urgency=low
+
+  * Added some missing tools
+  * Also, fixed the manpages that should be in mono-xsp package         
+  * Fixed a bug in mono-server-update.conf line 55, when we don't have 
+    hosts in mono-server we shouldn't concatenate an empty var ($libs)  
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Mon, 14 Jun 2004 12:30:12 -0600 
+
+xsp (0.14-2) unstable; urgency=low
+
+  * Asp.net dlls should not be linked in /usr/share/asp.net-demos..
+  * Added support for webapps files
+  * Man pagaes of admin.conf scripts
+  * Removed reader.conf of mono-xsp
+  * The init script of mono-xsp now uses a webapps dir to setup the
+    xsp daemon  
+  * An update script now writes a debian.webapp file and the 
+    mono-server-hosts.conf (just in mono-server).       
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Sat, 12 Jun 2004 13:31:12 -0600         
+
+xsp (0.14-1) unstable; urgency=low
+
+  * New Release
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Sat, 12 Jun 2004 13:21:32 -0600 
+
+xsp (0.12-5) unstable; urgency=low
+
+  * Added a new feature, the libs that will replace MonoPath.
+  * mono-server should depends of libapache, 0.9 version, that supports the MonoPath
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Tue, 25 May 2004 10:44:12 -0600 
+
+xsp (0.12-4) unstable; urgency=low
+
+  * Symlinks for the .dlls that asp.net-examples needs. asp.net-examples 
+    was not using monoconventions totally
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Mon, 24 May 2004 21:10:32 -0600
+
+xsp (0.12-3) unstable; urgency=low
+
+  * Previous users and versions were having problems running the past init.d
+    that should not be executed with this version
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Mon, 24 May 2004 15:13:12 -0600 
+
+xsp (0.12-2) unstable; urgency=low
+
+  * Fixed the update script of mono-server, we should not create MonoApplication 
+    unless we have more than one directory in /etc/mono-server/conf.d and be valid
+  * Fixed a bug int he admin scripts, syntax error :-(
+  * Also added the two actions to the admin scripts: add and remove     
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Fri, 20 May 2004 15:07:42 -0600 
+
+xsp (0.12-1) unstable; urgency=low
+
+  * NEW Release!
+  * This new release use the new mod-mono-server, that for now it will not be
+    a daemon, it will be just a parser/wrapper for the mod_mono apache module
+  * Some fixed in dh_installxsp, thanks David Schmitt!  
+  * Added a admin script for both mono-server and xsp package   
+  * rules file should check for dh_installxsp script inside debian/ directory
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Fri, 20 May 2004 23:21:13 -0600 
+
+xsp (0.9-15) unstable; urgency=low
+
+  * I noted that the daemon was not starting when the user boots the computer, 
+    there reason is that in postinst (and postrm) there's no update-rc.d to 
+    add the daemons to the init levels.
+  * Also, the 'debian' way tells that I can these daemon can only be added in 
+    postinst and removed in postrm (purge), so if the user only do a apt-get 
+    remove package the package will be started again and again, so to fix this
+    issue is to add a test -x $DAEMON to the init, before anything :-)  
+  * Fixed a bug in the update scripts: Sometimes the user doesn't reads the 
+    README of the package, so sometimes the user will add their hosts to the 
+    main configuration file (like /etc/xsp/mono-xsp-hosts.conf) with no dirs 
+    in conf.d, so, to prevent 'two' wrong configurations we should 'clean up' 
+    the main configuration file and THEN start with a new one.  
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Mon, 19 Apr 2004 18:22:12 -0600 
+
+xsp (0.9-14) unstable; urgency=low
+
+  * Fixed a bug when users try to declare their paths with spaces before 
+    or after the '=' char.
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Sun, 18 Apr 2004 12:49:21 -0600
+
+xsp (0.9-13) unstable; urgency=low
+
+  * Added a dep to mono-xsp and mono-server, the mono-mcs, to compile the source
+    of the asxp's files for firsttime
+  * Also, added a brief explanation to the README files, telling the user 
+    why /etc/mono-server or /etc/xsp directories are created created also if 
+    they don't have thesepackages.
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Sun, 18 Apr 2004 10:43:11 -0600 
+        
+xsp (0.9-12) unstable; urgency=low
+
+  * Added a dep to mono-server, libapache-mod-mono, to get a cleaner installation :-)
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Sat, 17 Apr 2004 15:30:12 -0600 
+
+xsp (0.9-11) unstable; urgency=low
+
+  * Fixed a bug in the reader scripts, we should read the file only if it 
+    exists.
+  * Also, the same bug in the update scripts, just copy the file (tmp) if it exists..
+
+ -- Pablo Fischer <pablo@palbo.com.mx>  Sat, 17 Apr 2004 15:01:23 -0600 
+
+xsp (0.9-10) unstable; urgency=low
+
+  * The reader scripts were not printing (duh)
+  * Force the cp of the tmp host file configuration
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Fri, 16 Apr 2004 23:19:40 -0600
+
+xsp (0.9-9) unstable; urgency=low
+
+  * Removed the old sh scripts, now we use the power of perl (I preffer it)
+  * Also edited the asp.net-examples.postinst, we should check if the update script exists
+  * Now, the reader and update script are just used by root (usr/sbin)  
+  * Removed the asp.net-examples.install, we install the host file with dh_installxsp 
+  * In the asp.net-examples.postinst and postrm scripts we check if the 'scripts' of xsp or 
+    mono-server are really installed    
+  * Removed the two ln -s (rules), we are replacing those lines with .links files
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Fri, 16 Apr 2004 20:29:00 -0600
+
+xsp (0.9-8) unstable; urgency=low
+
+  * We implement dh_installxsp to install the host files
+  * In the postrm and postinst scripts (of asp.net-examples) we just update 
+    the 'big' file.     
+ 
+ -- Pablo Fischer <pablo@pablo.com.mx>  Sun, 11 Apr 2004 13:02:05 -0600
+
+xsp (0.9-7) unstable; urgency=low
+
+  * The configuration host file (of asp.net) is installed with asp.net-examples.install
+    so in the postinst and postrm we just update        
+  * The installation and removal scripts of asp.net-examples just 
+    update the configuration host file and run their update script.     
+  * The update scripts (mono-xsp-update, mono-server-update) can restart 
+    the daemon or not (by default yes, to prevent: --norestart) and check 
+    the md5sum of the orig global host file with the new one    
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Sat, 10 Apr 2004 15:16:10 -0600
+
+xsp (0.9-6) unstable; urgency=low
+
+  * postinst, preinst, postrm, prerm 
+   + These files are now divided in pre and post scripts
+  * init files
+   + Changed the exit 0 statement. Now we use return values
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Fri, 9 Apr 2004 15:16:10 -0600
+
+xsp (0.9-5) unstable; urgency=low
+
+  * rules:
+    + The .config shell script should be in /usr/share/dotnet/bin, and 
+      with chmod +x 
+    + We should have a symlink of those files (.conf ones) in /usr/bin  
+  * mono-server-reader.conf   
+    + Added a new rule: Check if the config file exists, if not, print a message and exit
+  * asp.net-examples.prerm
+    + Fixed an issue of an if, I should use "$var" not $var, "$var" is for 
+      matched and unmatched cases (=, !=).
+  * mono-xsp.init: 
+    + Added a new rule: Verify if the xsp daemon is already running, if it
+      is running, print an error an exit, so we keep a good pid control system
+      in /var/run   
+    + Removed some stupid debug messages in spanish
+    + Fixed the should_restart, it was always returning true
+  * mono-server.init:   
+    + Removed some stupid debug messages in spanish    
+    + Fixed the should_restart, it was always returning true  
+    + If libapache is not installed, we should print a message AND exit..
+  * asp.net-examples.postinst:      
+    + Added a rm -Rf to remove the temp file after each sed
+  * mono-server.postinst and mono-xsp.postinst
+    + Added a rm -Rf to remove the temp file after each sed     
+    + Commented the start process of mono-server, we don't need it,
+      we should start mono-server from mod-mono.
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Tue, 16 Mar 2004 12:31:57 -0600
+
+xsp (0.9-4) unstable; urgency=low
+
+  * Pablo Fischer:
+    + For the asp.net-examples package, I'm using a pure debconf file, 
+    with a case switch. 
+    + For asp.net.net-examples pre|postinst I Added two functions: restart_xsp 
+    and restart_monoserver.
+    + For the init files I dded two new functions: should_stop, and should_restart,
+    the first will verify if mono-server is running, if it isn't there's no 
+    need to stop it, so it prints a message and exit, the second just checks if 
+    it's running, if it's running it returns a value.
+    + Also, added the prerm script for mono-xsp and mono-server.
+    + And the files to manage the VirtualHost as exim does with a conf.d file
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Wed, 28 Feb 2004 22:16:13 -0600
+
+xsp (0.9-3) unstable; urgency=low
+
+  * NOT RELEASED YET
+  * Pablo Fischer:
+    + Replaced every exec to the old VirtualHost app, cause the new name is 
+    mono-vhostmanager
+    + Added two more rules to the mono-xsp and mono-server init files, we want to
+    know if the virtualfile already exists and if there are hosts
+    + Fixed the Depends of the package, we moved the mono-vhostmanager depend from
+    asp.net-examples to mono-xsp and mono-server.
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Wed, 28 Feb 2004 22:16:13 -0600
+ 
+xsp (0.9-2) unstable; urgency=low
+
+  * Pablo Fischer:
+   + Removed the old way of VirtualHost administration
+   + Implemented nethostmanager to manage the VirtualHosts (asp.net-examples 
+      in this case)
+   + Also, updated the init scripts for xsp and mono-server daemons, we NEED
+      to use the nethostmanager to maintain a cleaner and easy to administrate
+      VirtualHost file (until Gonzalo release the app that will do this with web.config)
+   + Now, we use the cli-wrapper instead of ugly sh file scripts
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Wed, 25 Feb 2004 18:15:23 -0600
+
+xsp (0.9-1) unstable; urgency=low
+
+  * New upstream release
+  * using new policy and the new cli-wrapper
+
+ -- Eduard Bloch <blade@debian.org>  Mon,  9 Feb 2004 22:49:47 +0100
+
+xsp (0.8-2) unstable; urgency=low
+
+  * set alternative dependency on cli-virtual-machine
+
+ -- Eduard Bloch <blade@debian.org>  Sun, 25 Jan 2004 18:17:54 +0100
+
+xsp (0.8-1) unstable; urgency=low
+
+  * New upstream release
+  * made libapache-mod-mono only a suggestion, XSP itself runs without it
+  * converted debian/rules to debhelper
+  * added copyright info
+
+ -- Eduard Bloch <blade@debian.org>  Thu, 22 Jan 2004 23:10:37 +0100
+
+xsp (0.9) unstable; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Wed, 28 Jan 2004 21:18:52 -0600

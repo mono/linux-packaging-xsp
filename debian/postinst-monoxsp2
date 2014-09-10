@@ -1,0 +1,8 @@
+if [ "$1" = "configure" ]; then
+    if [ -x /usr/sbin/mono-xsp2-update ]; then
+	/usr/sbin/mono-xsp2-update || true
+    fi
+    if [ -x /usr/sbin/mono-server2-update ]; then
+	/usr/sbin/mono-server2-update || true
+    fi
+fi

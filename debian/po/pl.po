@@ -1,0 +1,191 @@
+# Translation of xsp debconf templates to Polish.
+# Copyright (C) 2011
+# This file is distributed under the same license as the xsp package.
+#
+# Michał Kułach <michal.kulach@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: xsp@packages.debian.org\n"
+"POT-Creation-Date: 2011-12-21 07:13+0100\n"
+"PO-Revision-Date: 2012-03-07 10:16+0100\n"
+"Last-Translator: Michał Kułach <michal.kulach@gmail.com>\n"
+"Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.2\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+
+#. Type: boolean
+#. Description
+#: ../mono-apache-server4.templates:1001
+msgid "Let mono-apache-server4 restart Apache?"
+msgstr "Zrestartować Apache za pomocą mono-apache-server4?"
+
+#. Type: boolean
+#. Description
+#: ../mono-apache-server4.templates:1001
+msgid ""
+"The Debian version of mono-apache-server4 includes a mono-server4-update "
+"script that creates a configuration file for Apache to start the ASP.NET "
+"applications, and mono-server4-update can restart Apache if there's a new "
+"configuration file (/etc/mono-server4/mono-server-hosts.conf). If this is "
+"true, then Apache will be restarted when there is a new mono-server4-hosts."
+"conf file."
+msgstr ""
+"Debianowa wersja mono-apache-server4 zawiera skrypt mono-server4-update, "
+"który tworzy plik konfiguracyjny do Apache, służący do uruchamiania "
+"aplikacji ASP.NET. Skrypt może zrestartować Apache, jeśli istnieje nowy plik "
+"konfiguracyjny (/etc/mono-server4/mono-server-hosts.conf). Jeśli tak jest, "
+"to Apache zostanie zrestartowane, gdy istnieje nowy plik konfiguracyjny mono-"
+"server4-hosts."
+
+#. Type: note
+#. Description
+#: ../mono-apache-server4.templates:2001 ../mono-apache-server2.templates:2001
+#: ../mono-xsp4.templates:4001 ../mono-xsp2.templates:4001
+msgid "ASP.NET 1.0 support removed"
+msgstr "Obsługa ASP.NET 1.0 została usunięta"
+
+#. Type: note
+#. Description
+#: ../mono-apache-server4.templates:2001 ../mono-apache-server2.templates:2001
+msgid ""
+"You appear to have some ASP.NET 1.0 sites configured in /etc/mono-server1. "
+"Support for the 1.0 profile has been removed from Mono 2.8 and above, and "
+"you are no longer able to serve ASP.NET 1.0 sites. You must reconfigure XSP "
+"to serve these sites using either 2.0 or 4.0 profiles, assuming your "
+"application is compatible. Please see mono-server2-admin(8) or mono-server4-"
+"admin(8) to see how to regenerate a configuration for use with 2.0 or 4.0 "
+"profiles."
+msgstr ""
+"Wygląda na to, że istnieją strony w ASP.NET 1.0 skonfigurowane w /etc/mono-"
+"server1. Obsługa profilu 1.0 została usunięta z Mono 2.8 i nowszych wersji, "
+"dlatego dalsze udostępnianie stron ASP.NET 1.0 przez ten system będzie "
+"niemożliwe. Konieczna jest ponowna konfiguracja XSP tak, aby te strony "
+"używały profili 2.0 lub 4.0 zakładając, że aplikacja użytkownika jest "
+"kompatybilna. Proszę zapoznać się z mono-server2-admin(8) lub mono-server4-"
+"admin(8), aby dowiedzieć się jak utworzyć konfigurację ponownie, używając "
+"profili 2.0 lub 4.0."
+
+#. Type: boolean
+#. Description
+#: ../mono-apache-server2.templates:1001
+msgid "Let mono-apache-server2 restart Apache?"
+msgstr "Zrestartować Apache za pomocą mono-apache-server2?"
+
+#. Type: boolean
+#. Description
+#: ../mono-apache-server2.templates:1001
+msgid ""
+"The Debian version of mono-apache-server2 includes a mono-server2-update "
+"script that creates a configuration file for Apache to start the ASP.NET "
+"applications, and mono-server2-update can restart Apache if there's a new "
+"configuration file (/etc/mono-server2/mono-server2-hosts.conf). If this is "
+"true, then Apache will be restarted when there is a new mono-server2-hosts."
+"conf file."
+msgstr ""
+"Debianowa wersja mono-apache-server2 zawiera skrypt mono-server2-update, "
+"który tworzy plik konfiguracyjny do Apache, służący do uruchamiania "
+"aplikacji ASP.NET. Skrypt może zrestartować Apache, jeśli istnieje nowy plik "
+"konfiguracyjny (/etc/mono-server2/mono-server-hosts.conf). Jeśli tak jest, "
+"to Apache zostanie zrestartowane, gdy istnieje nowy plik konfiguracyjny mono-"
+"server2-hosts."
+
+#. Type: boolean
+#. Description
+#: ../mono-xsp4.templates:1001 ../mono-xsp2.templates:1001
+msgid "Start on boot?"
+msgstr "Uruchomić w czasie rozruchu?"
+
+#. Type: boolean
+#. Description
+#: ../mono-xsp4.templates:1001
+msgid ""
+"If this is true, then XSP4 will automatically start when the computer is "
+"turned on."
+msgstr ""
+"Jeśli opcja zostanie wybrana, to XSP4 będzie się uruchamiał automatycznie "
+"wraz ze startem systemu."
+
+#. Type: string
+#. Description
+#: ../mono-xsp4.templates:2001 ../mono-xsp2.templates:2001
+msgid "Bind to address:"
+msgstr "Przypisz do adresu:"
+
+#. Type: string
+#. Description
+#: ../mono-xsp4.templates:2001
+msgid ""
+"To function properly, XSP4 needs to be bound to an IP address. The default "
+"(\"0.0.0.0\") binds to all addresses of the server, but a specific port can "
+"be selected. To use XSP4 only locally, use \"127.0.0.1\" for the address."
+msgstr ""
+"W celu poprawnego funkcjonowania, XSP4 musi zostać powiązany z adresem IP. "
+"Domyślne ustawienie (\"0.0.0.0\") przypisuje do serwera wszystkie adresy, "
+"ale konieczne jest wybranie konkretnego portu. Aby użyć XSP4 jedynie "
+"lokalnie, proszę wpisać \"127.0.0.1\"."
+
+#. Type: string
+#. Description
+#: ../mono-xsp4.templates:3001 ../mono-xsp2.templates:3001
+msgid "Bind to port:"
+msgstr "Przypisz do portu:"
+
+#. Type: string
+#. Description
+#: ../mono-xsp4.templates:3001 ../mono-xsp2.templates:3001
+msgid ""
+"XSP is bound to a specific port on the server. Common values are 80, 8080, "
+"or 8081."
+msgstr ""
+"XSP jest związany z konkretnym portem serwera. Najczęstsze wartości to: 80, "
+"8080 lub 8081."
+
+#. Type: note
+#. Description
+#: ../mono-xsp4.templates:4001 ../mono-xsp2.templates:4001
+msgid ""
+"You appear to have some ASP.NET 1.0 sites configured in /etc/mono-server1. "
+"Support for the 1.0 profile has been removed from Mono 2.8 and above, and "
+"you are no longer able to serve ASP.NET 1.0 sites. You must reconfigure XSP "
+"to serve these sites using either 2.0 or 4.0 profiles, assuming your "
+"application is compatible. Please see mono-xsp2-admin(8) or mono-xsp4-admin"
+"(8) to see how to regenerate a configuration for use with 2.0 or 4.0 "
+"profiles."
+msgstr ""
+"Wygląda na to, że istnieją strony w ASP.NET 1.0 skonfigurowane w /etc/mono-"
+"server1. Obsługa profilu 1.0 została usunięta z Mono .8 i nowszych wersji, "
+"dlatego dalsze udostępnianie stron ASP.NET 1.0 przez ten system będzie "
+"niemożliwe. Konieczna jest ponowna konfiguracja XSP tak, aby te strony "
+"używały profili 2.0 lub .0 zakładając, że aplikacja użytkownika jest "
+"kompatybilna. Proszę zapoznać się z mono-xsp2-admin(8) lub mono-xsp4-admin"
+"(8), aby dowiedzieć się jak utworzyć konfigurację ponownie, używając profili "
+"2.0 lub 4.0."
+
+#. Type: boolean
+#. Description
+#: ../mono-xsp2.templates:1001
+msgid ""
+"If this is true, then XSP2 will automatically start when the computer is "
+"turned on."
+msgstr ""
+"Jeśli opcja zostanie wybrana, to XSP2 będzie się uruchamiał automatycznie "
+"wraz ze startem systemu."
+
+#. Type: string
+#. Description
+#: ../mono-xsp2.templates:2001
+msgid ""
+"To function properly, XSP2 needs to be bound to an IP address. The default "
+"(\"0.0.0.0\") binds to all addresses of the server, but a specific port can "
+"be selected. To use XSP2 only locally, use \"127.0.0.1\" for the address."
+msgstr ""
+"W celu poprawnego funkcjonowania, XSP2 musi zostać powiązany z adresem IP. "
+"Domyślne ustawienie (\"0.0.0.0\") przypisuje do serwera wszystkie adresy, "
+"ale konieczne jest wybranie konkretnego portu. Aby użyć XSP2 jedynie "
+"lokalnie, proszę wpisać \"127.0.0.1\"."

@@ -1,0 +1,3 @@
+/usr/bin/mono-fpm
+/usr/lib/mono/gac/mono-fpm
+/usr/lib/mono/4.5/mono-fpm.exe*

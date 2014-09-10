@@ -1,0 +1,4 @@
+debian/mono-server4-admin.8
+debian/mono-server4-update.8
+debian/update-mono-server4.8
+debian/tmp/usr/share/man/man1/mod-mono-server4.1

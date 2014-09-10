@@ -1,0 +1,3 @@
+debian/tmp/usr/lib/mono/4.5/Mono.WebServer2.dll
+debian/tmp/usr/lib/mono/gac/Mono.WebServer2/0.4*
+debian/tmp/usr/lib/pkgconfig/xsp-4.pc
