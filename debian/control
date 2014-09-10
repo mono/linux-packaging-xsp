@@ -116,7 +116,7 @@ Description: ASP.NET backend for mod_mono Apache module - default version
 
 Package: mono-fpm-server
 Architecture: all
-Depends: libfpm-helper0 (= ${source:Version}), ${cli:Depends}, ${misc:Depends}
+Depends: libfpm-helper0 (= ${source:Version}), ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends}
 Description: ASP.NET backend for FastCGI Process Manager
  mono-fpm-server contains the backend for FPM. It lets you run ASP.NET
  web applications via HTTP servers such as Lighttpd or Apache.
@@ -128,7 +128,7 @@ Description: ASP.NET backend for FastCGI Process Manager
 
 Package: libfpm-helper0
 Architecture: any
-Depends: ${shlib:Depends}, ${cli:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${cli:Depends}, ${misc:Depends}
 Description: ASP.NET backend for FastCGI Process Manager - helper lib
  mono-fpm-server contains the backend for FPM. It lets you run ASP.NET
  web applications via HTTP servers such as Lighttpd or Apache.
@@ -140,7 +140,7 @@ Description: ASP.NET backend for FastCGI Process Manager - helper lib
 Package: mono-fastcgi-server4
 Architecture: all
 Replaces: mono-fastcgi-server1
-Depends: ${misc:Depends}, ${cli:Depends}, mono-xsp4-base (= ${source:Version}), perl-modules
+Depends: libfpm-helper0 (= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}, ${cli:Depends}, mono-xsp4-base (= ${source:Version}), perl-modules
 Description: ASP.NET 4.0 backend for FastCGI webservers
  mono-fastcgi-server contains the backend for FastCGI. It lets you run 
  ASP.NET web applications via HTTP servers such as Lighttpd or Apache. 
@@ -154,7 +154,7 @@ Package: mono-fastcgi-server2
 Architecture: all
 Conflicts: mono-server
 Replaces: mono-server
-Depends: ${misc:Depends}, ${cli:Depends}, mono-xsp2-base (= ${source:Version}), perl-modules
+Depends: libfpm-helper0 (= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}, ${cli:Depends}, mono-xsp2-base (= ${source:Version}), perl-modules
 Description: ASP.NET 2.0 backend for FastCGI webservers
  mono-fastcgi-server contains the backend for FastCGI. It lets you run
  ASP.NET web applications via HTTP servers such as Lighttpd or Apache.
