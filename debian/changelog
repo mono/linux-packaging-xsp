@@ -1,3 +1,10 @@
+xsp (3.8-0xamarin1) unstable; urgency=medium
+
+  * New upstream release
+  * Add mono-fpm-server package, for new FastCGI Process Manager variant
+
+ -- Jo Shields <directhex@apebox.org>  Thu, 11 Sep 2014 09:21:18 +0100
+
 xsp (3.0.11-1) unstable; urgency=low
 
   * [cba6453] Imported Upstream version 3.0.11
