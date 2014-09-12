@@ -1,3 +1,9 @@
+xsp (3.8-0xamarin2) unstable; urgency=medium
+
+  * [d04ae65] Fix libs path (LP: 1293481) (Thanks to Shahid Ali )
+
+ -- Jo Shields <jo.shields@xamarin.com>  Fri, 12 Sep 2014 13:26:19 +0100
+
 xsp (3.8-0xamarin1) unstable; urgency=medium
 
   * New upstream release
