@@ -80,7 +80,7 @@ if(-f "$monoserver4_hostfile.tmp") {
     #Prepare the application string
     $applications =~ s/,$//;
     #and the libs..
-    $libs = "/usr/lib/mono/4.0:/usr/lib:$libs"; 
+    $libs = "/usr/lib/mono/4.5:/usr/lib:$libs"; 
     $libs =~ s/:$//;
     #sed the $monoserver4_hostfile to replace the Applications
 #    &replace_applications;
