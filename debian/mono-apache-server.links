@@ -1,4 +1,4 @@
 usr/bin/mod-mono-server4 usr/bin/mod-mono-server
-usr/sbin/mono-server2-admin usr/sbin/mono-server-admin
-usr/sbin/mono-server2-update usr/sbin/mono-server-update
+usr/sbin/mono-server4-admin usr/sbin/mono-server-admin
+usr/sbin/mono-server4-update usr/sbin/mono-server-update
 usr/share/man/man1/mod-mono-server4.1.gz usr/share/man/man1/mod-mono-server.1.gz

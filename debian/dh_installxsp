@@ -17,13 +17,11 @@ B<dh_installxsp> [S<B<debhelper options>>] [B<--name=>I<name>] [B<-V >I<version(
 =head1 DESCRIPTION
 
 dh_installxsp is a debhelper program that will install host
-configuration files in /etc/xsp2/conf.d and /etc/mono-server2/conf.d
-(for XSP 2) or /etc/xsp4/conf.d and /etc/mono-server4/conf.d (for XSP
-4). So, if xsp 2 (or xsp 4) is install or will be installed, when xsp
+configuration files in /etc/xsp4/conf.d and /etc/mono-server4/conf.d 
+(for XSP 4). So, if xsp 4 is installed or will be installed, when xsp
 starts it automatically starts the daemon with the host file.
 
-The files debian/package.hostxsp2 are installed for XSP 2 while
-debian/package.hostxsp4 are used for XSP 4.
+The files debian/package.hostxsp4 are used for XSP 4.
 
 In the debian/rules file, dh_installxsp needs to be called before
 dh_installdeb to make sure the files are properly marked as conffiles
@@ -36,14 +34,14 @@ need to be marked as conffiles.
 
 =item B<--name=>I<name>
 
-Look for files named debian/package.hostxsp{2,4} and install them as
-/etc/xsp{2,4}/conf.d/package/hostfile.
+Look for files named debian/package.hostxsp4 and install them as
+/etc/xsp4/conf.d/package/hostfile.
 
 =item B<-V >I<version(s)>
 
-Installs the files for XSP 2.0 (B<-V 2>), XSP 4.0 (B<-V 4>), or both (B<-V
-2,4>). If this version is not specified (or just B<-V> is given), this
-only installed files for XSP 4, not XSP 2.
+Installs the files for XSP 4.0 (B<-V 4>). If this version is not 
+specified (or just B<-V> is given), this only installed files for 
+XSP 4.
 
 =back
 
@@ -53,11 +51,7 @@ only installed files for XSP 4, not XSP 2.
 init();
 
 # Figure out what versions we want to install
-my ($install_xsp_2, $install_xsp_4) = (0, 0);
-$install_xsp_2 = 1 if ($dh{V_FLAG_SET} && $dh{V_FLAG} =~ /2/);
-$install_xsp_4 = 1 if ($dh{V_FLAG_SET} && $dh{V_FLAG} =~ /4/);
-$install_xsp_4 = 1 if !$install_xsp_2 && !$install_xsp_4;
-$install_xsp_4 = 1 unless $dh{V_FLAG_SET};
+my ($install_xsp_4) = (1);
 
 my $depname="cli:XspServer";
 
@@ -66,13 +60,12 @@ my $depname="cli:XspServer";
 # pass.
 foreach my $package (@{$dh{DOPACKAGES}})
 {
-    # Configure for both XSP 2 and/or XSP 4
-    process_xsp($package, "2") if $install_xsp_2;
+    # Configure for XSP 4
     process_xsp($package, "4") if $install_xsp_4;
 }
 
 # This handles the installation of the actual files. This assumes that
-# $version has "2" or "4" (or "5" at some point) and that determines
+# $version has "4" (or "5" at some point) and that determines
 # the path being installed into.
 sub process_xsp
 {

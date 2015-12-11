@@ -1,15 +1,62 @@
-xsp (3.8-0xamarin2) unstable; urgency=medium
+xsp (4.2-2) unstable; urgency=medium
 
-  * [d04ae65] Fix libs path (LP: 1293481) (Thanks to Shahid Ali )
+  * [45c7657] Update Russian translation. 
+    Thanks to Yuri Kozlov (Closes: #806737)
+  * [81fc78c] Update Danish translation. 
+    Thanks to Joe Dalton (Closes: #807116)
+  * [e00ff7b] Update Czech translation. 
+    Thanks to Miroslav Kure (Closes: #807162)
+  * [74127a7] Update German translation. 
+    Thanks to Helge Kreutzmann (Closes: #807247)
+  * [d20ffb4] Update Dutch translation. 
+    Thanks to Frans Spiesschaert (Closes: #807498)
+  * [f7a0233] Update Slovenian translation. 
+    Thanks to Jan Kraljič (Closes: #807573, #807572)
 
- -- Jo Shields <jo.shields@xamarin.com>  Fri, 12 Sep 2014 13:26:19 +0100
+ -- Jo Shields <jo.shields@xamarin.com>  Fri, 11 Dec 2015 09:17:13 +0000
 
-xsp (3.8-0xamarin1) unstable; urgency=medium
+xsp (4.2-1) experimental; urgency=medium
 
-  * New upstream release
-  * Add mono-fpm-server package, for new FastCGI Process Manager variant
+  * Imported Upstream version 4.0
+  * Remove support for 2.0 profile
+  * Imported Upstream version 4.2
+  * Fix weird issue of missing source files
+  * Fix SONAME for fastcgi wrapper
+  * Fix examples file
+  * Reflow readme (Closes: #773658)
 
- -- Jo Shields <directhex@apebox.org>  Thu, 11 Sep 2014 09:21:18 +0100
+ -- Jo Shields <jo.shields@xamarin.com>  Mon, 30 Nov 2015 14:46:11 +0000
+
+xsp (3.8-2.1) unstable; urgency=high
+
+  * Non-maintainer upload fixing bugs blocking serious bug #777597 --
+    perl-modules: upgrade regression: dpkg: dependency problems prevent
+    configuration of perl-modules
+
+  * replace dependencies on 'perl-modules' with 'perl' as per Perl policy
+    (Closes: #779124, #779122, #779125)
+
+ -- Damyan Ivanov <dmn@debian.org>  Wed, 25 Feb 2015 21:14:04 +0000
+
+xsp (3.8-2) unstable; urgency=medium
+
+  * [0daef45] Move build-depends-indep to build-depends, since this is 
+    now an arch:any package not arch:all.
+
+ -- Jo Shields <jo.shields@xamarin.com>  Thu, 25 Sep 2014 14:40:28 +0100
+
+xsp (3.8-1) unstable; urgency=medium
+
+  * [2f6490d] Fix libs path (LP: 1293481) (Closes: #731374)
+    (Thanks to Shahid Ali)
+  * [5f37cfd] Imported Upstream version 3.8
+  * [19ead6c] Fix package description 1.0->4.5
+  * [fc25680] Fix init message (Closes: #692560)
+  * [c428f8d] Add mono-fpm-server package, for "FastCGI Process Manager" 
+    variant of XSP, and libfpm-helper0, a native C library used by it 
+    (and also used by the older fastcgi variants)
+
+ -- Jo Shields <jo.shields@xamarin.com>  Thu, 25 Sep 2014 10:23:48 +0100
 
 xsp (3.0.11-1) unstable; urgency=low
 

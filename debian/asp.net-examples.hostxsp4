@@ -2,4 +2,4 @@
 # for the aspnet-examples virtualhost
 path = /usr/share/asp.net-demos
 alias = /samples
-libs = /usr/lib/mono/2.0
+libs = /usr/lib/mono/4.0

@@ -24,11 +24,20 @@ _Description: Bind to port:
 Template: xsp4/xsp1_upgrade_warning
 Type: note
 _Description: ASP.NET 1.0 support removed
- You appear to have some ASP.NET 1.0 sites configured in /etc/mono-server1.
+ You appear to have some ASP.NET 1.0 sites configured in /etc/mono-server.
  Support for the 1.0 profile has been removed from Mono 2.8 and above, and
  you are no longer able to serve ASP.NET 1.0 sites. You must reconfigure
- XSP to serve these sites using either 2.0 or 4.0 profiles, assuming your
- application is compatible. Please see mono-xsp2-admin(8) or
- mono-xsp4-admin(8) to see how to regenerate a configuration for use
- with 2.0 or 4.0 profiles.
+ XSP to serve these sites using the 4.0 profile, assuming your application
+ is compatible. Please see mono-xsp4-admin(8) to see how to regenerate a
+ configuration for use with the 4.0 profile.
+
+Template: xsp4/xsp2_upgrade_warning
+Type: note
+_Description: ASP.NET 2.0 support removed
+ You appear to have some ASP.NET 2.0 sites configured in /etc/mono-server2.
+ Support for the 2.0 profile has been removed from Mono 4.0 and above, and
+ you are no longer able to serve ASP.NET 2.0 sites. You must reconfigure
+ XSP to serve these sites using the 4.0 profile, assuming your application
+ is compatible. Please see mono-xsp4-admin(8) to see how to regenerate a
+ configuration for use with the 4.0 profile.
 
