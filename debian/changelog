@@ -1,3 +1,9 @@
+xsp (4.2-2~xamarin3) alpha; urgency=medium
+
+  * Packaging bugfix:
+
+ -- Xamarin Public Jenkins (auto-signing) <releng@xamarin.com>  Wed, 29 Mar 2017 13:24:12 +0000
+
 xsp (4.2-2~xamarin2) alpha; urgency=medium
 
   * Packaging bugfix:
