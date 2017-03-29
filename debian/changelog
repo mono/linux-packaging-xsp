@@ -1,3 +1,9 @@
+xsp (4.2-2~xamarin2) alpha; urgency=medium
+
+  * Packaging bugfix:
+
+ -- Xamarin Public Jenkins (auto-signing) <releng@xamarin.com>  Wed, 29 Mar 2017 13:08:44 +0000
+
 xsp (4.2-2~xamarin1) wheezy; urgency=medium
 
   * Build for mono-project.com
