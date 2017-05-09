@@ -26,7 +26,6 @@ Group:          Productivity/Networking/Web/Servers
 Source:         %{name}-%{version}.tar.gz
 Source1:        xsp.conf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-BuildArch:      x86_64
 BuildRequires:  fdupes
 BuildRequires:  mono-data-oracle
 BuildRequires:  mono-data-sqlite
