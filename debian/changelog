@@ -1,3 +1,14 @@
+xsp (4.5-0xamarin2) preview; urgency=medium
+
+  [ Xamarin Public Jenkins (auto-signing) ]
+  * Packaging bugfix:
+
+  [ Ubuntu ]
+  * [3cac4b7] Wow, I really messed up that install file [d3d6322] Fix
+    bad dllmap
+
+ -- Xamarin Public Jenkins (auto-signing) <releng@xamarin.com>  Thu, 05 Apr 2018 18:22:58 +0000
+
 xsp (4.5-0xamarin1) preview; urgency=medium
 
   * New release - xsp-4.5.tar.gz
