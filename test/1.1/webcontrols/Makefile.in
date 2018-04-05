@@ -90,6 +90,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
+@USE_SQLITE_TRUE@am__append_1 = $(sqlite_DATA) $(dbpage_test_setup_build)
 subdir = test/1.1/webcontrols
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/build/m4/shave/shave.m4 \
@@ -349,6 +350,7 @@ samples_DATA = \
 		peopletable.xsl \
 		index.aspx
 
+EXTRA_DIST = $(samples_DATA) $(am__append_1)
 @USE_SQLITE_TRUE@sqlitedir = $(pkglibdir)/test/1.1/webcontrols
 @USE_SQLITE_TRUE@sqlite_DATA = dbpage1.sqlite \
 @USE_SQLITE_TRUE@	      dbpage2.sqlite
@@ -356,7 +358,6 @@ samples_DATA = \
 @USE_SQLITE_TRUE@samplesbindir = $(pkglibdir)/test/1.1/webcontrols
 @USE_SQLITE_TRUE@samplesbin_SCRIPTS = dbpage_test_setup.exe
 @USE_SQLITE_TRUE@dbpage_test_setup_build = dbpage_test_setup.cs
-@USE_SQLITE_TRUE@EXTRA_DIST = $(sqlite_DATA) $(samples_DATA) $(dbpage_test_setup_build)
 all: all-am
 
 .SUFFIXES:
