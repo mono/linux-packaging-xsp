@@ -39,6 +39,8 @@ BuildRequires:  sqlite
 %define xspAvailableApps %{xspConfigsLocation}/applications-available
 %define xspEnabledApps %{xspConfigsLocation}/applications-enabled
 
+%define debug_package %{nil}
+
 %description
 The XSP server is a small Web server that hosts the Mono System.Web
 classes for running what is commonly known as ASP.NET.
