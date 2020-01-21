@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.53])
-AC_INIT([xsp], [4.5], [http://bugzilla.xamarin.com/])
+AC_INIT([xsp], [4.7.1], [http://bugzilla.xamarin.com/])
 AC_CANONICAL_SYSTEM
 AC_CONFIG_MACRO_DIR([build/m4])
 AM_INIT_AUTOMAKE([foreign])
@@ -72,9 +72,9 @@ if test "x$DMCS" = "xno" ; then
 	AC_MSG_ERROR([No $CS compiler found. dmcs must be installed.])
 fi
 
-AC_MSG_CHECKING([for Mono 4.0 GAC for Mono.Data.Sqlite.dll])
-if test -e "$($PKG_CONFIG --variable=libdir mono)/mono/4.0/Mono.Data.Sqlite.dll" -o \
-        -e "$($PKG_CONFIG --variable=prefix mono)/lib/mono/4.0/Mono.Data.Sqlite.dll"; then
+AC_MSG_CHECKING([for Mono 4.5 GAC for Mono.Data.Sqlite.dll])
+if test -e "$($PKG_CONFIG --variable=libdir mono)/mono/4.5/Mono.Data.Sqlite.dll" -o \
+        -e "$($PKG_CONFIG --variable=prefix mono)/lib/mono/4.5/Mono.Data.Sqlite.dll"; then
 	AC_MSG_RESULT([found])
 	HAVE_MONO_SQLITE=yes
 else
@@ -96,8 +96,6 @@ esac
 
 AM_CONDITIONAL(UNITTESTS, test x${UNIT_TESTS} = xyes)
 AM_CONDITIONAL(PLATFORM_WIN32, test x$platform_win32 = xyes)
-AM_CONDITIONAL(NET_2_0, test ! x$DMCS = xno)
-AM_CONDITIONAL(NET_4_0, test ! x$DMCS = xno)
 AM_CONDITIONAL(XSP_ONLY, test x$platform_win32 = xyes)
 
 # Put the version in the new required format (for svn revisions)
