@@ -1,3 +1,9 @@
+xsp (4.7.1-0xamarin2) preview; urgency=medium
+
+  * Packaging bugfix:
+
+ -- Xamarin Public Jenkins (auto-signing) <releng@xamarin.com>  Tue, 21 Jan 2020 20:12:05 +0000
+
 xsp (4.7.1-0xamarin1) preview; urgency=medium
 
   * New release - xsp-4.7.1.tar.gz
