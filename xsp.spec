@@ -18,8 +18,8 @@
 
 Name:           xsp
 Url:            http://go-mono.com/
-Version:	4.5
-Release:	0.xamarin.2
+Version:	4.7.1
+Release:	0.xamarin.1
 Summary:        Small Web Server Hosting ASP.NET
 License:        MIT
 Group:          Productivity/Networking/Web/Servers
