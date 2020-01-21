@@ -30,7 +30,6 @@ BuildRequires:  fdupes
 BuildRequires:  mono-data-oracle
 BuildRequires:  mono-data-sqlite
 BuildRequires:  mono-devel
-BuildRequires:  mono-nunit
 BuildRequires:  mono-web
 BuildRequires:  monodoc-core
 BuildRequires:  pkgconfig
