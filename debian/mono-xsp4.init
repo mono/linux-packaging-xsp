@@ -82,7 +82,7 @@ case "$1" in
 	;;
     stop)
 	log_daemon_msg "Stopping $DESC" "$NAME"
-        for i in $(ps aux | grep -v grep | grep 'xsp4.exe' | cut -c 10-15)
+        for i in $(ps axo pid,command | grep -v grep | grep 'xsp4.exe' | awk '{print $1}')
         do
                 kill $i > /dev/null 2>&1
         done
